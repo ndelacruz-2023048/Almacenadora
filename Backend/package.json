@@ -1,0 +1,17 @@
+{
+  "name": "administracion_almacenadora",
+  "version": "1.0.0",
+  "description": "administrar el stock e inventario de la almacenadora",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "administration",
+    "system",
+    "node",
+    "react"
+  ],
+  "author": "Los Pinguinos",
+  "license": "MIT"
+}
