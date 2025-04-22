@@ -47,7 +47,6 @@ const Section2 = styled.div`
 `
 
 const Section3 = styled.div`
-    background-color: green;
     height: 10%;
 `
 
