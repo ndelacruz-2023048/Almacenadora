@@ -90,7 +90,7 @@ const ContainIcon = styled.div`
                     position: absolute;
                     width: 30px;
                     height: 30px;
-                    right: -29%;
+                    right: -41px;
                     top: -30px;
                     background-color: #28364b;
                     border-bottom-right-radius: 39px;
@@ -102,7 +102,7 @@ const ContainIcon = styled.div`
                     position: absolute;
                     width: 30px;
                     height: 30px;
-                    right: -29%;
+                    right: -41px;
                     bottom: -30px;
                     background-color: #28364b;
                     border-top-right-radius: 39px;

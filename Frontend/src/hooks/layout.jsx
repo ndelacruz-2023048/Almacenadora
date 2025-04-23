@@ -8,17 +8,13 @@ export const Layout = ({children}) => {
         const sectionLinkSpan = document.querySelector('.sectionLink');
         const styles = window.getComputedStyle(sectionLinkSpan, '::before');
         const rect = sectionLinkSpan.getBoundingClientRect();
-    
-        const top = parseFloat(styles.top); // Esto funciona solo si está en 'px'
-        const beforeY = rect.top + top;
+        const right = parseFloat(styles.right);
+        const beforeY = rect.right + right;
     
         window.addEventListener('resize', () => {
             console.log('beforeY estimado:', beforeY);
         });
-        window.addEventListener('resize',()=>{
-            console.log(beforeY);
-            
-        })
+        
   },[])
   
   
