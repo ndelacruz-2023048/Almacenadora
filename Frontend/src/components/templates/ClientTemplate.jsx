@@ -101,15 +101,15 @@ const Add = styled.button`
   color: white;
   border: none;  
   border-radius: 15px;
-  padding: 10px 20px;
   cursor: pointer;
   align-items: center;
   display: flex;
-  width: 10%;
+  width: 8%;
   height: 60%;
   .iconHeader{
         align-items: center;
         color: #ffffff;
-        margin: 7px
+        margin-right: 10px;
+        margin-left: 4px;
     }
 `
