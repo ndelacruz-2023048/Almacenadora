@@ -1,15 +1,11 @@
 import styled from 'styled-components';
 
-export const Tag = styled.span`
-    padding: 2px 8px;
-    border-radius: 3px;
-    font-size: 12px;
-    font-weight: 500;
-    background-color: ${props => props.color || '#DFE1E6'};
-    color: #42526E;
-`
-
-export const PurpleTag = styled(Tag)`
-    background-color: #EAE6FF;
-    color: #403294;
-`
+export const PurpleTag = styled.div`
+    background-color: ${({ children }) =>
+        children === "Customer" ? "#e6f4ea" : "#f2f2f2"};
+    color: ${({ children }) => (children === "Customer" ? "#2e7d32" : "#7e7f8f")};
+    padding: 4px 12px;
+    border-radius: 12px;
+    display: inline-block;
+    font-size: 14px;
+`;
