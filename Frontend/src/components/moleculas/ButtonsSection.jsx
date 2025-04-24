@@ -3,6 +3,7 @@ import { Button } from '../atomos/Button'
 import { Icon } from "@iconify/react/dist/iconify.js";
 import styled from 'styled-components';
 import { FilterDropdown } from './FilterDropdown';
+import { ButtonAdd } from '../atomos/ButtonAdd';
 
 export const ButtonsSection = () => {
 
@@ -40,15 +41,17 @@ export const ButtonsSection = () => {
                 />
                 {isFilterOpen && <FilterDropdown onClose={() => setIsFilterOpen(false)} />}
             </FilterButtonWrapper>
+            <ButtonAdd btnBackgroundColor="#5042cb" iconName="ic:round-add" btnText="Add New" iconSize={'27px'} btnWidth="130px"/>
         </Wrapper>
     )
 }
 
 const Wrapper = styled.div`
     background-color: #fff;
-    width: 13em;
+    width: auto;
     height: auto;
     display: flex;
+    align-items: center;
     .Icon{
         color: black;
         font-size: 20px;

@@ -4,6 +4,7 @@ import { CiGrid41 } from "react-icons/ci";
 import { Card } from '../organismos/Card/Card'
 import { FiMenu } from "react-icons/fi";
 import { GrAdd } from "react-icons/gr";
+import { ButtonAdd } from '../atomos/ButtonAdd';
 
 
 export const ClientTemplate = () => {
@@ -11,12 +12,14 @@ export const ClientTemplate = () => {
     <Container>
       <Line/>
       <Section1>
-        <Header>All Client (5.5k)</Header>
+        <Title>
+          <Header>All Client (5.5k)</Header>
+        </Title>
         <IconsContainer>
             <CiGrid41  className='iconHeader'/>
             <FiMenu className='iconHeader'/>
+            <ButtonAdd btnBackgroundColor="#5042cb" iconName="ic:round-add" btnText="Add New" iconSize={'27px'}  btnWidth="22%"/>
         </IconsContainer>
-        <Add><GrAdd className='iconHeader'/> Add New</Add>
       </Section1>
 
       <Section2>
@@ -44,10 +47,31 @@ const Container = styled.div`
 `
 
 const Section1 = styled.div`
+  display: flex;
+  align-items: center;
   background-color: transparent;
   height: 10%;
-  display: flex
-  `
+  width: 100%;
+`
+
+const Title = styled.div`
+display: flex;
+  width: 50%;
+`
+const IconsContainer = styled.div`
+    display: flex;
+    gap: 10px;
+    justify-content: end;
+    width: 50%;
+    border-radius: 15px;
+    align-items: center;
+    .iconHeader{
+        font-size: 30px;
+        margin-left: 10px;
+        color: #3636d3;
+    }
+`
+
 
 const Section2 = styled.div`
   display: flex;
@@ -68,48 +92,12 @@ const ContainerCard = styled.div`
   overflow-y: scroll;
 `
 const Header = styled.div`
-  display: flex;
-  text-align: center;
   font-size: 25px;
   font-weight: bold;
-  width: 15%;
 `
 
-const IconsContainer = styled.div`
-    display: flex;
-    align-items: center;
-    height: 60%;
-    width: 7%;
-    background-color : #dedada;
-    margin-left: 70%;
-    margin-right: 1%;
-    border-radius: 15px;
-    .iconHeader{
-        font-size: 30px;
-        margin-left: 10px;
-        color: #3636d3;
-    }
-`
 
 const Line = styled.div`
   height: 1px;
   background-color: #c8c8c8;
-`
-
-const Add = styled.button`
-  background-color: #5042cb;
-  color: white;
-  border: none;  
-  border-radius: 15px;
-  cursor: pointer;
-  align-items: center;
-  display: flex;
-  width: 8%;
-  height: 60%;
-  .iconHeader{
-        align-items: center;
-        color: #ffffff;
-        margin-right: 10px;
-        margin-left: 4px;
-    }
 `
