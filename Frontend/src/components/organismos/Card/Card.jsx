@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import photoProfile from '../../../assets/photoProfile.avif'
 import {Icon} from '@iconify/react'
@@ -7,21 +7,21 @@ import { CiStar } from "react-icons/ci";
 import { GrFormNext } from "react-icons/gr";
 import { CiDiscount1 } from "react-icons/ci";
 
-export const Card = () => {
+export const Card = ({name, user, email, phone}) => { 
   return (
     <Container>
 
       <PartUp>
         <Image src={photoProfile}/>
-        <NamePerson>John Doe</NamePerson>
-        <Position>Software Engineer</Position>
+        <NamePerson>{name}</NamePerson>
+        <Position>{user}</Position>
       </PartUp>
 
       <Line />
 
       <PartDown>
-        <Contact><CiMail className='iconDown'/>john.doe@example.com</Contact>
-        <Contact><Icon icon="mdi-light:phone" className='phoneIcon'/> +1 (555) 123-4567</Contact>
+        <Contact><CiMail className='iconDown'/>{email}</Contact>
+        <Contact><Icon icon="mdi-light:phone" className='phoneIcon'/>{phone}</Contact>
         <Links><CiStar className='iconDown'/>Reviews<GrFormNext /></Links>
         <Links><CiDiscount1 className='iconDown'/>Sales<GrFormNext /></Links>
       </PartDown>

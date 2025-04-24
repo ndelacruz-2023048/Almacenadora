@@ -4,9 +4,24 @@ import { CiGrid41 } from "react-icons/ci";
 import { Card } from '../organismos/Card/Card'
 import { FiMenu } from "react-icons/fi";
 import { GrAdd } from "react-icons/gr";
+import { useClientStore } from '../../stores/ClientStore';
+import { useEffect } from 'react';
+
 
 
 export const ClientTemplate = () => {
+
+  const{data, isLoading, fetchClients} = useClientStore()
+    console.log(isLoading)
+  
+    useEffect(()=>{
+      fetchClients()
+    },[])
+    
+    console.log(data.clients)
+  
+    if(isLoading) return <div>CARGANDO...</div>
+
   return (
     <Container>
       <Line/>
@@ -21,16 +36,14 @@ export const ClientTemplate = () => {
 
       <Section2>
         <ContainerCard>
-          <Card/>
-          <Card/>
-          <Card/>
-          <Card/>
-          <Card/>
-          <Card/>
-          <Card/>
-          <Card/>
-          <Card/>
-          <Card/>
+          {
+            data?.clients?.map((e)=>(
+              <Card 
+                name={e.namePerson} user={e.namePerson} 
+                email={e.emailPerson} phone={e.phonePerson}
+                />
+            ))
+          }
         </ContainerCard>
       </Section2>
     </Container>
