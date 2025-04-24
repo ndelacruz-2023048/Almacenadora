@@ -4,6 +4,7 @@ import express from "express"
 import morgan from "morgan"
 import helmet from "helmet"
 import cors from "cors"
+import client from "../src/client/client.routes.js"
 
 const configs = (app) =>{
     app.use(express.json())
@@ -14,7 +15,7 @@ const configs = (app) =>{
 }
 
 const routes = (app) =>{
-
+    app.use('/v1/api', client)
 }
 
 export const initServer = ()=>{
