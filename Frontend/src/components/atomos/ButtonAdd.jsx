@@ -2,9 +2,13 @@ import { Icon } from '@iconify/react/dist/iconify.js'
 import React from 'react'
 import styled from 'styled-components'
 
-export const ButtonAdd = ({btnText,btnBorder,btnColor,btnBackgroundColor,iconName,iconSize,btnWidth}) => {
+export const ButtonAdd = ({setState,state,btnText,btnBorder,btnColor,btnBackgroundColor,iconName,iconSize,btnWidth}) => {
+  const handleClick = () => {
+    setState()
+  }
   return (
-    <Add 
+    <Add
+        onClick={handleClick}
         btnBorder={btnBorder} 
         btnColor={btnColor} 
         btnBackgroundColor={btnBackgroundColor}

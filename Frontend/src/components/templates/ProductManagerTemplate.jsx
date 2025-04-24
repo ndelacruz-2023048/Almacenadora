@@ -25,6 +25,7 @@ export const ProductManagerTemplate = () => {
 const Wrapper = styled.div`
   background-color: #fff;
   height: 100%;
+
 `
 
 const Header = styled.section`

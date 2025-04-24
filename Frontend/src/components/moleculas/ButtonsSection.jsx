@@ -4,10 +4,12 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import styled from 'styled-components';
 import { FilterDropdown } from './FilterDropdown';
 import { ButtonAdd } from '../atomos/ButtonAdd';
+import { useProductStore } from '../../stores/ProductStore';
 
 export const ButtonsSection = () => {
-
+    const {isFormOpen,setIsFormOpen} = useProductStore()
     const [isFilterOpen, setIsFilterOpen] = useState(false);
+    
     const filterRef = useRef(null);
 
     // Close dropdown when clicking outside
@@ -41,7 +43,7 @@ export const ButtonsSection = () => {
                 />
                 {isFilterOpen && <FilterDropdown onClose={() => setIsFilterOpen(false)} />}
             </FilterButtonWrapper>
-            <ButtonAdd btnBackgroundColor="#5042cb" iconName="ic:round-add" btnText="Add New" iconSize={'27px'} btnWidth="130px"/>
+            <ButtonAdd setState={()=>setIsFormOpen()} btnBackgroundColor="#5042cb" iconName="ic:round-add" btnText="Add New" iconSize={'27px'} btnWidth="130px"/>
         </Wrapper>
     )
 }

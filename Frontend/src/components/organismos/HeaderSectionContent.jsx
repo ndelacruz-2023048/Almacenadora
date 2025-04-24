@@ -1,17 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { ButtonsSection } from '../moleculas/ButtonsSection'
+import { useProductStore } from '../../stores/ProductStore';
+import { ProductForm } from './Forms/ProductForm';
 
 export const HeaderSectionContent = () => {
+    const {isFormOpen,setIsFormOpen} = useProductStore()
+    console.log(isFormOpen);
     return (
         <Wrappper>
+            {isFormOpen && (<ProductForm/>)}
             <TitleSection>
                 <Title>Weekly Reports</Title>
                 <SubTitle>The latest weekly reports for all departments available</SubTitle>
             </TitleSection>
             <TitleDown>
                 users
-                <ButtonsSection/>
+                <ButtonsSection />
             </TitleDown>
         </Wrappper>
     )
