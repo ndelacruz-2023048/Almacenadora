@@ -1,11 +1,22 @@
 import { Icon } from '@iconify/react/dist/iconify.js'
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import styled from 'styled-components'
 import { useProductStore } from '../../../stores/ProductStore'
-import { Select, Space,Input} from 'antd';
+import { Select, Space,Input, DatePicker} from 'antd';
 import { NavLink } from 'react-router';
+import {useDropzone} from 'react-dropzone'
+import { UploadImage } from './UploadImage';
 export const ProductForm = () => {
   const {isFormOpen,setIsFormOpen} = useProductStore()
+  const [urlImage,setUrlImage] = useState(null)
+  const onDrop = useCallback(acceptedFiles => {
+    console.log(acceptedFiles[0]);
+    
+    const imageUrl = URL.createObjectURL(acceptedFiles[0]);
+    setUrlImage(imageUrl)
+    console.log(imageUrl);
+  }, [])
+  const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
   return (
     <Container>
       <Section>
@@ -31,51 +42,59 @@ export const ProductForm = () => {
             <Input placeholder='58' className='inputForm'/>
           </NameInput> 
           <ContainerFormField>
+            <FormField>
+              <Text>Categoria</Text>
+              <Select
+                defaultValue=""
+                style={{ width: 120 }}
+                options={[
+                  { value: 'jack', label: 'Jack' },
+                  { value: 'lucy', label: 'Lucy' },
+                  { value: 'Yiminghe', label: 'yiminghe' },
+                ]}
+                className='selectCategorias'
+              />
+            </FormField>
+            <FormField>
+              <Text>Cantidad stock</Text>
+              <Input placeholder='58' className='inputForm'/>
+            </FormField>
+            <FormField>
+              <Text>Proveedor</Text>
+              <Select
+                defaultValue="lucy"
+                style={{ width: 120 }}
+                options={[
+                  { value: 'jack', label: 'Jack' },
+                  { value: 'lucy', label: 'Lucy' },
+                  { value: 'Yiminghe', label: 'yiminghe' },
+                ]}
+                className='selectCategorias'
+              />
+            </FormField>
+            <FormField>
+              <Text>Fecha de entrada</Text>
+              <DatePicker className='inputForm'/>
+            </FormField>
           </ContainerFormField> 
-          <FormField>
-            <Text>Categoria</Text>
-            <Select
-              defaultValue="lucy"
-              style={{ width: 120 }}
-              options={[
-                { value: 'jack', label: 'Jack' },
-                { value: 'lucy', label: 'Lucy' },
-                { value: 'Yiminghe', label: 'yiminghe' },
-              ]}
-              className='selectCategorias'
-            />
-          </FormField>
-          <FormField>
-            <Text>Cantidad stock</Text>
-            <Input placeholder='58' className='inputForm'/>
-          </FormField>
-          <FormField>
-            <Text>Proveedor</Text>
-            <Select
-              defaultValue="lucy"
-              style={{ width: 120 }}
-              options={[
-                { value: 'jack', label: 'Jack' },
-                { value: 'lucy', label: 'Lucy' },
-                { value: 'Yiminghe', label: 'yiminghe' },
-              ]}
-              className='selectCategorias'
-            />
-          </FormField>
-          <FormField>
-            <Text>Proveedor</Text>
-            <Select
-              defaultValue="lucy"
-              style={{ width: 120 }}
-              options={[
-                { value: 'jack', label: 'Jack' },
-                { value: 'lucy', label: 'Lucy' },
-                { value: 'Yiminghe', label: 'yiminghe' },
-              ]}
-              className='selectCategorias'
-            />
-          </FormField>
         </Form>
+          <ContainUploadImage {...getRootProps({className: 'dropzone'})}>
+            <input {...getInputProps()} />
+            {
+              urlImage===null ? (
+                <>
+                  <UploadImage/>
+                </>
+              ):(
+                <img src={urlImage} alt="" height="20px" width="20px"/>
+              )
+                
+            }
+          </ContainUploadImage>
+          <SectionButton>
+            <ButtonForm className='cancel' onClick={setIsFormOpen}>Cancel</ButtonForm>
+            <ButtonForm className='confirm'>Confirm</ButtonForm>
+          </SectionButton>
       </Section>
     </Container>
   )
@@ -95,6 +114,9 @@ const Container = styled.div`
 `
 
 const Section = styled.section`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   background-color: #f1f1f1;
   border-radius: 20px;
   border: 1px solid #b6b4b4;
@@ -110,7 +132,7 @@ const Header = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 90%;
-  height: 15%;
+  height: 13%;
 `
 
 const Info = styled.div`
@@ -162,10 +184,11 @@ align-items: center;
   }
 `
 
+
+
 const Form = styled.div`
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  flex-direction: column;
   width: 90%;
   .selectCategorias{
     border-radius: 12px;
@@ -196,12 +219,43 @@ const Text = styled.p`
 
 const ContainerFormField = styled.div`
   display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
   width: 100%;
+  gap: 10px;
 `
 
 const FormField = styled.div`
-  width: 47%;
+  width: 49.5%;
   .inputForm{
     width: 100%;
   }
+`
+const ContainUploadImage = styled.div`
+  height: 30%;
+  width: 89%;
+  border: 1px dashed #65dbff;
+`
+const SectionButton = styled.div`
+  display: flex;
+  justify-content: end;
+  align-items: end;
+  gap: 10px;
+  width: 90%;
+  height: 25%;
+  .cancel{
+    background-color: #deecff;
+    color: #4096ff;
+  }
+
+  .confirm{
+    background-color:#4096ff;
+    color: white;
+  }
+`
+const ButtonForm = styled.button`
+  padding: 10px 15px;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
 `

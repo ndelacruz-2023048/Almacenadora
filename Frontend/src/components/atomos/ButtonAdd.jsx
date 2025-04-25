@@ -31,7 +31,7 @@ const Add = styled.button`
   justify-content: center;
   align-items: center;
   width: ${(prop)=> prop.btnWidth};
-  padding: 0;
+  padding: 10px 0;
   gap: 5px;
   .iconStyle{
         align-items: center;
