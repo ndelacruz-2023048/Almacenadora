@@ -6,17 +6,28 @@ import { Select, Space,Input, DatePicker} from 'antd';
 import { NavLink } from 'react-router';
 import {useDropzone} from 'react-dropzone'
 import { UploadImage } from './UploadImage';
+import { Device } from '../../../style/Breakpoints';
+import {useForm} from 'react-hook-form'
 export const ProductForm = () => {
+
+  /*Hook del Store para abrir y cerrar el model es decir este formulario */
   const {isFormOpen,setIsFormOpen} = useProductStore()
+
+  /*Hook useState para poder ver si el usuario sube una imagen o no*/
   const [urlImage,setUrlImage] = useState(null)
+  /*Funcion para que al momento que el usuario suba una imagen se muestra dicha imagen*/
   const onDrop = useCallback(acceptedFiles => {
     console.log(acceptedFiles[0]);
-    
     const imageUrl = URL.createObjectURL(acceptedFiles[0]);
     setUrlImage(imageUrl)
     console.log(imageUrl);
   }, [])
+  /*Hook para manipular el espacio para subir la imagen */
   const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
+
+  /*Hook para validar el formulario */
+  const {register,handleSubmit,error} = useForm()
+
   return (
     <Container>
       <Section>
@@ -37,10 +48,10 @@ export const ProductForm = () => {
           </Close>
         </Header>
         <Form>  
-          <NameInput>
+          <FullWidthInput>
             <Text>Name</Text>
             <Input placeholder='58' className='inputForm'/>
-          </NameInput> 
+          </FullWidthInput> 
           <ContainerFormField>
             <FormField>
               <Text>Categoria</Text>
@@ -77,7 +88,10 @@ export const ProductForm = () => {
               <DatePicker className='inputForm'/>
             </FormField>
           </ContainerFormField> 
-        </Form>
+          <FullWidthInput>
+            <Text>Descripcion</Text>
+            <Input placeholder='Es un manza importada con peso neto' className='inputForm'/>
+          </FullWidthInput> 
           <ContainUploadImage {...getRootProps({className: 'dropzone'})}>
             <input {...getInputProps()} />
             {
@@ -93,8 +107,9 @@ export const ProductForm = () => {
           </ContainUploadImage>
           <SectionButton>
             <ButtonForm className='cancel' onClick={setIsFormOpen}>Cancel</ButtonForm>
-            <ButtonForm className='confirm'>Confirm</ButtonForm>
+            <ButtonForm type='submit' className='confirm'>Confirm</ButtonForm>
           </SectionButton>
+        </Form>
       </Section>
     </Container>
   )
@@ -131,6 +146,7 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 4px;
   width: 90%;
   height: 13%;
 `
@@ -186,10 +202,12 @@ align-items: center;
 
 
 
-const Form = styled.div`
+const Form = styled.form`
   display: flex;
   flex-direction: column;
   width: 90%;
+  gap: 8px;
+  height: 87%;
   .selectCategorias{
     border-radius: 12px;
     width: 100%!important;
@@ -210,7 +228,7 @@ const Form = styled.div`
 }
 `
 
-const NameInput = styled.div`
+const FullWidthInput = styled.div`
   width: 100%;
 `
 const Text = styled.p`
@@ -219,21 +237,28 @@ const Text = styled.p`
 
 const ContainerFormField = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   flex-wrap: wrap;
   width: 100%;
   gap: 10px;
 `
 
 const FormField = styled.div`
-  width: 49.5%;
+  width: 100%;
+  
+  @media ${Device.laptop}{
+    width: 100%;
+  }
+  @media ${Device.desktop}{
+    width: 48%;
+  }
   .inputForm{
     width: 100%;
   }
 `
 const ContainUploadImage = styled.div`
   height: 30%;
-  width: 89%;
+  width: 100%;
   border: 1px dashed #65dbff;
 `
 const SectionButton = styled.div`
@@ -241,8 +266,9 @@ const SectionButton = styled.div`
   justify-content: end;
   align-items: end;
   gap: 10px;
-  width: 90%;
-  height: 25%;
+  width: 100%;
+  height: 22%;
+  margin-bottom: 8px;
   .cancel{
     background-color: #deecff;
     color: #4096ff;
