@@ -6,7 +6,6 @@ import { ProductForm } from './Forms/ProductForm';
 
 export const HeaderSectionContent = () => {
     const {isFormOpen,setIsFormOpen} = useProductStore()
-    console.log(isFormOpen);
     return (
         <Wrappper>
             {isFormOpen && (<ProductForm/>)}

@@ -4,5 +4,10 @@ export const useProductStore = create((set,get)=>({
     setIsFormOpen:()=>{
         const {isFormOpen} = get()
         set({isFormOpen:isFormOpen?false:true})
+    },
+    dataFile:{},
+    setDataFile:(p)=>{
+        const {dataFile} = get()
+        set({dataFile:p})
     }
 }))

@@ -2,14 +2,15 @@ import { Icon } from '@iconify/react/dist/iconify.js'
 import React from 'react'
 import styled from 'styled-components'
 
-export const UploadImage = () => {
+export const UploadImage = ({errors}) => {
+    
   return (
     <Container>
         <ContainIcon>
             <Icon icon="solar:file-send-linear" className='iconUpload'/>
         </ContainIcon>
         <Description><DescriptionSpan>Click to Upload</DescriptionSpan>or drag and drop</Description>
-        <MaxSizeDescription>(Max, File size: 25 MB)</MaxSizeDescription>
+        <MaxSizeDescription>(Max, File size: 25 MB,{errors?.uploadImage?.message})</MaxSizeDescription>
     </Container>
   )
 }
