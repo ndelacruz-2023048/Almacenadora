@@ -5,6 +5,8 @@ import morgan from "morgan"
 import helmet from "helmet"
 import cors from "cors"
 import client from "../src/client/client.routes.js"
+import productCategory from "../src/productCategory/productCategory.routes.js"
+import product from "../src/products/product.routes.js"
 
 const configs = (app) =>{
     app.use(express.json())
@@ -16,6 +18,8 @@ const configs = (app) =>{
 
 const routes = (app) =>{
     app.use('/v1/api', client)
+    app.use('/v1/api', productCategory)
+    app.use('/v1/api', product)
 }
 
 export const initServer = ()=>{

@@ -7,13 +7,13 @@ import { GrAdd } from "react-icons/gr";
 import { ButtonAdd } from '../atomos/ButtonAdd';
 
 
-export const ClientTemplate = () => {
+export const ProductCategoriesTemplate = () => {
   return (
     <Container>
       <Line/>
       <Section1>
         <Title>
-          <Header>All Client (5.5k)</Header>
+          <Header>All Products Categories (5.5k)</Header>
         </Title>
         <IconsContainer>
             <CiGrid41  className='iconHeader'/>

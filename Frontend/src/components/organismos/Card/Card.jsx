@@ -37,7 +37,7 @@ export const Card = () => {
 const Container = styled.div`
   height: 230px;
   width: 30%;
-  background-color: #dfdfdf;
+  background-color: #f0f0f0;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   margin-left: 20px;

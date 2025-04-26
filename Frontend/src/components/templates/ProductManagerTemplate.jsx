@@ -3,11 +3,13 @@ import styled from 'styled-components'
 import { HeaderSectionContent } from '../organismos/HeaderSectionContent'
 import { FooterSectionContent } from '../organismos/FooterSectionContent'
 import { BodySectionContent } from '../organismos/BodySectionContent'
+import { Outlet } from 'react-router'
 
 
 export const ProductManagerTemplate = () => {
   return (
     <Wrapper>
+      <Outlet/>
       <Header>
         <HeaderSectionContent/>
       </Header>

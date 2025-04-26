@@ -1,0 +1,37 @@
+[
+  {
+    "nameCategory": "Frutas",
+    "descriptionCategory": "Productos naturales dulces como manzanas y peras.",
+    "image": "https://res.cloudinary.com/dtmwybty7/image/upload/v1743732122/samples/dessert-on-a-plate.jpg"
+  },
+  {
+    "nameCategory": "Verduras",
+    "descriptionCategory": "Vegetales frescos para ensaladas y guisos.",
+    "image": "https://res.cloudinary.com/dtmwybty7/image/upload/v1743732122/samples/coffee.jpg"
+  },
+  {
+    "nameCategory": "Lácteos",
+    "descriptionCategory": "Productos derivados de la leche como quesos y yogures.",
+    "image": "https://res.cloudinary.com/dtmwybty7/image/upload/v1743732120/samples/breakfast.jpg"
+  },
+  {
+    "nameCategory": "Carnes",
+    "descriptionCategory": "Variedad de carnes rojas y blancas.",
+    "image": "https://res.cloudinary.com/dtmwybty7/image/upload/v1743732112/samples/food/pot-mussels.jpg"
+  },
+  {
+    "nameCategory": "Panadería",
+    "descriptionCategory": "Productos horneados como pan, bizcochos y pasteles.",
+    "image": "https://res.cloudinary.com/dtmwybty7/image/upload/v1743732111/samples/food/dessert.jpg"
+  },
+  {
+    "nameCategory": "Bebidas",
+    "descriptionCategory": "Jugos, refrescos, aguas y bebidas energéticas.",
+    "image": "https://res.cloudinary.com/dtmwybty7/image/upload/v1743732111/samples/ecommerce/analog-classic.jpg"
+  },
+  {
+    "nameCategory": "Granos",
+    "descriptionCategory": "Legumbres, cereales y granos secos.",
+    "image": "https://res.cloudinary.com/dtmwybty7/image/upload/v1743732111/samples/people/kitchen-bar.jpg"
+  }
+]
