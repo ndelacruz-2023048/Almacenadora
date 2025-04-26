@@ -2,12 +2,18 @@ import { Icon } from '@iconify/react/dist/iconify.js'
 import React, { useCallback, useState } from 'react'
 import styled from 'styled-components'
 import { useProductStore } from '../../../stores/ProductStore'
-import { Select, Space,Input, DatePicker} from 'antd';
+
 import { NavLink } from 'react-router';
 import {useDropzone} from 'react-dropzone'
 import { UploadImage } from './UploadImage';
 import { Device } from '../../../style/Breakpoints';
 import {useForm} from 'react-hook-form'
+import TextField from '@mui/material/TextField';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 export const ProductForm = () => {
 
   /*Hook del Store para abrir y cerrar el model es decir este formulario */
@@ -26,7 +32,11 @@ export const ProductForm = () => {
   const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
 
   /*Hook para validar el formulario */
-  const {register,handleSubmit,error} = useForm()
+  const {register,handleSubmit,formState:{errors}} = useForm()
+
+  const handleSubmitProductForm = (data)=>{
+    console.log(data);
+  }
 
   return (
     <Container>
@@ -47,50 +57,53 @@ export const ProductForm = () => {
             <Icon onClick={setIsFormOpen} icon="si:close-fill" className='iconClose'/>
           </Close>
         </Header>
-        <Form>  
+        <Form onSubmit={handleSubmit(handleSubmitProductForm)}>  
           <FullWidthInput>
-            <Text>Name</Text>
-            <Input placeholder='58' className='inputForm'/>
+            <TextField id="outlined-basic" label="Name" variant="outlined" {...register("productName",{maxLength:20})} className='inputFullWidth'/>
+            {errors.productName && <span>Este campo es obligatorio</span>}
           </FullWidthInput> 
           <ContainerFormField>
             <FormField>
-              <Text>Categoria</Text>
-              <Select
-                defaultValue=""
-                style={{ width: 120 }}
-                options={[
-                  { value: 'jack', label: 'Jack' },
-                  { value: 'lucy', label: 'Lucy' },
-                  { value: 'Yiminghe', label: 'yiminghe' },
-                ]}
-                className='selectCategorias'
-              />
+            <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Categoria</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="Proveedor"
+                  className='inputFullWidth'
+                  {...register("productCategory")}
+                >
+                  <MenuItem value={10}>Frutas</MenuItem>
+                  <MenuItem value={20}>Verduras</MenuItem>
+                  <MenuItem value={30}>Lacteos</MenuItem>
+                </Select> 
+              </FormControl>
             </FormField>
             <FormField>
-              <Text>Cantidad stock</Text>
-              <Input placeholder='58' className='inputForm'/>
+              <TextField id="outlined-basic" label="Stock" variant="outlined" {...register("productStock",{maxLength:20})} className='inputFullWidth'/>
             </FormField>
             <FormField>
-              <Text>Proveedor</Text>
-              <Select
-                defaultValue="lucy"
-                style={{ width: 120 }}
-                options={[
-                  { value: 'jack', label: 'Jack' },
-                  { value: 'lucy', label: 'Lucy' },
-                  { value: 'Yiminghe', label: 'yiminghe' },
-                ]}
-                className='selectCategorias'
-              />
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Proveedor</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="Proveedor"
+                  className='inputFullWidth'
+                  {...register("productProvider")}
+                >
+                  <MenuItem value={10}>Ten</MenuItem>
+                  <MenuItem value={20}>Twenty</MenuItem>
+                  <MenuItem value={30}>Thirty</MenuItem>
+                </Select> 
+              </FormControl>
             </FormField>
             <FormField>
-              <Text>Fecha de entrada</Text>
-              <DatePicker className='inputForm'/>
+              <DatePicker label="Fecha de entrega" className='inputFullWidth'/>
             </FormField>
           </ContainerFormField> 
           <FullWidthInput>
-            <Text>Descripcion</Text>
-            <Input placeholder='Es un manza importada con peso neto' className='inputForm'/>
+            <TextField id="outlined-basic" label="Descripcion" variant="outlined" {...register("productDescription",{maxLength:20})} className='inputFullWidth'/>
           </FullWidthInput> 
           <ContainUploadImage {...getRootProps({className: 'dropzone'})}>
             <input {...getInputProps()} />
@@ -107,7 +120,7 @@ export const ProductForm = () => {
           </ContainUploadImage>
           <SectionButton>
             <ButtonForm className='cancel' onClick={setIsFormOpen}>Cancel</ButtonForm>
-            <ButtonForm type='submit' className='confirm'>Confirm</ButtonForm>
+            <ButtonForm type="submit" className='confirm'>Confirm</ButtonForm>
           </SectionButton>
         </Form>
       </Section>
@@ -212,20 +225,15 @@ const Form = styled.form`
     border-radius: 12px;
     width: 100%!important;
   }
-  
-  :where(.css-dev-only-do-not-override-1v5z42l).ant-select-outlined:not(.ant-select-disabled):not(.ant-select-customize-input):not(.ant-pagination-size-changer):hover .ant-select-selector {
-    border-color: #4096ff;
-    border-radius: 12px;
+
+  .inputFullWidth{
+    width: 100%;
+    background-color: white;
+    border-radius: 20px;
   }
-  :where(.css-dev-only-do-not-override-1v5z42l).ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
-    border-radius: 12px;
+  .css-quhxjy-MuiInputBase-root-MuiOutlinedInput-root,.css-vycme6-MuiPickersInputBase-root-MuiPickersOutlinedInput-root{
+    border-radius: 20px;
   }
-  :where(.css-dev-only-do-not-override-1v5z42l).ant-input-outlined {
-    border: 1px solid #b8b4b4;
-  }
-  :where(.css-dev-only-do-not-override-1v5z42l).ant-select-outlined:not(.ant-select-customize-input) .ant-select-selector {
-    border: 1px solid #b8b4b4;
-}
 `
 
 const FullWidthInput = styled.div`
