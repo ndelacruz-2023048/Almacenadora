@@ -1,7 +1,6 @@
 import { Icon } from '@iconify/react/dist/iconify.js'
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { useProductStore } from '../../../stores/ProductStore'
 
 import { NavLink } from 'react-router';
 import {useDropzone} from 'react-dropzone'

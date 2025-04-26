@@ -18,7 +18,7 @@ import { color } from '@mui/system';
 import { UploadImageSucces } from './UploadImageSucces';
 import { useProductCategory } from '../../../stores/ProductCategoryStore';
 import { useSaveImage } from '../../../utils/saveImage';
-export const ClientForm = () => {
+export const ProductCategoryForm = () => {
   const {dataProductCategory,isLoading,fetchProductCategories} = useProductCategory()
 
   const [urlImage,setUrlImage] = useState(null)/*State para URL IMAGEN */
