@@ -5,6 +5,7 @@ import { ProductManagerPage } from '../pages/ProductManagerPage'
 import { ClientPage } from '../pages/ClientPage'
 import { ProductCategoriesPage } from '../pages/ProductCategoriesPage'
 import { SettingsPage } from '../pages/SettingsPage'
+import { ProviderPage } from '../pages/ProviderPage'
 
 const router = createBrowserRouter([
     {
@@ -30,6 +31,12 @@ const router = createBrowserRouter([
         path:'/products',
         element:<Layout>
             <ProductManagerPage/>
+        </Layout>
+    },
+    {
+        path:'/provider',
+        element:<Layout>
+            <ProviderPage/>
         </Layout>
     },
     {

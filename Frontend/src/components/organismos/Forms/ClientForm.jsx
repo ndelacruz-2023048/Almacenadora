@@ -19,60 +19,29 @@ import { color } from '@mui/system';
 import { UploadImageSucces } from './UploadImageSucces';
 import { useProductCategory } from '../../../stores/ProductCategoryStore';
 import { useSaveImage } from '../../../utils/saveImage';
-export const ProductForm = () => {
+export const ClientForm = () => {
   const {dataProductCategory,isLoading,fetchProductCategories} = useProductCategory()
-  const {isFormOpen,dataFile,dataProducts,isCreatingProduct,responseCreatingProduct,createProduct,setDataFile,setDataProducts,setIsFormOpen} = useProductStore()
 
-  
   const [urlImage,setUrlImage] = useState(null)/*State para URL IMAGEN */
   const [canChangeButton,setCanChangeButton] = useState(false)/*State para cambiar botons de continue a save*/
-  const [isInteractionDisabled, setIsInteractionDisabled] = useState(false)/*State para deshabilitar botones e inputs cuando algo se este subiendo o guardando */
+  const [isInteractionDisabled, setIsInteractionDisabled] = useState(false)/*State para deshabilitar y habilitar inputs del formulario*/
   const [isDisableButtonSave,setIsDisableButtonSave] = useState(false)
-  /*Funcion para que al momento que el usuario suba una imagen se muestra dicha imagen*/
-  const onDrop = useCallback(acceptedFiles => {
-    setDataFile(acceptedFiles[0])
-    const imageUrl = URL.createObjectURL(acceptedFiles[0]);
-    setUrlImage(imageUrl)
-    setValue("uploadImage",acceptedFiles)
-  }, [])
-
   /*Hook para manipular el espacio para subir la imagen */
-  const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop,disabled:isInteractionDisabled})
+  // const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop,disabled:isInteractionDisabled})
 
   /*Logica del Formulario */
   const {register,handleSubmit,formState:{errors},setValue,reset} = useForm()
   const {dataImage,isLoadingImage,registerImage} = useSaveImage()
   const handleSubmitProductForm = async(data)=>{
-    setDataProducts(data)
-    setCanChangeButton(true)
-    setIsInteractionDisabled(true)
-    setIsDisableButtonSave(true)
-    await registerImage(dataFile)
-    {dataImage && setIsDisableButtonSave(false)}
   }
 
-  const handleSaveProductForm = ()=>{
-    console.log(dataProducts);
-    console.log(dataImage);
-    const newProductData = {
-      productName:dataProducts?.productName,
-      productDescription:dataProducts?.productDescription,
-      uploadImage:dataImage?.secure_url,
-      productStock:dataProducts?.productStock,
-      productDate: dayjs(dataProducts?.productDate).format('YYYY-MM-DDTHH:mm:ss'),
-      productCategory:dataProducts?.productCategory,
-      productProvider:dataProducts?.productProvider
-    }    
-    createProduct(newProductData)
-    reset()
-    setIsFormOpen()
+  const handleSaveProductForm = (e)=>{
+    e.preventDefault()
   }
-
-  console.log(responseCreatingProduct);
   
 
   useEffect(()=>{
-    register("uploadImage",{required:"Imagen requerida"})
+    // register("uploadImage",{required:"Imagen requerida"})
     fetchProductCategories()
   },[])
   
@@ -92,24 +61,22 @@ export const ProductForm = () => {
             </ContainText>
           </Info>
           <Close>
-            <Icon onClick={setIsFormOpen} icon="si:close-fill" className='iconClose'/>
+            <Icon  icon="si:close-fill" className='iconClose'/>
           </Close>
         </Header>
-        <Form onSubmit={handleSubmit(handleSubmitProductForm)}>  
+        <Form>  
           <FullWidthInput>
-            <TextField disabled={isInteractionDisabled} id="outlined-basic" label="Name" variant="outlined" {...register("productName",{minLength:{value:2,message:"Mix Length 2 Characters"},required:"Este campo es obligatorio"})} className='inputFullWidth' error={!!errors.productName} helperText={errors.productName?.message}/>
+            <TextField disabled={isInteractionDisabled} id="outlined-basic" label="Name" variant="outlined" className='inputFullWidth'/>
           </FullWidthInput>   
           <ContainerFormField>
             <FormField>
             <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label" error={!!errors.productCategory} helperText={errors.productCategory?.message} >Categoria</InputLabel>
+                <InputLabel id="demo-simple-select-label">Categoria</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   label="Proveedor"
                   className='inputFullWidth'
-                  {...register("productCategory",{required:"Este campo es obligatorio"})}
-                  error={!!errors.productCategory}
                   disabled={isInteractionDisabled}
                 > 
                 {
@@ -118,55 +85,34 @@ export const ProductForm = () => {
                   ))
                 }
                 </Select> 
-                {!!errors.productCategory && (
-                  <FormHelperText sx={{ color: 'red' }}>{errors.productCategory.message}</FormHelperText>
-                )}
               </FormControl>
             </FormField>
             <FormField>
-              <TextField disabled={isInteractionDisabled} id="outlined-basic" type="number" label="Stock" variant="outlined" {...register("productStock",{required:"Este campo es obligatorio"})} className='inputFullWidth' error={!!errors.productStock} helperText={errors.productStock?.message}/>
+              <TextField disabled={isInteractionDisabled} id="outlined-basic" type="number" label="Stock" variant="outlined" className='inputFullWidth'/>
             </FormField>
             <FormField>
               <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label" error={!!errors.productProvider} helperText={errors.productProvider?.message}>Proveedor</InputLabel>
+                <InputLabel id="demo-simple-select-label">Proveedor</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   label="Proveedor"
                   className='inputFullWidth'
-                  {...register("productProvider",{required:"Este campo es obligatorio"})}
-                  error={!!errors.productProvider}
                   disabled={isInteractionDisabled}
                 >
                   <MenuItem value={10}>Juan</MenuItem>
                   <MenuItem value={20}>Pedro</MenuItem>
                   <MenuItem value={30}>Jonas</MenuItem>
                 </Select> 
-                {
-                  !!errors.productProvider && (<FormHelperText sx={{color:"red"}}>{errors.productProvider.message}</FormHelperText>)
-                }
               </FormControl>
             </FormField>
             <FormField>
-              <DatePicker value={dayjs()}  disabled className='inputFullWidth' {...register("pruductDate",{valueAsDate:true})} />
+              <DatePicker value={dayjs()}  disabled className='inputFullWidth' />
             </FormField>
           </ContainerFormField> 
           <FullWidthInput>
-            <TextField disabled={isInteractionDisabled} id="outlined-basic" label="Descripcion" variant="outlined" {...register("productDescription",{maxLength:{value:20,message:"Max 20 Characteres"},minLength:{value:10,message:"Min 10 Characters"},required:"Este campo es obligatorio"})} className='inputFullWidth' error={!!errors.productDescription} helperText={errors.productDescription?.message}/>
+            <TextField disabled={isInteractionDisabled} id="outlined-basic" label="Descripcion" variant="outlined" className='inputFullWidth'/>
           </FullWidthInput> 
-          <ContainUploadImage {...getRootProps({className: 'dropzone'})}>
-            <input {...getInputProps()}/>
-            {
-              urlImage===null ? (
-                <>
-                  <UploadImage errors={errors}/>
-                </>
-              ):(
-                <UploadImageSucces imageURL={urlImage} isInteractionDisabled={isInteractionDisabled} isLoadingImage={isLoadingImage}/>
-              )
-                
-            }
-          </ContainUploadImage>
         {
           isLoadingImage && (<Box>
             <LinearProgress />
@@ -174,7 +120,7 @@ export const ProductForm = () => {
         }
         
           <SectionButton>
-            <ButtonForm disabled={isInteractionDisabled} className='cancel' onClick={setIsFormOpen}>Cancel</ButtonForm>
+            <ButtonForm disabled={isInteractionDisabled} className='cancel' >Cancel</ButtonForm>
             {!canChangeButton ? (<ButtonForm type="submit" className='confirm'>Confirm</ButtonForm>) : (<ButtonForm type='button' onClick={handleSaveProductForm} disabled={isDisableButtonSave} className='confirm'>Save Product</ButtonForm>)}
           </SectionButton>
         </Form>
