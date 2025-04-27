@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import {Icon} from '@iconify/react'
 import photoProfile from '../../assets/photoProfile.avif'
+import { CardProfile } from './Modal/ModalProfile'
 export const Header = () => {
+  const [isOpenProfilDetail,setIsOpenProfileDetail] = useState(false)
   return (
     <Container>
         <Section1>
@@ -16,9 +18,11 @@ export const Header = () => {
             <Notification>
                 <Icon icon="ion:notifications-outline" className='notification'/>
             </Notification>
-            <Profile>
+            <Profile onClick={()=>setIsOpenProfileDetail(!isOpenProfilDetail)}>
+                {isOpenProfilDetail && <CardProfile/>}
                 <Image src={photoProfile}/>
-                <Icon icon="stash:chevron-down-light" className='arrow'/>
+                <Icon icon={isOpenProfilDetail?"stash:chevron-up-light":"stash:chevron-down-light"} className='arrow'/>
+                <span className='coverProfile'></span>
             </Profile>
         </Section2>
     </Container>
@@ -89,9 +93,18 @@ const Notification = styled.div`
 
 const Profile = styled.div`
     display: flex;
+    position: relative;
     align-items: center;
     .arrow{
         font-size: 32px;
+    }
+    .coverProfile{
+        position: absolute;
+        background-color: transparent;
+        width:50px;
+        height: 100%;
+        top: 0;
+        left: 0;
     }
 `
 
