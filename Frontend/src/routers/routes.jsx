@@ -3,6 +3,9 @@ import { HomePage } from '../pages/HomePage'
 import { Layout } from '../hooks/layout'
 import { ProductManagerPage } from '../pages/ProductManagerPage'
 import { ClientPage } from '../pages/ClientPage'
+import { ProductCategoriesPage } from '../pages/ProductCategoriesPage'
+import { SettingsPage } from '../pages/SettingsPage'
+import { ProviderPage } from '../pages/ProviderPage'
 
 const router = createBrowserRouter([
     {
@@ -19,10 +22,28 @@ const router = createBrowserRouter([
         </Layout>
     },
     {
+        path:'/setting',
+        element:<Layout>
+            <SettingsPage/>
+        </Layout>
+    },
+    {
         path:'/products',
         element:<Layout>
             <ProductManagerPage/>
         </Layout>
+    },
+    {
+        path:'/provider',
+        element:<Layout>
+            <ProviderPage/>
+        </Layout>
+    },
+    {
+        path:"/products/categories",
+        element:<Layout>
+            <ProductCategoriesPage/>
+        </Layout> 
     }
 ])
 

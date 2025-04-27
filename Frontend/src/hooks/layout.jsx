@@ -2,6 +2,8 @@ import styled from 'styled-components'
 import { Header } from '../components/organismos/Header'
 import { Sidebar } from '../components/organismos/Sidebar/Sidebar'
 import { useEffect } from 'react'
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 export const Layout = ({children}) => {
     useEffect(()=>{
@@ -27,9 +29,12 @@ export const Layout = ({children}) => {
         <Section2>
             <ContainerSection2>
                 <Header/>
-                <Main>
-                    {children}
-                </Main>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <Main>
+                        {children}
+                    </Main>
+                </LocalizationProvider>
+                
             </ContainerSection2>
         </Section2>
     </Container>

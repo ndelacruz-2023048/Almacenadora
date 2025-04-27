@@ -20,8 +20,8 @@ export const LinksArray = [
       to: "/clients",
     },
     {
-      label: "Reports",
-      icon: "uis:graph-bar",
-      to: "/reports",
+      label: "Settings",
+      icon: "ion:settings-sharp",
+      to: "/setting",
     },
 ];

@@ -6,14 +6,13 @@ import { FiMenu } from "react-icons/fi";
 import { GrAdd } from "react-icons/gr";
 import { ButtonAdd } from '../atomos/ButtonAdd';
 
-
-export const ClientTemplate = () => {
+export const ProviderTemplate = () => {
   return (
     <Container>
       <Line/>
       <Section1>
         <Title>
-          <Header>All Client (5.5k)</Header>
+          <Header>All Providers (5.5k)</Header>
         </Title>
         <IconsContainer>
             <CiGrid41  className='iconHeader'/>
@@ -21,7 +20,6 @@ export const ClientTemplate = () => {
             <ButtonAdd btnBackgroundColor="#5042cb" iconName="ic:round-add" btnText="Add New" iconSize={'27px'}  btnWidth="22%"/>
         </IconsContainer>
       </Section1>
-
       <Section2>
         <ContainerCard>
           <Card/>

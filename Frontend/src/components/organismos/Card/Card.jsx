@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import photoProfile from '../../../assets/photoProfile.avif'
 import {Icon} from '@iconify/react'
@@ -7,21 +7,25 @@ import { CiStar } from "react-icons/ci";
 import { GrFormNext } from "react-icons/gr";
 import { CiDiscount1 } from "react-icons/ci";
 
-export const Card = ({name, user, email, phone}) => { 
+export const Card = () => {
   return (
     <Container>
 
       <PartUp>
-        <Image src={photoProfile}/>
-        <NamePerson>{name}</NamePerson>
-        <Position>{user}</Position>
+        <Section1>
+          <Image src={photoProfile}/>
+        </Section1>
+        <Section2>
+          <NamePerson>John Doe</NamePerson>
+          <Position>Software Engineer</Position>
+        </Section2>
       </PartUp>
 
       <Line />
 
       <PartDown>
-        <Contact><CiMail className='iconDown'/>{email}</Contact>
-        <Contact><Icon icon="mdi-light:phone" className='phoneIcon'/>{phone}</Contact>
+        <Contact><CiMail className='iconDown'/>john.doe@example.com</Contact>
+        <Contact><Icon icon="mdi-light:phone" className='phoneIcon'/> +1 (555) 123-4567</Contact>
         <Links><CiStar className='iconDown'/>Reviews<GrFormNext /></Links>
         <Links><CiDiscount1 className='iconDown'/>Sales<GrFormNext /></Links>
       </PartDown>
@@ -33,7 +37,7 @@ export const Card = ({name, user, email, phone}) => {
 const Container = styled.div`
   height: 230px;
   width: 30%;
-  background-color: #ffffff;
+  background-color: #f0f0f0;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   margin-left: 20px;
@@ -41,9 +45,15 @@ const Container = styled.div`
 `
 const PartUp = styled.div`
   display: flex;
-  align-items: center;
-  padding: 10px;
+  gap: 10px;
 `
+const Section1 = styled.div`
+`
+const Section2 = styled.div`
+  display: flex;
+  flex-direction: column;
+  `
+
 const PartDown = styled.div`
   padding: 10px;
   flex-direction: column;
@@ -65,20 +75,15 @@ const NamePerson = styled.span`
   color: #000000;
   font-weight: bold;
   text-align: left;
-  margin-left: 10px;
-  margin-top: -25px
+
 `
 
 const Position = styled.span`
   font-size: 14px;
   color: #8b8686;
-  margin-left: 10px;
-  margin-top: 5px;
   font-style: italic;
-  margin-bottom: 5px;
   line-height: 1.2;
-  margin-top: 20px;
-  margin-left: -70px;
+
 `
 const Line = styled.div`
   height: 1px;
