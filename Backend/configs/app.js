@@ -8,6 +8,13 @@ import client from "../src/client/client.routes.js"
 import productCategory from "../src/productCategory/productCategory.routes.js"
 import product from "../src/products/product.routes.js"
 
+
+
+
+
+
+import productMovementHistory from "../src/productMovementHistory/productMovementHistory.routes.js"
+
 const configs = (app) =>{
     app.use(express.json())
     app.use(express.urlencoded({extended: false}))
@@ -20,6 +27,7 @@ const routes = (app) =>{
     app.use('/v1/api', client)
     app.use('/v1/api', productCategory)
     app.use('/v1/api', product)
+    app.use('/v1/api',productMovementHistory)
 }
 
 export const initServer = ()=>{
