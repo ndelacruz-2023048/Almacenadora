@@ -5,10 +5,16 @@ import { Card } from '../organismos/Card/Card'
 import { FiMenu } from "react-icons/fi";
 import { GrAdd } from "react-icons/gr";
 import { ButtonAdd } from '../atomos/ButtonAdd';
+import { useProviderStore } from '../../stores/ProviderStore';
+import { ProviderForm } from '../organismos/Forms/ProviderForm';
 
 export const ProviderTemplate = () => {
+  const { isProviderFormOpen, setIsFormOpen } = useProviderStore()
+  console.log(isProviderFormOpen);
+  
   return (
     <Container>
+      {isProviderFormOpen && <ProviderForm/>}
       <Line/>
       <Section1>
         <Title>
@@ -17,7 +23,7 @@ export const ProviderTemplate = () => {
         <IconsContainer>
             <CiGrid41  className='iconHeader'/>
             <FiMenu className='iconHeader'/>
-            <ButtonAdd btnBackgroundColor="#5042cb" iconName="ic:round-add" btnText="Add New" iconSize={'27px'}  btnWidth="22%"/>
+            <ButtonAdd setState={setIsFormOpen} btnBackgroundColor="#5042cb" iconName="ic:round-add" btnText="Add New" iconSize={'27px'}  btnWidth="22%"/>
         </IconsContainer>
       </Section1>
       <Section2>

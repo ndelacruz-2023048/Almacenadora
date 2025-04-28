@@ -2,14 +2,13 @@ import React from 'react'
 import styled from 'styled-components'
 import { useProductStore } from '../../../stores/ProductStore'
 
-export const UploadImageSucces = ({imageURL,isInteractionDisabled,isLoadingImage}) => {
- const {dataFile} = useProductStore()
+export const UploadImageSucces = ({imageURL,isInteractionDisabled,isLoadingImage,dataFile}) => {
   return (
     <Container>
         <Image src={imageURL}/>  
         <Section>
             <NameFile>{dataFile.name}</NameFile>
-            <SizeFile>{dataFile.size}kb</SizeFile>
+            <SizeFile>{dataFile.size}</SizeFile>
         </Section> 
         {!isInteractionDisabled ? (<AlertInformation>Click para cambiar la imagen</AlertInformation>)
         :(<AlertInformation>{isLoadingImage? "Uploading":"Upload"}</AlertInformation>)}
