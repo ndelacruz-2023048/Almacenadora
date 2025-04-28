@@ -19,7 +19,7 @@ import { useSaveImage } from '../../../utils/saveImage';
 import { useProviderStore } from '../../../stores/ProviderStore';
 import { heIL } from '@mui/x-date-pickers/locales';
 export const ProviderForm = () => {
-  const {isProviderFormOpen,responseCreatingProvider, setIsFormOpen, dataFile, setDataFile ,dataProvider, fetchProvider, dataProviders, createProvider} = useProviderStore()
+  const {isProviderFormOpen,responseCreatingProvider, setIsFormOpen, dataFile, setDataFile, setDataProviders ,dataProvider, fetchProvider, dataProviders, createProvider} = useProviderStore()
 
   const [urlImage,setUrlImage] = useState(null)/*State para URL IMAGEN */
   const [canChangeButton,setCanChangeButton] = useState(false)/*State para cambiar botons de continue a save*/
@@ -39,7 +39,7 @@ export const ProviderForm = () => {
   const {register,handleSubmit,formState:{errors},setValue,reset} = useForm()
   const {dataImage,isLoadingImage,registerImage} = useSaveImage()
   const handleSubmitProductForm = async(data)=>{
-    setDataFile(data)
+    setDataProviders(data)
     setCanChangeButton(true)
     setIsDisableButtonSave(true)
     setIsInteractionDisabled(true)
@@ -60,6 +60,8 @@ export const ProviderForm = () => {
       description: dataProviders?.description,
       image: dataImage?.secure_url
     }
+    console.log(newProvider);
+    
     createProvider(newProvider)
   }
   console.log(responseCreatingProvider);
@@ -111,15 +113,15 @@ export const ProviderForm = () => {
                   {...register("departament" ,{required: "Este campo es obligatorio "})}
 
                 > 
-                  <MenuItem value={10}>Software</MenuItem>
-                  <MenuItem value={20}>TI</MenuItem>
-                  <MenuItem value={30}>Technical support for users</MenuItem>
-                  <MenuItem value={40}>Information security</MenuItem>
-                  <MenuItem value={50}>Network</MenuItem>
-                  <MenuItem value={60}>Hardware</MenuItem>
-                  <MenuItem value={70}>Software development</MenuItem>
-                  <MenuItem value={80}>Data analysis</MenuItem>
-                  <MenuItem value={90}>Data science</MenuItem>
+                  <MenuItem value={'Software'}>Software</MenuItem>
+                  <MenuItem value={'TI'}>TI</MenuItem>
+                  <MenuItem value={'Technical support for users'}>Technical support for users</MenuItem>
+                  <MenuItem value={'Information security'}>Information security</MenuItem>
+                  <MenuItem value={'Network'}>Network</MenuItem>
+                  <MenuItem value={'Hardware'}>Hardware</MenuItem>
+                  <MenuItem value={'Software development'}>Software development</MenuItem>
+                  <MenuItem value={'Data analysis'}>Data analysis</MenuItem>
+                  <MenuItem value={'Data science'}>Data science</MenuItem>
                 {
                   dataProvider?.clients?.map((e)=>(
                     <MenuItem value={e._id}>{e.nameCategory}</MenuItem>

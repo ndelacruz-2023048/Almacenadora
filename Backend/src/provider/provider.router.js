@@ -6,6 +6,6 @@ import {
 
 const provider = Router()
 
-provider.get('/provider', addProvider)
+provider.post('/provider', addProvider)
 
 export default provider

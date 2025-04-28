@@ -21,7 +21,7 @@ const routes = (app) =>{
     app.use('/v1/api', client)
     app.use('/v1/api', productCategory)
     app.use('/v1/api', product)
-    app.use('v1/api', provider)
+    app.use('/v1/api', provider)
 }
 
 export const initServer = ()=>{
