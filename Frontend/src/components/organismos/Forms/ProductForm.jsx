@@ -162,7 +162,7 @@ export const ProductForm = () => {
                   <UploadImage errors={errors}/>
                 </>
               ):(
-                <UploadImageSucces imageURL={urlImage} isInteractionDisabled={isInteractionDisabled} isLoadingImage={isLoadingImage}/>
+                <UploadImageSucces dataFile={dataFile} imageURL={urlImage} isInteractionDisabled={isInteractionDisabled} isLoadingImage={isLoadingImage}/>
               )
                 
             }
