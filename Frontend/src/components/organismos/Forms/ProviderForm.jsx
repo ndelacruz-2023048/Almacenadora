@@ -184,7 +184,7 @@ export const ProviderForm = () => {
                 error={!!errors?.address} 
                 helperText={errors?.address?.message}
               />
-              </FullWidthInput>
+          </FullWidthInput>
           <FullWidthInput>
             <TextField disabled={isInteractionDisabled} id="outlined-basic" label="Descripcion" variant="outlined" className='inputFullWidth'
             {...register("description",{required: "Este campo es obligatorio ",minLength:{value:3,message:"Minimo 3 caracteres", },maxLength:{value:50,message:"Maximo 50 caracteres"}})}
@@ -274,6 +274,7 @@ const Close = styled.div`
     font-size: 
     45px;
   }
+  cursor: pointer;
 `
 
 const ContainAddIcon = styled.div`
