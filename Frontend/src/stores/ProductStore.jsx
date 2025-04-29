@@ -28,5 +28,10 @@ export const useProductStore = create((set,get)=>({
         const responseJSON = await response.json()
         set({responseCreatingProduct:responseJSON})
         set({isCreatingProduct:false})
+    },
+    isListOptionsOpen:false,
+    setIsListOptionsOpen:()=>{
+        const {isListOptionsOpen} = get()
+        set({isListOptionsOpen:isListOptionsOpen?false:true})
     }
 }))
