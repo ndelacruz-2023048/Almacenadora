@@ -2,19 +2,23 @@ import { create } from "zustand";
 
 
 export const useEntryProductRegister = create((set, get) => ({
-    setEntryRegisterProductForm: false,
     isEntryProductFormOpen: false,
     setIsEntryProductFormOpen: () => {
-        const { isEntryProductFormOpen } = get();
-        set({isEntryProductFormOpen: isEntryProductFormOpen ? false : true});
+        const {isEntryProductFormOpen} = get()
+        set({isEntryProductFormOpen:isEntryProductFormOpen?false:true})
     },
-    dataEntryRegisterProduct:[],
+    dataProduct:[],
     isLoading:false,
-    fetchEntryRegisterProduct:async()=>{
+    fetchAllProducts:async()=>{
         set({isLoading:true})
-        const dataEntryProduct = await fetch("http://localhost:2900/v1/api/productCategory")
+        const dataEntryProduct = await fetch("http://localhost:2900/v1/api/product")
         const dataJson = await dataEntryProduct.json()
-        set({dataEntryRegisterProduct:dataJson})
+        set({dataProduct:dataJson})
         set({isLoading:false})
-    }
+    },
+    dataEntryProduct:{},
+    setDataEntryProduct:(p)=>{
+        set({dataEntryProduct:p})
+    },
+
 }))

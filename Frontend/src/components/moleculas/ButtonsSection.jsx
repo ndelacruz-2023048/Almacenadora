@@ -6,9 +6,11 @@ import { FilterDropdown } from './FilterDropdown';
 import { ButtonAdd } from '../atomos/ButtonAdd';
 import { useProductStore } from '../../stores/ProductStore';
 import { ModalProductOptions } from '../organismos/Modal/ModalProductOptions';
+import { useEntryProductRegister } from '../../stores/EntryProductRegisterStore';
 
 export const ButtonsSection = () => {
     const {isFormOpen,isListOptionsOpen,setIsFormOpen,setIsListOptionsOpen} = useProductStore()
+    const {  isEntryProductFormOpen, setIsEntryProductFormOpen } = useEntryProductRegister()
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     
     const filterRef = useRef(null);
@@ -45,7 +47,7 @@ export const ButtonsSection = () => {
                 {isFilterOpen && <FilterDropdown onClose={() => setIsFilterOpen(false)} />}
             </FilterButtonWrapper>
             <ButtonAdd setState={()=>setIsListOptionsOpen()} btnBackgroundColor="#5042cb" iconName="ic:round-add" btnText="Add New" iconSize={'27px'} btnWidth="130px"/>
-            <ModalProductOptions setFormProductOpen={setIsFormOpen}/>   
+            <ModalProductOptions setFormProductOpen={setIsFormOpen} setFormEntryProductOpen={setIsEntryProductFormOpen}/>   
         </Wrapper>
     )
 }

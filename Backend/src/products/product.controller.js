@@ -14,3 +14,14 @@ export const saveProduct = async (req, res) => {
         return res.status(500).send({message: 'Error adding client', error})
     }
 }
+
+// Obtener todos los productos
+export const getAllProducts = async (req, res) => {
+    try {
+        const products = await Product.find()
+        return res.status(200).send(products)
+    } catch (error) {
+        console.error(error)
+        return res.status(500).send({message: 'Error fetching products', error})
+    }
+}

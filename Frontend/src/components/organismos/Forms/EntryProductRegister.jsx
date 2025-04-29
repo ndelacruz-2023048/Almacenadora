@@ -20,7 +20,7 @@ import { useProductCategory } from '../../../stores/ProductCategoryStore';
 import { useSaveImage } from '../../../utils/saveImage';
 import { useEntryProductRegister } from '../../../stores/EntryProductRegisterStore';
 export const EntryRegisterProductForm = () => {
-  const {dataEntryRegisterProduct,isLoading,fetchEntryRegisterProduct,setIsEntryProductFormOpen} = useEntryProductRegister()
+  const {dataProduct,dataEntryProduct,setIsEntryProductFormOpen,fetchAllProducts,setDataEntryProduct} = useEntryProductRegister()
 
   const [urlImage,setUrlImage] = useState(null)
   const [canChangeButton,setCanChangeButton] = useState(false)/*State para cambiar botons de continue a save*/
@@ -33,20 +33,18 @@ export const EntryRegisterProductForm = () => {
   const {register,handleSubmit,formState:{errors},setValue,reset} = useForm()
   const {dataImage,isLoadingImage,registerImage} = useSaveImage()
   const handleSubmitProductForm = async(data)=>{
+    console.log(data);
+    setDataEntryProduct(data)
     setCanChangeButton(true)
-    setIsDisableButtonSave(true)
     setIsInteractionDisabled(true)
+    {setIsDisableButtonSave(false)}
   }
-
-  const handleSaveProductForm = (e)=>{
-    e.preventDefault()
-  }
-  
 
   useEffect(()=>{
     // register("uploadImage",{required:"Imagen requerida"})
-    fetchEntryRegisterProduct()
+    fetchAllProducts()
   },[])
+  console.log(dataProduct);
   
   return (
     <Container>
@@ -67,13 +65,13 @@ export const EntryRegisterProductForm = () => {
             <Icon onClick={setIsEntryProductFormOpen}  icon="si:close-fill" className='iconClose'/>
           </Close>
         </Header>
-        <Form>  
+        <Form onSubmit={handleSubmit(handleSubmitProductForm)}>  
           <FormField >
-            <DatePicker   value={dayjs()}   disabled className='inputFullWidth' />  
+            <DatePicker value={dayjs()} disabled className='inputFullWidth' />  
           </FormField> 
           <ContainerFormField>
             <FullWidthInput>
-              <TextField disabled={isInteractionDisabled} id="outlined-basic" label="movementType" variant="outlined" className='inputFullWidth'
+              <TextField disabled={true} id="outlined-basic"  value="Entrada"  variant="outlined" className='inputFullWidth'
                 {...register('movementType',{required: 'Se necesita agregar el Tipo de movimiento'})}
                 error={!!errors?.movementType}
                 helperText={errors?.movementType?.message}
@@ -87,7 +85,7 @@ export const EntryRegisterProductForm = () => {
               />
             </FormField>
               <FullWidthInput>
-                <TextField disabled={isInteractionDisabled} id="outlined-basic" label="Description" variant="outlined" className='inputFullWidth'
+                <TextField disabled={true} id="outlined-basic" value="Nueva entrada de producto" variant="outlined" className='inputFullWidth'
                 {...register("description",{required: "Este campo es obligatorio ",minLength:{value:3,message:"Minimo 3 caracteres", },maxLength:{value:50,message:"Maximo 50 caracteres"}})}
                 error={!!errors?.description}
                 helperText={errors?.description?.message}
@@ -95,44 +93,24 @@ export const EntryRegisterProductForm = () => {
               </FullWidthInput> 
               <FormField>
               <FormControl fullWidth>
-                  <FormPhone fullWidth>
-                  <InputLabel id="demo-simple-select-label">Product ID</InputLabel>
-                  
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    label="Proveedor"
-                    className='inputFullWidth'
-                    disabled={isInteractionDisabled}
-                    {...register("productId" ,{required: "Este campo es obligatorio "})}
-                  > 
-                    <MenuItem value={10}>+1 (555)</MenuItem>
-                    <MenuItem value={20}>+502</MenuItem>
-                    <MenuItem value={30}>+501</MenuItem>
-                    <MenuItem value={40}>+512</MenuItem>
-                    <MenuItem value={50}>+513</MenuItem>
+                <InputLabel id="demo-simple-select-label">Product ID</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="Proveedor"
+                  className='inputFullWidth'
+                  disabled={isInteractionDisabled}
+                >
                   {
-                    dataProvider?.clients?.map((e)=>(
-                      <MenuItem value={e._id}>{e.nameCategory}</MenuItem>
-                    ))
-                  }
-                  </Select> 
-                  <TextFieldPhone disabled={isInteractionDisabled} id="outlined-basic" type="number" label="Phone" variant="outlined" className='inputFullWidth'
-                    {...register("productId",{required: "Este campo es obligatorio "})}
-                    error={!!errors?.productId}
-                    helperText={errors?.productId?.message}
-                  />
-                </FormPhone>
-                {!!errors.productId && (<FormHelperText sx={{color: 'red'}}>{errors.productId.message}</FormHelperText>)}
+                  dataProduct?.map((e)=>(
+                    <MenuItem value={e._id}>{e.productName}</MenuItem>
+                  ))
+                }
+                </Select> 
               </FormControl>
             </FormField>
-            <FormField>
-              <DatePicker value={dayjs()}  disabled className='inputFullWidth' />
-            </FormField>
           </ContainerFormField> 
-          <FullWidthInput>
-            <TextField disabled={isInteractionDisabled} id="outlined-basic" label="Descripcion" variant="outlined" className='inputFullWidth'/>
-          </FullWidthInput> 
+          
         {
           isLoadingImage && (<Box>
             <LinearProgress />
@@ -141,8 +119,7 @@ export const EntryRegisterProductForm = () => {
         
           <SectionButton>
             <ButtonForm disabled={isInteractionDisabled} className='cancel' >Cancel</ButtonForm>
-            {!canChangeButton ? (<ButtonForm type="submit" className='confirm'>Confirm</ButtonForm>):
-            (<ButtonForm type='button' onClick={handleSaveProductForm} disabled={isDisableButtonSave} className='confirm'>Save Product</ButtonForm>)}
+            <ButtonForm type="submit" className='confirm'>Confirm</ButtonForm>
           </SectionButton>
         </Form>
       </Section>
