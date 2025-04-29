@@ -316,7 +316,7 @@ const TextFieldPhone = styled(TextField)`
   && {
     .MuiOutlinedInput-root {
       border-radius: 20px;
-      width: 206px;
+      width: 100%;
     }
   }
 `

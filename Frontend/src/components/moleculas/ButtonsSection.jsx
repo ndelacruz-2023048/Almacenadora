@@ -5,9 +5,10 @@ import styled from 'styled-components';
 import { FilterDropdown } from './FilterDropdown';
 import { ButtonAdd } from '../atomos/ButtonAdd';
 import { useProductStore } from '../../stores/ProductStore';
+import { ModalProductOptions } from '../organismos/Modal/ModalProductOptions';
 
 export const ButtonsSection = () => {
-    const {isFormOpen,setIsFormOpen} = useProductStore()
+    const {isFormOpen,isListOptionsOpen,setIsFormOpen,setIsListOptionsOpen} = useProductStore()
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     
     const filterRef = useRef(null);
@@ -43,12 +44,14 @@ export const ButtonsSection = () => {
                 />
                 {isFilterOpen && <FilterDropdown onClose={() => setIsFilterOpen(false)} />}
             </FilterButtonWrapper>
-            <ButtonAdd setState={()=>setIsFormOpen()} btnBackgroundColor="#5042cb" iconName="ic:round-add" btnText="Add New" iconSize={'27px'} btnWidth="130px"/>
+            <ButtonAdd setState={()=>setIsListOptionsOpen()} btnBackgroundColor="#5042cb" iconName="ic:round-add" btnText="Add New" iconSize={'27px'} btnWidth="130px"/>
+            <ModalProductOptions setFormProductOpen={setIsFormOpen}/>   
         </Wrapper>
     )
 }
 
 const Wrapper = styled.div`
+    position: relative;
     background-color: #fff;
     width: auto;
     height: auto;

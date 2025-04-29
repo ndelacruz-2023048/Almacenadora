@@ -1,10 +1,12 @@
 import { Icon } from '@iconify/react/dist/iconify.js'
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 export const ButtonAdd = ({setState,state,btnText,btnBorder,btnColor,btnBackgroundColor,iconName,iconSize,btnWidth}) => {
+  const [stateButton,setStateButton] = useState(false)
   const handleClick = () => {
     setState()
+    setStateButton(!stateButton)
   }
   return (
     <Add
@@ -14,17 +16,17 @@ export const ButtonAdd = ({setState,state,btnText,btnBorder,btnColor,btnBackgrou
         btnBackgroundColor={btnBackgroundColor}
         iconSize={iconSize}
         btnWidth={btnWidth}
+        className={stateButton?"active":""}
         >
         <Icon icon={iconName} className='iconStyle'/>
-        {btnText && <Text>{btnText}</Text>}
+        {btnText && <p className='text'>{btnText}</p>}
     </Add>
   )
 }
 /*#5042cb */
 const Add = styled.button`
   display: flex;
-  background-color: ${(prop)=> prop.btnBackgroundColor};
-  color: white;
+  background-color: white;
   border: none;  
   border-radius: 20px;
   cursor: pointer;
@@ -33,14 +35,28 @@ const Add = styled.button`
   width: ${(prop)=> prop.btnWidth};
   padding: 10px 0;
   gap: 5px;
+  border: 1px solid ${(prop)=> prop.btnBackgroundColor};
   .iconStyle{
-        align-items: center;
-        color: #fff;
-        font-size: ${(prop)=> prop.iconSize};
+    align-items: center;
+    color: ${(prop)=> prop.btnBackgroundColor};
+    font-size: ${(prop)=> prop.iconSize};
+  }
+  .text{
+    font-size: 16px;
+    color: ${(prop)=> prop.btnBackgroundColor};
+  }
+  &.active{
+    background-color: ${(prop)=> prop.btnBackgroundColor};
+    color: white;
+    border: none;
+    .iconStyle{
+      align-items: center;
+      color: #fff;
+      font-size: ${(prop)=> prop.iconSize};
     }
-`
+    .text{
+      color: #fff;
 
-const Text = styled.p`
-  font-size: 16px;
-  color: #fff;
-`
+    }
+  }
+  `
