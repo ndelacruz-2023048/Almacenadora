@@ -1,12 +1,41 @@
 import {create} from 'zustand'
-export const useClientStore = create((set) =>({
-    data:[],
-    isLoading:false,
+export const useClientStore = create((set, get) =>({
+    isFormOpenClient:false,
+    setIsFromOpenClient:()=>{
+        const {isFormOpenClient}= get()
+        set({isFormOpenClient:isFormOpenClient?false:true})
+    },
+    dataClient:[],
+    isLoadingCliente:false,
     fetchClients: async ()=>{
-        set({isLoading: true})
+        set({isLoadingCliente: true})
         const response = await fetch('http://localhost:2900/v1/api/client')
-        const dataCliente = await response.json()
-        set({isLoading: false})
-        set({data:dataCliente})
+        const dataClienteJson = await response.json()
+        set({dataClient:dataClienteJson})
+        set({isLoadingCliente: false})
+    },
+    dataClientForm:{},
+    setDataClientForm:(p)=>{
+        set({dataClientForm:p})
+    },
+    isCreatingClient:false,
+    responseCreatingClient:{},
+    createClient:async(p)=>{
+        set({isCreatingClient:true})
+        const response = await fetch("http://localhost:2900/v1/api/client",{
+            method:"POST",
+            headers: {
+                "Content-Type": "application/json" // Le dice al servidor que el cuerpo es JSON
+            },
+            body:JSON.stringify(p)
+        })
+        const responseJSON = await response.json()
+        set({responseCreatingClient:responseJSON})
+        set({isCreatingClient:false})
+    },
+    dataFile:{},
+    setDataFile:(p)=>{
+        const {dataFile} = get()
+        set({dataFile:p})
     }
 }))

@@ -2,8 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { useProductStore } from '../../../stores/ProductStore'
 
-export const UploadImageSucces = ({imageURL,isInteractionDisabled,isLoadingImage}) => {
- const {dataFile} = useProductStore()
+export const UploadImageSucces = ({imageURL,isInteractionDisabled,isLoadingImage, dataFile}) => {
   return (
     <Container>
         <Image src={imageURL}/>  

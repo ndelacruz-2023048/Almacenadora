@@ -18,29 +18,62 @@ import { color } from '@mui/system';
 import { UploadImageSucces } from './UploadImageSucces';
 import { useProductCategory } from '../../../stores/ProductCategoryStore';
 import { useSaveImage } from '../../../utils/saveImage';
+import { useClientStore } from '../../../stores/ClientStore';
 export const ClientForm = () => {
   const {dataProductCategory,isLoading,fetchProductCategories} = useProductCategory()
 
   const [urlImage,setUrlImage] = useState(null)/*State para URL IMAGEN */
+  const {isFormOpenClient, createClient, responseCreatingClient, setDataFile, dataFile,
+    dataClientForm,setDataClientForm,setIsFromOpenClient} = useClientStore()
   const [canChangeButton,setCanChangeButton] = useState(false)/*State para cambiar botons de continue a save*/
   const [isInteractionDisabled, setIsInteractionDisabled] = useState(false)/*State para deshabilitar y habilitar inputs del formulario*/
   const [isDisableButtonSave,setIsDisableButtonSave] = useState(false)
   /*Hook para manipular el espacio para subir la imagen */
-  // const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop,disabled:isInteractionDisabled})
+
+  const onDrop = useCallback(acceptedFiles => {
+      setDataFile(acceptedFiles[0])
+      const imageUrl = URL.createObjectURL(acceptedFiles[0]);
+      setUrlImage(imageUrl)
+      setValue("uploadImage",acceptedFiles)
+    }, [])
+  const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop,disabled:isInteractionDisabled})
 
   /*Logica del Formulario */
   const {register,handleSubmit,formState:{errors},setValue,reset} = useForm()
   const {dataImage,isLoadingImage,registerImage} = useSaveImage()
+
   const handleSubmitProductForm = async(data)=>{
+    setDataClientForm(data)
+    setCanChangeButton(true)
+    setIsDisableButtonSave(true)
+    setIsInteractionDisabled(true)
+    await registerImage(dataFile)
+    {dataImage && setIsDisableButtonSave(false)}
   }
 
   const handleSaveProductForm = (e)=>{
+    console.log(dataClientForm);
+    console.log(dataImage);
+    
+    
+    const newClient = {
+      clientName:dataClientForm?.clientName,
+      clientUsername:dataClientForm?.clientUsername,
+      clientEmail:dataClientForm?.clientEmail,
+      clientPassword:dataClientForm?.clientPassword,
+      clientPhone:dataClientForm?.clientPhone,
+      clientAddress: dataClientForm?.clientAddress,
+      uploadImage:dataImage?.secure_url
+    }
+    createClient(newClient)
     e.preventDefault()
   }
   
+  console.log(responseCreatingClient);
+  
 
   useEffect(()=>{
-    // register("uploadImage",{required:"Imagen requerida"})
+    register("uploadImage",{required:"Imagen requerida"})
     fetchProductCategories()
   },[])
   
@@ -55,63 +88,130 @@ export const ClientForm = () => {
               </SectionAddAction>
             </ContainAddIcon>
             <ContainText>
-              <TitleHeader>Add Product</TitleHeader>
+              <TitleHeader>Add Clients</TitleHeader>
               <DescriptionHeader>Fill the following Information to move forward</DescriptionHeader>
             </ContainText>
           </Info>
           <Close>
-            <Icon  icon="si:close-fill" className='iconClose'/>
+            <Icon  onClick={setIsFromOpenClient} icon="si:close-fill" className='iconClose'/>
           </Close>
         </Header>
-        <Form>  
+        <Form onSubmit={handleSubmit(handleSubmitProductForm)}>  
           <FullWidthInput>
-            <TextField disabled={isInteractionDisabled} id="outlined-basic" label="Name" variant="outlined" className='inputFullWidth'/>
+            <TextField 
+              disabled={isInteractionDisabled} 
+              id="outlined-basic" 
+              label="Name person" 
+              variant="outlined"
+              className='inputFullWidth'
+              {...register("clientName", 
+                {
+                  required:"Este capo es obligatorio", 
+                  maxLength:{value:100,message:"Max character 100"},
+                  minLength:{value:5, message:"Min character 5"}
+                })}
+              error={!!errors?.clientName}
+              helperText={errors.clientName?.message}
+              />
+          </FullWidthInput>
+          <FullWidthInput>
+            <TextField 
+              disabled={isInteractionDisabled} 
+              id="outlined-basic" 
+              label="User name" 
+              variant="outlined" 
+              className='inputFullWidth' 
+              {...register("clientUsername",
+                {
+                  required:"Este campo es obligatorio",
+                  maxLength:{value:100,message:"Max character 100"},
+                  minLength:{value:5, message:"Min character 5"}
+                })}
+              error={!!errors?.clientUsername}
+              helperText={errors.clientUsername?.message}
+              />
+          </FullWidthInput>
+          <FullWidthInput>
+            <TextField 
+              disabled={isInteractionDisabled} 
+              id="outlined-basic" 
+              label="Email" 
+              variant="outlined" 
+              className='inputFullWidth' 
+              {...register("clientEmail",
+                {required:"Este campo es obligatorio"}
+              )}
+              error={!!errors?.clientEmail}
+              helperText={errors.clientEmail?.message}
+              />
+          </FullWidthInput>
+          <FullWidthInput>
+            <TextField 
+              disabled={isInteractionDisabled} 
+              id="outlined-basic" 
+              label="Address" 
+              variant="outlined" 
+              className='inputFullWidth' 
+              {...register("clientAddress",
+                {required:"Este campo es obligatorio"}
+              )}
+              error={!!errors?.clientAddress}
+              helperText={errors.clientAddress?.message}
+              />
           </FullWidthInput>   
           <ContainerFormField>
             <FormField>
-            <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Categoria</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Proveedor"
-                  className='inputFullWidth'
-                  disabled={isInteractionDisabled}
-                > 
+            <TextField 
+              disabled={isInteractionDisabled} 
+              id="outlined-basic" 
+              type="password" 
+              label="Password" 
+              variant="outlined" 
+              className='inputFullWidth' 
+              {...register("clientPassword",
                 {
-                  dataProductCategory?.clients?.map((e)=>(
-                    <MenuItem value={e._id}>{e.nameCategory}</MenuItem>
-                  ))
+                  required:"Este campo es obligatorio",
+                  minLength:{value:8, message:"Min character 8"}
                 }
-                </Select> 
-              </FormControl>
-            </FormField>
-            <FormField>
-              <TextField disabled={isInteractionDisabled} id="outlined-basic" type="number" label="Stock" variant="outlined" className='inputFullWidth'/>
+              )}
+              error={!!errors.clientPassword}
+              helperText={errors.clientPassword?.message}
+              />
             </FormField>
             <FormField>
               <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Proveedor</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Proveedor"
-                  className='inputFullWidth'
-                  disabled={isInteractionDisabled}
-                >
-                  <MenuItem value={10}>Juan</MenuItem>
-                  <MenuItem value={20}>Pedro</MenuItem>
-                  <MenuItem value={30}>Jonas</MenuItem>
-                </Select> 
+              <TextField 
+                disabled={isInteractionDisabled} 
+                id="outlined-basic" 
+                type="number" 
+                label="phone" 
+                variant="outlined" 
+                className='inputFullWidth' 
+                {...register("clientPhone",
+                  {
+                    required:"Este campo es obligatorio",
+                    minLength:{value:8, message:"Min characters 8"}
+                  }
+                )}
+                error={!!errors.clientPhone}
+                helperText={errors.clientPhone?.message}
+                />
               </FormControl>
             </FormField>
-            <FormField>
-              <DatePicker value={dayjs()}  disabled className='inputFullWidth' />
-            </FormField>
-          </ContainerFormField> 
-          <FullWidthInput>
-            <TextField disabled={isInteractionDisabled} id="outlined-basic" label="Descripcion" variant="outlined" className='inputFullWidth'/>
-          </FullWidthInput> 
+          </ContainerFormField>
+          <ContainUploadImage {...getRootProps({className: 'dropzone'})}>
+            <input {...getInputProps()}/>
+              {
+                urlImage===null ? (
+                  <>
+                    <UploadImage errors={errors}/>
+                  </>
+                ):(
+                    <UploadImageSucces dataFile={dataFile} imageURL={urlImage} isInteractionDisabled={isInteractionDisabled} isLoadingImage={isLoadingImage}/>
+                  )
+                            
+              }
+          </ContainUploadImage>
         {
           isLoadingImage && (<Box>
             <LinearProgress />

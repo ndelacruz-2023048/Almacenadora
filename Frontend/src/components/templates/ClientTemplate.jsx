@@ -5,11 +5,16 @@ import { Card } from '../organismos/Card/Card'
 import { FiMenu } from "react-icons/fi";
 import { GrAdd } from "react-icons/gr";
 import { ButtonAdd } from '../atomos/ButtonAdd';
-
-
+import { useClientStore } from '../../stores/ClientStore';
+import {ClientForm} from "../organismos/Forms/ClientForm"
 export const ClientTemplate = () => {
+
+  const {isFormOpenClient, setIsFromOpenClient} = useClientStore()
+  console.log(isFormOpenClient);
+  
   return (
     <Container>
+      {isFormOpenClient && <ClientForm/>}
       <Line/>
       <Section1>
         <Title>
@@ -18,7 +23,7 @@ export const ClientTemplate = () => {
         <IconsContainer>
             <CiGrid41  className='iconHeader'/>
             <FiMenu className='iconHeader'/>
-            <ButtonAdd btnBackgroundColor="#5042cb" iconName="ic:round-add" btnText="Add New" iconSize={'27px'}  btnWidth="22%"/>
+            <ButtonAdd setState={setIsFromOpenClient} btnBackgroundColor="#5042cb" iconName="ic:round-add" btnText="Add New" iconSize={'27px'}  btnWidth="22%"/>
         </IconsContainer>
       </Section1>
 
