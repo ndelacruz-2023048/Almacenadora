@@ -19,29 +19,53 @@ import { UploadImageSucces } from './UploadImageSucces';
 import { useProductCategory } from '../../../stores/ProductCategoryStore';
 import { useSaveImage } from '../../../utils/saveImage';
 export const ProductCategoryForm = () => {
-  const {dataProductCategory,isLoading,fetchProductCategories} = useProductCategory()
+  const {setIsProductCategoryFormActive,setDataFile,setDataProductCategory,dataFile,dataProductCategory,responseCreatingProductCategory,createProductCategory} = useProductCategory()
 
   const [urlImage,setUrlImage] = useState(null)/*State para URL IMAGEN */
   const [canChangeButton,setCanChangeButton] = useState(false)/*State para cambiar botons de continue a save*/
   const [isInteractionDisabled, setIsInteractionDisabled] = useState(false)/*State para deshabilitar y habilitar inputs del formulario*/
   const [isDisableButtonSave,setIsDisableButtonSave] = useState(false)
   /*Hook para manipular el espacio para subir la imagen */
-  // const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop,disabled:isInteractionDisabled})
+
+  const onDrop = useCallback(acceptedFiles => {
+    setDataFile(acceptedFiles[0])
+    const imageUrl = URL.createObjectURL(acceptedFiles[0]);
+    setUrlImage(imageUrl)
+    setValue("uploadImage",acceptedFiles)
+  }, [])
+
+  const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop,disabled:isInteractionDisabled})
 
   /*Logica del Formulario */
   const {register,handleSubmit,formState:{errors},setValue,reset} = useForm()
   const {dataImage,isLoadingImage,registerImage} = useSaveImage()
+
   const handleSubmitProductForm = async(data)=>{
+    console.log(data);
+    setDataProductCategory(data)
+    setCanChangeButton(true)
+    setIsDisableButtonSave(true)
+    setIsInteractionDisabled(true)
+    await registerImage(dataFile)
+    {dataImage && setIsDisableButtonSave(false)}
   }
 
   const handleSaveProductForm = (e)=>{
-    e.preventDefault()
+    console.log(dataProductCategory);
+    console.log(dataImage);
+    const newProductCategory = {
+      nameCategory:dataProductCategory?.nameCategory,
+      descriptionCategory:dataProductCategory?.descriptionCategory,
+      image:dataImage?.secure_url
+    }
+    createProductCategory(newProductCategory)
   }
   
-
+  console.log(responseCreatingProductCategory);
+  
   useEffect(()=>{
     // register("uploadImage",{required:"Imagen requerida"})
-    fetchProductCategories()
+    // fetchProductCategories()
   },[])
   
   return (
@@ -55,19 +79,32 @@ export const ProductCategoryForm = () => {
               </SectionAddAction>
             </ContainAddIcon>
             <ContainText>
-              <TitleHeader>Add Product</TitleHeader>
+              <TitleHeader>Add Product Category</TitleHeader>
               <DescriptionHeader>Fill the following Information to move forward</DescriptionHeader>
             </ContainText>
           </Info>
           <Close>
-            <Icon  icon="si:close-fill" className='iconClose'/>
+            <Icon onClick={setIsProductCategoryFormActive} icon="si:close-fill" className='iconClose'/>
           </Close>
         </Header>
-        <Form>  
+        <Form onSubmit={handleSubmit(handleSubmitProductForm)}>  
           <FullWidthInput>
-            <TextField disabled={isInteractionDisabled} id="outlined-basic" label="Name" variant="outlined" className='inputFullWidth'/>
+            <TextField 
+              disabled={isInteractionDisabled} 
+              id="outlined-basic" 
+              label="Name of the category" 
+              variant="outlined" 
+              className='inputFullWidth'
+              {...register("nameCategory",{
+                required:"Este campo es obligatorio",
+                minLength:{value:4,message:"Min characters 4"},
+                maxLength:{value:20,message:"Max characters 20"}  
+              })}
+              error={!!errors.nameCategory}
+              helperText={errors.nameCategory?.message}
+              />
           </FullWidthInput>   
-          <ContainerFormField>
+          {/* <ContainerFormField>
             <FormField>
             <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Categoria</InputLabel>
@@ -108,10 +145,32 @@ export const ProductCategoryForm = () => {
             <FormField>
               <DatePicker value={dayjs()}  disabled className='inputFullWidth' />
             </FormField>
-          </ContainerFormField> 
+          </ContainerFormField> */} 
           <FullWidthInput>
-            <TextField disabled={isInteractionDisabled} id="outlined-basic" label="Descripcion" variant="outlined" className='inputFullWidth'/>
-          </FullWidthInput> 
+            <TextField 
+              disabled={isInteractionDisabled} 
+              id="outlined-basic" 
+              label="Description of theCategory" 
+              variant="outlined" 
+              className='inputFullWidth'
+              {...register("descriptionCategory",{required:"Este campo es obligatorio"})}
+              error={!!errors.descriptionCategory}
+              helperText={errors.descriptionCategory?.message}
+              />
+          </FullWidthInput>
+          <ContainUploadImage {...getRootProps({className: 'dropzone'})}>
+                      <input {...getInputProps()}/>
+                      {
+                        urlImage===null ? (
+                          <>
+                            <UploadImage errors={errors}/>
+                          </>
+                        ):(
+                          <UploadImageSucces dataFile={dataFile} imageURL={urlImage} isInteractionDisabled={isInteractionDisabled} isLoadingImage={isLoadingImage}/>
+                        )
+                          
+                      }
+                    </ContainUploadImage>
         {
           isLoadingImage && (<Box>
             <LinearProgress />
