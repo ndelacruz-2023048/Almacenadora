@@ -1,4 +1,5 @@
 import {create} from 'zustand'
+import axios from 'axios'
 
 export const useClientStore = create((set, get) =>({
     isFormOpenClient:false,
@@ -40,16 +41,15 @@ export const useClientStore = create((set, get) =>({
         set({dataFile:p})
     },
     isSameClient:[],
-    fetchClientByName:async(p)=>{
-        const paramsClient ={
-            clientName:p
+    fetchClientFieldExists :async (field, value) => {
+        try {
+          const response = await axios.get('http://localhost:2900/v1/api/client/check', {
+            params: { [field]: value }
+          });
+          return response.data.exists;
+        } catch (error) {
+          console.error("Validation error:", error);
+          return false;
         }
-        const clients = await axios.get('http://localhost:2900/v1/api/client/search',
-            {params:paramsClient})
-            const dataJSON = await clients.data
-            set(()=>({isSameClient:dataJSON}))
-            return{
-                dataJSON
-            }
     }
 }))

@@ -6,19 +6,19 @@ const clientSchema = Schema({
         required: [true, 'Name is required'],
         minLength:[5, 'Name is too short'],
         maxLength: [100, 'Name is too long'],
-        //unique: [true, 'Name is already taken']
+        unique: [true, 'Name is already taken']
     },
     clientUsername:{
         type: String,
         required: [true, 'Username is required'],
         minLength:[5, 'Name is too short'],
         maxLength:[100, 'Name is too long'],
-        //unique: [true, 'Username is already in use'],
+        unique: [true, 'Username is already in use'],
     },
     clientEmail:{
         type: String,
         required: [true, 'Email is required'],
-        //unique: [true, 'Email is already in use']
+        unique: [true, 'Email is already in use']
     },
     clientPassword:{
         type: String,
@@ -29,7 +29,7 @@ const clientSchema = Schema({
         type: String,
         required: [true, 'Phone is required'],
         minLength:[8,'Phono needs min 8 characters'],
-        //unique: [true, 'Phone is already in use']
+        unique: [true, 'Phone is already in use']
     },
     clientAddress:{
         type: String,

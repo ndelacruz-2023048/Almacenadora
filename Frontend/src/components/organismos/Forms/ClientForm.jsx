@@ -23,7 +23,7 @@ export const ClientForm = () => {
   const {dataProductCategory,isLoading,fetchProductCategories} = useProductCategory()
 
   const [urlImage,setUrlImage] = useState(null)/*State para URL IMAGEN */
-  const {isFormOpenClient, createClient, responseCreatingClient, setDataFile, dataFile, fetchClientByName,
+  const {isFormOpenClient, createClient, responseCreatingClient, setDataFile, dataFile, fetchClientFieldExists,
     dataClientForm,setDataClientForm,setIsFromOpenClient} = useClientStore()
   const [canChangeButton,setCanChangeButton] = useState(false)/*State para cambiar botons de continue a save*/
   const [isInteractionDisabled, setIsInteractionDisabled] = useState(false)/*State para deshabilitar y habilitar inputs del formulario*/
@@ -98,28 +98,25 @@ export const ClientForm = () => {
         </Header>
         <Form onSubmit={handleSubmit(handleSubmitProductForm)}>  
           <FullWidthInput>
-            <TextField 
-              disabled={isInteractionDisabled} 
-              id="outlined-basic" 
-              label="Name person" 
-              variant="outlined"
-              className='inputFullWidth'
-              {...register("clientName", 
-                {
-                  required:"Este capo es obligatorio", 
-                  maxLength:{value:100,message:"Max character 100"},
-                  minLength:{value:5, message:"Min character 5"},
-                  validate: async(value)=>{
-                    const{dataJSON} = await fetchClientByName(value)
-                    if(dataJSON.message.length>0){
-                      return "Nombre del cliente ya existente"
-                    }
-                    return true
-                  }
-                })}
-              error={!!errors?.clientName}
-              helperText={errors.clientName?.message}
-              />
+          <TextField 
+            disabled={isInteractionDisabled} 
+            id="outlined-basic" 
+            label="Name person" 
+            variant="outlined"
+            className='inputFullWidth'
+            {...register("clientName", {
+              required: "Este campo es obligatorio",
+              maxLength: { value: 100, message: "Máximo 100 caracteres" },
+              minLength: { value: 5, message: "Mínimo 5 caracteres" },
+              validate: async (value) => {
+                const exists = await fetchClientFieldExists("clientName", value);
+                if (exists) return "Nombre del cliente ya existente";
+                return true;
+              }
+            })}
+            error={!!errors?.clientName}
+            helperText={errors.clientName?.message}
+          />
           </FullWidthInput>
           <FullWidthInput>
             <TextField 
@@ -132,7 +129,12 @@ export const ClientForm = () => {
                 {
                   required:"Este campo es obligatorio",
                   maxLength:{value:100,message:"Max character 100"},
-                  minLength:{value:5, message:"Min character 5"}
+                  minLength:{value:5, message:"Min character 5"},
+                  validate: async (value) => {
+                    const exists = await fetchClientFieldExists("clientUsername", value);
+                    if (exists) return "User Name del cliente ya existente";
+                    return true;
+                  }
                 })}
               error={!!errors?.clientUsername}
               helperText={errors.clientUsername?.message}
@@ -146,7 +148,14 @@ export const ClientForm = () => {
               variant="outlined" 
               className='inputFullWidth' 
               {...register("clientEmail",
-                {required:"Este campo es obligatorio"}
+                {
+                  required:"Este campo es obligatorio",
+                  validate: async (value) => {
+                    const exists = await fetchClientFieldExists("clientEmail", value);
+                    if (exists) return "Email del cliente ya existente";
+                    return true;
+                  }
+                }
               )}
               error={!!errors?.clientEmail}
               helperText={errors.clientEmail?.message}
@@ -197,7 +206,12 @@ export const ClientForm = () => {
                 {...register("clientPhone",
                   {
                     required:"Este campo es obligatorio",
-                    minLength:{value:8, message:"Min characters 8"}
+                    minLength:{value:8, message:"Min characters 8"},
+                    validate: async (value) => {
+                      const exists = await fetchClientFieldExists("clientPhone", value);
+                      if (exists) return "Phone del cliente ya existente";
+                      return true;
+                    }
                   }
                 )}
                 error={!!errors.clientPhone}
