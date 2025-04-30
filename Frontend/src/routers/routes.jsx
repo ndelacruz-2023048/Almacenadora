@@ -6,6 +6,7 @@ import { ClientPage } from '../pages/ClientPage'
 import { ProductCategoriesPage } from '../pages/ProductCategoriesPage'
 import { SettingsPage } from '../pages/SettingsPage'
 import { ProviderPage } from '../pages/ProviderPage'
+import { LoginPage } from '../pages/LoginPage'
 
 const router = createBrowserRouter([
     {
@@ -14,6 +15,12 @@ const router = createBrowserRouter([
             <HomePage/>
         </Layout>,
         errorElement:<div>Que tal don pinguino, andamos trabajando arduamente para darme un mejor experiencia att.Mac'pa pa ra papa'</div>
+    },
+    {
+        path: '/login',
+        element: (
+            <LoginPage/>
+        )
     },
     {
         path:'/clients',

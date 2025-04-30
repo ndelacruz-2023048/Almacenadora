@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import MyRoutes from './routers/routes'
 import { GlobalStyles } from './style/GlobalStyle'
+import { Toaster } from "react-hot-toast"
 
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
     <>
       <GlobalStyles/>
       <MyRoutes/>
+      <Toaster position="bottom-right" reverseOrder={false}/>
     </>
   )
 }

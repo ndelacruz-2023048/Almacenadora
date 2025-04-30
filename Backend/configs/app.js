@@ -4,22 +4,19 @@ import express from "express"
 import morgan from "morgan"
 import helmet from "helmet"
 import cors from "cors"
+import cookieParser from "cookie-parser"
+import authRoutes from '../src/Auth/auth.routes.js'
 import client from "../src/client/client.routes.js"
 import productCategory from "../src/productCategory/productCategory.routes.js"
 import product from "../src/products/product.routes.js"
 import provider from "../src/provider/provider.router.js"
-
-
-
-
-
-
 import productMovementHistory from "../src/productMovementHistory/productMovementHistory.routes.js"
 
 const configs = (app) =>{
     app.use(express.json())
     app.use(express.urlencoded({extended: false}))
     app.use(cors())
+    app.use(cookieParser())
     app.use(helmet())
     app.use(morgan('dev'))
 }
@@ -30,6 +27,7 @@ const routes = (app) =>{
     app.use('/v1/api', product)
     app.use('/v1/api',productMovementHistory)
     app.use('/v1/api', provider)
+    app.use('/v1/ark', authRoutes)
 }
 
 export const initServer = ()=>{
