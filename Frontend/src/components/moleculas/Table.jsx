@@ -4,9 +4,10 @@ import { useState } from "react";
 import { PurpleTag } from "../atomos/Tag";
 import photoProfile from '../../assets/photoProfile.avif'
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { useProductStore } from "../../stores/ProductStore";
 
 export const Table = ()=> {
-
+    const {listProducts}= useProductStore()
     const companies = [
         { name: "Catalog", domain: "catalogapp.io", status: "Customer", about: "Content curating app\nBrings all your news into one place" },
         { name: "Circoolees", domain: "getcircoolees.com", status: "Churned", about: "Design software\nSuper lightweight design app" },
@@ -16,7 +17,8 @@ export const Table = ()=> {
         { name: "Quotient", domain: "quotient.co", status: "Customer", about: "Sales CRM\nWeb-based sales doc management" },
         { name: "Sisyphus", domain: "sisyphus.com", status: "Customer", about: "Automation and workflow\nTime tracking, invoicing and expenses" },
     ];
-
+    console.log(listProducts);
+    
     const [isChecked, setIsChecked] = useState({});
 
     const handleCheckboxChange = (name) => {

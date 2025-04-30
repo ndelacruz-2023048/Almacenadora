@@ -1,4 +1,5 @@
 import {create} from 'zustand'
+import axios from 'axios'
 export const useProductStore = create((set,get)=>({
     isFormOpen:false,
     setIsFormOpen:()=>{
@@ -33,5 +34,26 @@ export const useProductStore = create((set,get)=>({
     setIsListOptionsOpen:()=>{
         const {isListOptionsOpen} = get()
         set({isListOptionsOpen:isListOptionsOpen?false:true})
+    },
+    isSameProduct:[],
+    fetchProductByName:async(p)=>{
+        const paramsProduct = {
+            productName:p
+        }
+        const products = await axios.get('http://localhost:2900/v1/api/product/search',{params:paramsProduct})
+        const dataJSON = await products.data
+        set(()=>({isSameProduct:dataJSON}))
+        return{
+            dataJSON
+        }
+    },
+    listProducts:[],
+    fetchProducts:async()=>{
+        const products = await axios.get('http://localhost:2900/v1/api/product')
+        const dataJSON = await products.data
+        set(()=>({listProducts:dataJSON}))
+        return{
+            dataJSON
+        }
     }
 }))

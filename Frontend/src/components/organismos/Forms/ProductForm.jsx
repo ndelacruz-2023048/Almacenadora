@@ -21,7 +21,7 @@ import { useProductCategory } from '../../../stores/ProductCategoryStore';
 import { useSaveImage } from '../../../utils/saveImage';
 export const ProductForm = () => {
   const {dataProductCategory,isLoading,fetchProductCategories} = useProductCategory()
-  const {isFormOpen,dataFile,dataProducts,isCreatingProduct,responseCreatingProduct,createProduct,setDataFile,setDataProducts,setIsFormOpen} = useProductStore()
+  const {isFormOpen,isSameProduct,dataFile,dataProducts,isCreatingProduct,responseCreatingProduct,createProduct,setDataFile,setDataProducts,setIsFormOpen,fetchProductByName} = useProductStore()
 
   
   const [urlImage,setUrlImage] = useState(null)/*State para URL IMAGEN */
@@ -50,7 +50,7 @@ export const ProductForm = () => {
     await registerImage(dataFile)
     {dataImage && setIsDisableButtonSave(false)}
   }
-
+  
   const handleSaveProductForm = ()=>{
     console.log(dataProducts);
     console.log(dataImage);
@@ -69,6 +69,7 @@ export const ProductForm = () => {
   }
 
   console.log(responseCreatingProduct);
+  console.log(isSameProduct);
   
 
   useEffect(()=>{
@@ -97,7 +98,21 @@ export const ProductForm = () => {
         </div>
         <form className='section_form' onSubmit={handleSubmit(handleSubmitProductForm)}>  
           <div className='containerfullwidth'>
-            <TextField disabled={isInteractionDisabled} id="outlined-basic" label="Name" variant="outlined" {...register("productName",{minLength:{value:2,message:"Mix Length 2 Characters"},required:"Este campo es obligatorio"})} className='inputFullWidth' error={!!errors.productName} helperText={errors.productName?.message}/>
+            <TextField  
+              id="outlined-basic" 
+              label="Name" 
+              variant="outlined" 
+              disabled={isInteractionDisabled}
+              {...register("productName",{minLength:{value:2,message:"Mix Length 2 Characters"},required:"Este campo es obligatorio",validate:async(value)=>{
+                const {dataJSON} = await fetchProductByName(value)
+                if(dataJSON.message.length>0){
+                  return "El producto es duplicado"
+                }
+                return true
+              }})} 
+              className='inputFullWidth' 
+              error={!!errors.productName} 
+              helperText={errors.productName?.message}/>
           </div>   
           <div className='containerformsfield'>
             <div className='containerformsfield_field'>
