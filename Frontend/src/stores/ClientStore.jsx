@@ -1,4 +1,5 @@
 import {create} from 'zustand'
+
 export const useClientStore = create((set, get) =>({
     isFormOpenClient:false,
     setIsFromOpenClient:()=>{
@@ -37,5 +38,18 @@ export const useClientStore = create((set, get) =>({
     setDataFile:(p)=>{
         const {dataFile} = get()
         set({dataFile:p})
+    },
+    isSameClient:[],
+    fetchClientByName:async(p)=>{
+        const paramsClient ={
+            clientName:p
+        }
+        const clients = await axios.get('http://localhost:2900/v1/api/client/search',
+            {params:paramsClient})
+            const dataJSON = await clients.data
+            set(()=>({isSameClient:dataJSON}))
+            return{
+                dataJSON
+            }
     }
 }))

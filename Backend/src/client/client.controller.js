@@ -23,3 +23,15 @@ export const getClients = async (req, res) => {
         return res.status(500).send({message: 'Error retrieving clients', error})
     }
 }
+
+export const getClientByName = async(req, res)=>{
+    try{
+        const {clientName} = req.query
+
+        const client = await Client.find({clientName:clientName})
+        return res.status(200).send({success:true, message:client})
+    }catch(e){
+        console.error(e)
+        return res.status(500).send({message:'Error finding client', e})
+    }
+}

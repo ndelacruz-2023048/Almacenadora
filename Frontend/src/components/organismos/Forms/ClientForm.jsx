@@ -23,7 +23,7 @@ export const ClientForm = () => {
   const {dataProductCategory,isLoading,fetchProductCategories} = useProductCategory()
 
   const [urlImage,setUrlImage] = useState(null)/*State para URL IMAGEN */
-  const {isFormOpenClient, createClient, responseCreatingClient, setDataFile, dataFile,
+  const {isFormOpenClient, createClient, responseCreatingClient, setDataFile, dataFile, fetchClientByName,
     dataClientForm,setDataClientForm,setIsFromOpenClient} = useClientStore()
   const [canChangeButton,setCanChangeButton] = useState(false)/*State para cambiar botons de continue a save*/
   const [isInteractionDisabled, setIsInteractionDisabled] = useState(false)/*State para deshabilitar y habilitar inputs del formulario*/
@@ -108,7 +108,14 @@ export const ClientForm = () => {
                 {
                   required:"Este capo es obligatorio", 
                   maxLength:{value:100,message:"Max character 100"},
-                  minLength:{value:5, message:"Min character 5"}
+                  minLength:{value:5, message:"Min character 5"},
+                  validate: async(value)=>{
+                    const{dataJSON} = await fetchClientByName(value)
+                    if(dataJSON.message.length>0){
+                      return "Nombre del cliente ya existente"
+                    }
+                    return true
+                  }
                 })}
               error={!!errors?.clientName}
               helperText={errors.clientName?.message}
