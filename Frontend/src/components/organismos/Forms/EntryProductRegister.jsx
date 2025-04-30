@@ -20,7 +20,7 @@ import { useProductCategory } from '../../../stores/ProductCategoryStore';
 import { useSaveImage } from '../../../utils/saveImage';
 import { useEntryProductRegister } from '../../../stores/EntryProductRegisterStore';
 export const EntryRegisterProductForm = () => {
-  const {dataProduct,dataEntryProduct,setIsEntryProductFormOpen,fetchAllProducts,setDataEntryProduct} = useEntryProductRegister()
+  const {dataProduct,responseEntryProduct,createEntryProduct,dataEntryProduct,setIsEntryProductFormOpen,fetchAllProducts,setDataEntryProduct} = useEntryProductRegister()
 
   const [urlImage,setUrlImage] = useState(null)
   const [canChangeButton,setCanChangeButton] = useState(false)/*State para cambiar botons de continue a save*/
@@ -34,11 +34,26 @@ export const EntryRegisterProductForm = () => {
   const {dataImage,isLoadingImage,registerImage} = useSaveImage()
   const handleSubmitProductForm = async(data)=>{
     console.log(data);
+    console.log(dataEntryProduct);
+    
     setDataEntryProduct(data)
     setCanChangeButton(true)
     setIsInteractionDisabled(true)
     {setIsDisableButtonSave(false)}
+    console.log(dataEntryProduct);
+    
+    const entryProduct = {
+      movementType:dataEntryProduct?.movementType,
+      count:dataEntryProduct?.count,
+      description:dataEntryProduct?.description,
+      productId:dataEntryProduct?.productId,
+      movementDate: dayjs(dataEntryProduct?.movementDate).format('YYYY-MM-DDTHH:mm:ss'),
+    }
+    createEntryProduct(entryProduct)
   }
+  console.log(responseEntryProduct);
+  
+
 
   useEffect(()=>{
     // register("uploadImage",{required:"Imagen requerida"})
@@ -93,20 +108,23 @@ export const EntryRegisterProductForm = () => {
               </FullWidthInput> 
               <FormField>
               <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Product ID</InputLabel>
+                <InputLabel id="demo-simple-select-label">Product</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   label="Proveedor"
                   className='inputFullWidth'
                   disabled={isInteractionDisabled}
+                  {...register('productId',{required: 'Se necesita agregar el producto'})}
                 >
                   {
                   dataProduct?.map((e)=>(
                     <MenuItem value={e._id}>{e.productName}</MenuItem>
                   ))
                 }
+
                 </Select> 
+                {!!errors?.productId && <FormHelperText error>{errors?.productId?.message}</FormHelperText>}
               </FormControl>
             </FormField>
           </ContainerFormField> 
@@ -119,7 +137,7 @@ export const EntryRegisterProductForm = () => {
         
           <SectionButton>
             <ButtonForm disabled={isInteractionDisabled} className='cancel' >Cancel</ButtonForm>
-            <ButtonForm type="submit" className='confirm'>Confirm</ButtonForm>
+            <ButtonForm type="submit" className='confirm'  >Confirm</ButtonForm >
           </SectionButton>
         </Form>
       </Section>

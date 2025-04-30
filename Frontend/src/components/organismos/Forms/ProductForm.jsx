@@ -48,7 +48,7 @@ export const ProductForm = () => {
     setIsInteractionDisabled(true)
     setIsDisableButtonSave(true)
     await registerImage(dataFile)
-    {d)}
+    {dataImage && setIsDisableButtonSave(false)}
   }
 
   const handleSaveProductForm = ()=>{

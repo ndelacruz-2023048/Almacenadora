@@ -19,7 +19,8 @@ import { useSaveImage } from '../../../utils/saveImage';
 import { useProviderStore } from '../../../stores/ProviderStore';
 import { heIL } from '@mui/x-date-pickers/locales';
 export const ProviderForm = () => {
-  const {isProviderFormOpen,responseCreatingProvider, setIsFormOpen, dataFile, setDataFile, setDataProviders ,dataProvider, fetchProvider, dataProviders, createProvider} = useProviderStore()
+  const {isProviderFormOpen,responseCreatingProvider, setIsFormOpen, fetchProviderByName, dataFile, setDataFile,
+         setDataProviders ,dataProvider, fetchProvider, dataProviders, createProvider} = useProviderStore()
 
   const [urlImage,setUrlImage] = useState(null)/*State para URL IMAGEN */
   const [canChangeButton,setCanChangeButton] = useState(false)/*State para cambiar botons de continue a save*/
@@ -94,7 +95,16 @@ export const ProviderForm = () => {
         <Form onSubmit={handleSubmit(handleSubmitProductForm)}>  
           <FullWidthInput>
             <TextField disabled={isInteractionDisabled} id="outlined-basic" label="Name" variant="outlined" className='inputFullWidth' 
-            {...register("providerName",{required: "Este campo es obligatorio, ",minLength:{value:3,message:"Minimo 3 caracteres", },maxLength:{value:50,message:"Maximo 50 caracteres"}})}
+            {...register("providerName",{required: "Este campo es obligatorio, ",minLength:{value:3,message:"Minimo 3 caracteres", },maxLength:{value:50,message:"Maximo 50 caracteres" },
+              validate: async (value) => {
+                const {dataJson} = await fetchProviderByName(value)
+                if (dataJson.message.length > 0) {
+                  return "Este proveedor ya existe";
+                } else {
+                  return true;
+                }
+              }
+            })}            
             error={!!errors?.providerName}
             helperText={errors?.providerName?.message}
           />

@@ -3,11 +3,11 @@ import styled from 'styled-components'
 import { useProductStore } from '../../../stores/ProductStore'
 import { NavLink } from 'react-router'
 import { useEntryProductRegister } from '../../../stores/EntryProductRegisterStore'
-
+import { useOutProductRegisterStore } from '../../../stores/OutProductRegister';
 export const ModalProductOptions = ({setFormProductOpen,setFormOutputProductOpen}) => {
     const {isFormOpen,isListOptionsOpen,setIsFormOpen,setIsListOptionsOpen} = useProductStore()
     const {isEntryProductFormOpen, setIsEntryProductFormOpen} = useEntryProductRegister()
-    
+    const {isOutProductFormOpen, setIsOutProductFormOpen} = useOutProductRegisterStore()
 
   const handleClickRegisterNewProduct = ()=>{
     setIsFormOpen()
@@ -16,6 +16,11 @@ export const ModalProductOptions = ({setFormProductOpen,setFormOutputProductOpen
 
   const handleClickRegisterNewEntry = ()=>{
     setIsEntryProductFormOpen()
+    setIsListOptionsOpen()
+  }
+
+  const handleClickRegisterNewOut = ()=>{
+    setIsOutProductFormOpen()
     setIsListOptionsOpen()
   }
 
@@ -30,7 +35,7 @@ export const ModalProductOptions = ({setFormProductOpen,setFormOutputProductOpen
                 <a className='options_1' onClick={handleClickRegisterNewEntry}>
                     <span >Register New Entry</span>
                 </a>
-                <a className='options_1 options_1--border'>
+                <a className='options_1 options_1--border' onClick={handleClickRegisterNewOut}>
                     <span >Register New Output</span>
                 </a>
             </div>

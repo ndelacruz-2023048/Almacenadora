@@ -35,4 +35,4 @@ const providerSchema = Schema({
     }
 })
 
-export default model('PProvider', providerSchema);
+export default model('Provider', providerSchema);

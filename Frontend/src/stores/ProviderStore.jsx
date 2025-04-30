@@ -39,5 +39,16 @@ export const useProviderStore = create((set, get) => ({
         const responseJSON = await response.json()
         set({responseCreatingProvider:responseJSON})
         set({isCreatingProvider:false})
+    },
+    isSameProvider:[],
+    fetchProviderByName:async(p)=>{
+        const paramsProvider={
+            name:p
+        }
+        const provider = await axios.get("http://localhost:2900/v1/api/provider/serch",
+        {params:paramsProvider})
+        const dataJson = await provider.data
+        set(()=>({isSameProvider:dataJson}))
+        return {dataJson}
     }
 }))

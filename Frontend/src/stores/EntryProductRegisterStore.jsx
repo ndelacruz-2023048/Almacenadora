@@ -20,5 +20,19 @@ export const useEntryProductRegister = create((set, get) => ({
     setDataEntryProduct:(p)=>{
         set({dataEntryProduct:p})
     },
-
+    isEntryProduct:false,
+    responseEntryProduct:{},
+    createEntryProduct:async(p)=>{
+        set({isEntryProduct:true})
+        const response = await fetch("http://localhost:2900/v1/api/productmovhistory",{
+            method:"POST",
+            headers: {
+                "Content-Type": "application/json" // Le dice al servidor que el cuerpo es JSON
+            },
+            body:JSON.stringify(p)
+        })
+        const responseJSON = await response.json()
+        set({responseEntryProduct:responseJSON})
+        set({isEntryProduct:false})
+    },
 }))
