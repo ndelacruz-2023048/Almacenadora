@@ -29,3 +29,13 @@ export const getProductByName = async(req,res)=>{
         return res.status(500).send({message: 'Error finding client', error})
     }
 }
+
+export const getProducts = async(req,res)=>{
+    try {
+        const product = await Product.find()
+        return res.status(200).send({success:true,message:product})
+    } catch (error) {
+        console.error(error)
+        return res.status(500).send({message: 'Error finding client', error})
+    }
+}
