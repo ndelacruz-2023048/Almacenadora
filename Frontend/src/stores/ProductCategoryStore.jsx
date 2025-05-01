@@ -7,7 +7,6 @@ export const useProductCategory = create((set,get)=>({
         const {isProductCategoryFormActive} = get()
         set({isProductCategoryFormActive:isProductCategoryFormActive?false:true})
     },
-    dataProductCategory:[],
     isLoading:false,
     fetchProductCategories:async()=>{
         set({isLoading:true})
@@ -40,7 +39,7 @@ export const useProductCategory = create((set,get)=>({
         set({responseCreatingProductCategory:responseJSON})
         set({isCreatingProductCategory:false})
     },
-    isSameCategory:[],
+    isSameCategory:{},
     fetchCategoryByName:async(p)=>{
         const paramsCategorie = {
             nameCategory:p
