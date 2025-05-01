@@ -23,3 +23,28 @@ export const getClients = async (req, res) => {
         return res.status(500).send({message: 'Error retrieving clients', error})
     }
 }
+
+export const checkClientField = async (req, res) => {
+    try {
+      const query = req.query;
+      // Solo permitir campos válidos
+      const allowedFields = ['clientName', 'clientUsername', 'clientEmail', 'clientPhone'];
+      const queryKeys = Object.keys(query);
+  
+      if (queryKeys.length !== 1 || !allowedFields.includes(queryKeys[0])){
+        return res.status(400).send({ success: false, message: 'Invalid query parameter' });
+      }
+      const fieldName = queryKeys[0]
+      const value = query[fieldName]
+  
+      const existing = await Client.findOne({ [fieldName]: value });
+      return res.status(200).send({
+        success: true,
+        exists: !!existing,
+        field: fieldName,
+      });
+    } catch (e) {
+      console.error(e);
+      return res.status(500).send({ message: 'Error checking client field', e });
+    }
+  };

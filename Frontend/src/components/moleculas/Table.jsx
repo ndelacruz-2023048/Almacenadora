@@ -5,19 +5,12 @@ import { PurpleTag } from "../atomos/Tag";
 import photoProfile from '../../assets/photoProfile.avif'
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useProductStore } from "../../stores/ProductStore";
+import { StatusProduct } from "../atomos/StatusProduct";
+import { ActionsTable } from "./ActionsTable";
 
 export const Table = ()=> {
     const {listProducts}= useProductStore()
-    const companies = [
-        { name: "Catalog", domain: "catalogapp.io", status: "Customer", about: "Content curating app\nBrings all your news into one place" },
-        { name: "Circoolees", domain: "getcircoolees.com", status: "Churned", about: "Design software\nSuper lightweight design app" },
-        { name: "Command+R", domain: "cmdr.ai", status: "Customer", about: "Data prediction\nAI and machine learning data" },
-        { name: "Hourglass", domain: "hourglass.app", status: "Customer", about: "Productivity app\nTime management and productivity" },
-        { name: "Layers", domain: "getlayers.io", status: "Churned", about: "Web app integrations\nConnect web apps seamlessly" },
-        { name: "Quotient", domain: "quotient.co", status: "Customer", about: "Sales CRM\nWeb-based sales doc management" },
-        { name: "Sisyphus", domain: "sisyphus.com", status: "Customer", about: "Automation and workflow\nTime tracking, invoicing and expenses" },
-    ];
-    console.log(listProducts);
+    const {message} = listProducts;
     
     const [isChecked, setIsChecked] = useState({});
 
@@ -34,34 +27,42 @@ export const Table = ()=> {
                     <THead>
                         <THeadContent>
                             <Icon icon="solar:minus-square-line-duotone" className="Company"/> 
-                            Company 
+                            Product 
                             <Icon icon="solar:arrow-down-line-duotone"/>
                         </THeadContent>
                     </THead>
                     <THead>Status</THead>
-                    <THead>About</THead>
+                    <THead>Description</THead>
+                    <THead>Date Register</THead>
+                    <THead>Provider</THead>
+                    <THead>Actions</THead>
                 </Row>
             </Head>
             <Body>
-                {companies.map((company)=>(
-                    <Row key={company.name}>
+                {message.map((products)=>(
+                    <Row key={products.name}>
                         <TBody>
                             <Check
-                                logo={<Image src={photoProfile}/>}
-                                label={`${company.name}\n${company.domain}`}
-                                checked={isChecked[company.name] || false}
-                                onChange={() => handleCheckboxChange(company.name)}
+                                logo={<Image src={products.uploadImage}/>}
+                                label={`${products.productName}\n${products.productCategory}`}
+                                checked={isChecked[products.name] || false}
+                                onChange={() => handleCheckboxChange(products.name)}
                             />
                         </TBody>
                         <TBody>
-                            <PurpleTag>{company.status}</PurpleTag>
+                            <StatusProduct stock={products.productStock}>{products.productStock}</StatusProduct>
                         </TBody>
                         <TBody>
-                            {company.about.split('\n').map((line, index)=> (
-                                <AboutLine key={index} isBold={index === 0}>
-                                    {line}
-                                </AboutLine>
-                            ))}
+                            <PurpleTag>{products.productDescription}</PurpleTag>
+                        </TBody>
+                        <TBody>
+                            <PurpleTag>{products.productDate}</PurpleTag>
+                        </TBody>
+                        <TBody>
+                            <PurpleTag>{products.productProvider}</PurpleTag>
+                        </TBody>
+                        <TBody>
+                            <ActionsTable/>
                         </TBody>
                     </Row>
                 ))}
