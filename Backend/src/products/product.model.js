@@ -19,6 +19,10 @@ const productSchema = Schema({
         type: Number,
         required: [true, 'Description Category is required'],
     },
+    productPrice:{
+        type:Schema.Types.Decimal128,
+        
+    },
     productDate:{
         type: Date,
         required: [true, 'Description Category is required'],

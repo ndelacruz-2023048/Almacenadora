@@ -7,6 +7,9 @@ import { GrAdd } from "react-icons/gr";
 import { ButtonAdd } from '../atomos/ButtonAdd';
 import { useClientStore } from '../../stores/ClientStore';
 import {ClientForm} from "../organismos/Forms/ClientForm"
+import { LottieAnimacion } from '../atomos/LottieAnimation'
+import empty_animacion from '../../assets/empty_animation.json'
+import { data } from 'react-router';
 export const ClientTemplate = () => {
 
   const {isFormOpenClient, setIsFromOpenClient, dataClient, isLoadingCliente, fetchClients} = useClientStore()
@@ -32,20 +35,28 @@ export const ClientTemplate = () => {
       </Section1>
 
       <Section2>
-        <ContainerCard>
-          {
-            dataClient?.clients?.map((e)=>(
-              <CardClient 
-                clientName={e.clientName} 
-                clientUsername={e.clientUsername} 
-                clientEmail={e.clientEmail}
-                clientPhone={e.clientPhone}
-                uploadImage={e.uploadImage}
-                clientAddress={e.clientAddress}
-              />
-            ))
-          }
-        </ContainerCard>
+        {
+          dataClient?.clients?.length > 0 ? (<>
+            <ContainerCard>
+              {
+                dataClient?.clients?.map((e)=>(
+                  <CardClient 
+                    clientName={e.clientName} 
+                    clientUsername={e.clientUsername} 
+                    clientEmail={e.clientEmail}
+                    clientPhone={e.clientPhone}
+                    uploadImage={e.uploadImage}
+                    clientAddress={e.clientAddress}
+                  />
+                ))
+              }
+            </ContainerCard>
+          </>):(
+          <div className='container_animation'>
+            <LottieAnimacion animacion={empty_animacion} width={200} height={200}/>
+          </div>
+          )
+        }
       </Section2>
     </Container>
   )
@@ -90,6 +101,11 @@ const Section2 = styled.div`
   height: 86%;
   border: 1px solid #969595;
   border-radius: 20px;
+  .container_animation{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
 `
 
 const ContainerCard = styled.div`

@@ -43,6 +43,8 @@ export const ProductForm = () => {
   const {register,handleSubmit,formState:{errors},setValue,reset} = useForm()
   const {dataImage,isLoadingImage,registerImage} = useSaveImage()
   const handleSubmitProductForm = async(data)=>{
+    console.log(data);
+    
     setDataProducts(data)
     setCanChangeButton(true)
     setIsInteractionDisabled(true)
@@ -59,6 +61,7 @@ export const ProductForm = () => {
       productDescription:dataProducts?.productDescription,
       uploadImage:dataImage?.secure_url,
       productStock:dataProducts?.productStock,
+      productPrice:dataProducts?.productPrice,
       productDate: dayjs(dataProducts?.productDate).format('YYYY-MM-DDTHH:mm:ss'),
       productCategory:dataProducts?.productCategory,
       productProvider:dataProducts?.productProvider
@@ -142,7 +145,17 @@ export const ProductForm = () => {
               <TextField disabled={isInteractionDisabled} id="outlined-basic" type="number" label="Stock" variant="outlined" {...register("productStock",{required:"Este campo es obligatorio"})} className='inputFullWidth' error={!!errors.productStock} helperText={errors.productStock?.message}/>
             </div>
             <div className='containerformsfield_field'>
-              <FormControl fullWidth>
+            <TextField inputProps={{ step: "any" }} disabled={isInteractionDisabled} id="outlined-basic" type="number" label="Price" variant="outlined" {...register("productPrice",{required:"Este campo es obligatorio"})} className='inputFullWidth' error={!!errors.productStock} helperText={errors.productStock?.message}/>
+            </div>
+            <div className='containerformsfield_field'>
+              <DatePicker value={dayjs()}  disabled className='inputFullWidth' {...register("pruductDate",{valueAsDate:true})} />
+            </div>
+          </div> 
+          <div className='containerfullwidth'>
+            <TextField disabled={isInteractionDisabled} id="outlined-basic" label="Descripcion" variant="outlined" {...register("productDescription",{maxLength:{value:20,message:"Max 20 Characteres"},minLength:{value:10,message:"Min 10 Characters"},required:"Este campo es obligatorio"})} className='inputFullWidth' error={!!errors.productDescription} helperText={errors.productDescription?.message}/>
+          </div> 
+          <div className='containerfullwidth'>
+          <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label" error={!!errors.productProvider} helperText={errors.productProvider?.message}>Proveedor</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
@@ -161,13 +174,6 @@ export const ProductForm = () => {
                   !!errors.productProvider && (<FormHelperText sx={{color:"red"}}>{errors.productProvider.message}</FormHelperText>)
                 }
               </FormControl>
-            </div>
-            <div className='containerformsfield_field'>
-              <DatePicker value={dayjs()}  disabled className='inputFullWidth' {...register("pruductDate",{valueAsDate:true})} />
-            </div>
-          </div> 
-          <div className='containerfullwidth'>
-            <TextField disabled={isInteractionDisabled} id="outlined-basic" label="Descripcion" variant="outlined" {...register("productDescription",{maxLength:{value:20,message:"Max 20 Characteres"},minLength:{value:10,message:"Min 10 Characters"},required:"Este campo es obligatorio"})} className='inputFullWidth' error={!!errors.productDescription} helperText={errors.productDescription?.message}/>
           </div> 
           <ContainUploadImage {...getRootProps({className: 'dropzone'})}>
             <input {...getInputProps()}/>

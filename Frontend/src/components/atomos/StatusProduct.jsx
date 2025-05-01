@@ -4,7 +4,7 @@ import styled from 'styled-components'
 export const StatusProduct = ({stock,children}) => {
   return (
     <Container stock={stock}>
-        {children}
+        {children?children:stock>25?"active":stock>10?"warning":"low"}
     </Container>
   )
 }

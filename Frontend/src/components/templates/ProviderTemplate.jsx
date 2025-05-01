@@ -8,6 +8,8 @@ import { ButtonAdd } from '../atomos/ButtonAdd';
 import { useProviderStore } from '../../stores/ProviderStore';
 import { ProviderForm } from '../organismos/Forms/ProviderForm';
 import { CardProvider } from '../organismos/Card/CardProvider';
+import { LottieAnimacion } from '../atomos/LottieAnimation'
+import empty_animacion from '../../assets/empty_animation.json'
 
 export const ProviderTemplate = () => {
   const { isProviderFormOpen, setIsFormOpen,dataProvider,fetchProvider,isLoading } = useProviderStore()
@@ -26,11 +28,19 @@ export const ProviderTemplate = () => {
         </IconsContainer>
       </Section1>
       <Section2>
-        <ContainerCard>
-          {dataProvider?.providers?.map((e) => (
-            <CardProvider name={e.name} date={e.date} departament={e.departament} email={e.email} phone={e.phone} address={e.address} image={e.image}/>
-          ))}
-        </ContainerCard>
+        {
+          dataProvider?.providers?.length > 0? (<>
+              <ContainerCard>
+                {dataProvider?.providers?.map((e) => (
+                  <CardProvider name={e.name} date={e.date} departament={e.departament} email={e.email} phone={e.phone} address={e.address} image={e.image}/>
+                ))}
+              </ContainerCard>
+          </>):(
+            <div className='container_animation'>
+            <LottieAnimacion animacion={empty_animacion} width={200} height={200}/>
+          </div>
+          )
+        }
       </Section2>
     </Container>
   )
@@ -75,6 +85,11 @@ const Section2 = styled.div`
   height: 86%;
   border: 1px solid #969595;
   border-radius: 20px;
+  .container_animation{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
 `
 
 const ContainerCard = styled.div`

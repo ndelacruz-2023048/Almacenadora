@@ -13,7 +13,7 @@ export const Table = ()=> {
     const {message} = listProducts;
     
     const [isChecked, setIsChecked] = useState({});
-
+    
     const handleCheckboxChange = (name) => {
         setIsChecked((prev) => ({
           ...prev,
@@ -33,6 +33,8 @@ export const Table = ()=> {
                     </THead>
                     <THead>Status</THead>
                     <THead>Description</THead>
+                    <THead>Stock</THead>
+                    <THead>Price</THead>
                     <THead>Date Register</THead>
                     <THead>Provider</THead>
                     <THead>Actions</THead>
@@ -43,20 +45,26 @@ export const Table = ()=> {
                     <Row key={products.name}>
                         <TBody>
                             <Check
-                                logo={<Image src={products.uploadImage}/>}
-                                label={`${products.productName}\n${products.productCategory}`}
-                                checked={isChecked[products.name] || false}
-                                onChange={() => handleCheckboxChange(products.name)}
+                                logo={<Image src={products?.uploadImage}/>}
+                                label={`${products?.productName}\n${products?.productCategory}`}
+                                checked={isChecked[products?.name] || false}
+                                onChange={() => handleCheckboxChange(products?.name)}
                             />
                         </TBody>
                         <TBody>
-                            <StatusProduct stock={products.productStock}>{products.productStock}</StatusProduct>
+                            <StatusProduct stock={products?.productStock}></StatusProduct>
                         </TBody>
                         <TBody>
-                            <PurpleTag>{products.productDescription}</PurpleTag>
+                            <PurpleTag>{products?.productDescription}</PurpleTag>
                         </TBody>
                         <TBody>
-                            <PurpleTag>{products.productDate}</PurpleTag>
+                            <StatusProduct stock={products?.productStock}>{products?.productStock}</StatusProduct>
+                        </TBody>
+                        <TBody>
+                            <PurpleTag>{products?.productPrice.$numberDecimal}</PurpleTag>
+                        </TBody>
+                        <TBody>
+                            <PurpleTag>{products?.productDate}</PurpleTag>
                         </TBody>
                         <TBody>
                             <PurpleTag>{products.productProvider}</PurpleTag>
