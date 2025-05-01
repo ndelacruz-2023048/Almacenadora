@@ -2,12 +2,14 @@ import { Router } from "express";
 
 import { 
     addProvider,
-    getAllProviders
+    getProviders,
+    getProvidersByName
 } from "./provide.controller.js";
 
 const provider = Router()
 
 provider.post('/provider', addProvider)
-provider.get('/provider', getAllProviders)
+provider.get('/provider', getProviders)
+provider.get('/provider/search', getProvidersByName)
 
 export default provider

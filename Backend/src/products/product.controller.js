@@ -39,3 +39,6 @@ export const getProducts = async(req,res)=>{
         return res.status(500).send({message: 'Error finding client', error})
     }
 }
+
+console.log(getProducts)
+;

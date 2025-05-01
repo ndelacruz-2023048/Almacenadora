@@ -190,7 +190,8 @@ export const ProductForm = () => {
         
           <div className='buttonsactions'>
             <button disabled={isInteractionDisabled} className='buttonsactions__button cancel' onClick={setIsFormOpen}>Cancel</button>
-            {!canChangeButton ? (<button type="submit" className='buttonsactions__button confirm'>Confirm</button>) : (<button type='button' onClick={handleSaveProductForm} disabled={isDisableButtonSave} className='buttonsactions__button confirm'>Save Product</button>)}
+            {!canChangeButton ? (<button type="submit" className='buttonsactions__button confirm'>Confirm</button>) :
+            (<button type='button' onClick={handleSaveProductForm} disabled={isDisableButtonSave} className='buttonsactions__button confirm'>Save Product</button>)}
           </div>
         </form>
       </section>

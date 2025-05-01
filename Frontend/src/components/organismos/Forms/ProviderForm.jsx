@@ -62,10 +62,11 @@ export const ProviderForm = () => {
       image: dataImage?.secure_url
     }
     console.log(newProvider);
-    
     createProvider(newProvider)
+    reset()
+    setIsFormOpen()
   }
-  console.log(responseCreatingProvider);
+  console.log(errors);
   
 
   useEffect(()=>{
@@ -96,13 +97,12 @@ export const ProviderForm = () => {
           <FullWidthInput>
             <TextField disabled={isInteractionDisabled} id="outlined-basic" label="Name" variant="outlined" className='inputFullWidth' 
             {...register("providerName",{required: "Este campo es obligatorio, ",minLength:{value:3,message:"Minimo 3 caracteres", },maxLength:{value:50,message:"Maximo 50 caracteres" },
-              validate: async (value) => {
+              validate: async(value) => {
                 const {dataJson} = await fetchProviderByName(value)
-                if (dataJson.message.length > 0) {
+                if(dataJson?.message?.length > 0){
                   return "Este proveedor ya existe";
-                } else {
-                  return true;
                 }
+                return true
               }
             })}            
             error={!!errors?.providerName}
@@ -140,7 +140,7 @@ export const ProviderForm = () => {
                 }
                 </Select >
                 {!!errors.departament && (<FormHelperText sx={{color: 'red'}}>{errors.departament.message}</FormHelperText>)} 
-                
+            
               </FormControl>
             </FormField>
             <FormField>
@@ -154,7 +154,7 @@ export const ProviderForm = () => {
               <FormControl fullWidth>
                   <FormPhone fullWidth>
                   <InputLabel id="demo-simple-select-label">Code Phone</InputLabel>
-                  
+                
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
@@ -182,7 +182,7 @@ export const ProviderForm = () => {
                 </FormPhone>
                 {!!errors.codePhone && (<FormHelperText sx={{color: 'red'}}>{errors.codePhone.message}</FormHelperText>)}
               </FormControl>
-            </FormField>
+            </FormField> 
             <FormField >
               <DatePicker   value={dayjs()}   disabled className='inputFullWidth' />  
             </FormField>
@@ -194,13 +194,6 @@ export const ProviderForm = () => {
                 error={!!errors?.address} 
                 helperText={errors?.address?.message}
               />
-          </FullWidthInput>
-          <FullWidthInput>
-            <TextField disabled={isInteractionDisabled} id="outlined-basic" label="Descripcion" variant="outlined" className='inputFullWidth'
-            {...register("description",{required: "Este campo es obligatorio ",minLength:{value:3,message:"Minimo 3 caracteres", },maxLength:{value:50,message:"Maximo 50 caracteres"}})}
-            error={!!errors?.description}
-            helperText={errors?.description?.message}
-            />
           </FullWidthInput> 
           <ContainUploadImage {...getRootProps({className: 'dropzone'})}>
             <input {...getInputProps()}/>
@@ -222,7 +215,7 @@ export const ProviderForm = () => {
         }
         
           <SectionButton>
-            <ButtonForm disabled={isInteractionDisabled} className='cancel' >Cancel</ButtonForm>
+            <ButtonForm disabled={isInteractionDisabled} className='cancel' onClick={() => setIsFormOpen(false)}>Cancel</ButtonForm>
             {!canChangeButton ? (<ButtonForm type="submit" className='confirm'>Confirm</ButtonForm>) : 
             (<ButtonForm type='button' onClick={handleSaveProductForm} disabled={isDisableButtonSave} 
             className='confirm'>Save Product</ButtonForm>)}

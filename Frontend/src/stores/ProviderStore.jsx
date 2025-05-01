@@ -1,5 +1,5 @@
 import { create } from "zustand";
-
+import axios from 'axios'
 export const useProviderStore = create((set, get) => ({
     isProviderFormOpen: false,
 
@@ -10,11 +10,17 @@ export const useProviderStore = create((set, get) => ({
     dataProvider:[],
     isLoading:false,
     fetchProvider:async()=>{
-        set({isLoading:true})
-        const provider = await fetch("http://localhost:2900/v1/api/provider")
-        const dataJson = await provider.json()
-        set({dataProvider:dataJson})
-        set({isLoading:false})
+        try {
+            set({isLoading:true})
+            const provider = await fetch("http://localhost:2900/v1/api/provider")
+            const dataJson = await provider.json()
+            set({dataProvider:dataJson})
+            set({isLoading:false})
+            const {dataProvider} = get()
+            console.log(dataProvider);
+        } catch (error) {
+            console.log(error)
+        }
     },
     dataFile:{},
     setDataFile:(p)=>{
@@ -45,10 +51,18 @@ export const useProviderStore = create((set, get) => ({
         const paramsProvider={
             name:p
         }
-        const provider = await axios.get("http://localhost:2900/v1/api/provider/serch",
+        const provider = await axios.get("http://localhost:2900/v1/api/provider/search",
         {params:paramsProvider})
         const dataJson = await provider.data
-        set(()=>({isSameProvider:dataJson}))
-        return {dataJson}
+        return {dataJson:dataJson}
+    },
+    listProviders:[],
+    fetchProviders:async()=>{ 
+        const provider = await axios.get('http://localhost:2900/v1/api/provider')
+        const dataJson = await provider.data
+        set(()=>({listProviders:dataJson}))
+        return{
+            dataJson
+        }
     }
 }))

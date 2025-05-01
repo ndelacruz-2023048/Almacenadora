@@ -7,7 +7,7 @@ export const useEntryProductRegister = create((set, get) => ({
         const {isEntryProductFormOpen} = get()
         set({isEntryProductFormOpen:isEntryProductFormOpen?false:true})
     },
-    dataProduct:[],
+    dataProduct:{},
     isLoading:false,
     fetchAllProducts:async()=>{
         set({isLoading:true})

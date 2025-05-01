@@ -118,7 +118,7 @@ export const EntryRegisterProductForm = () => {
                   {...register('productId',{required: 'Se necesita agregar el producto'})}
                 >
                   {
-                  dataProduct?.map((e)=>(
+                  dataProduct?.message?.map((e)=>(
                     <MenuItem value={e._id}>{e.productName}</MenuItem>
                   ))
                 }
@@ -276,7 +276,7 @@ const FormField = styled.div`
     width: 100%;
   }
   @media ${Device.desktop}{
-    width: 48%;
+    width: 100%;
   }
   .inputForm{
     width: 100%;

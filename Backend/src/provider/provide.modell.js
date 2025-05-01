@@ -25,10 +25,6 @@ const providerSchema = Schema({
         type: String,
         required: [true, 'Address Provider is required'],
     },
-    description:{
-        type: String,
-        required: [true, 'Description Provider is required'],
-    },
     image:{
         type: String,
         required: [true, 'Image Provider is required'],

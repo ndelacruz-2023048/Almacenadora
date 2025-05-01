@@ -116,7 +116,7 @@ export const OutProductRegister = () => {
                       {...register('productId',{required: 'Se necesita agregar el producto'})}
                     >
                       {
-                      dataProduct?.map((e)=>(
+                      dataProduct?.message?.map((e)=>(
                         <MenuItem value={e._id}>{e.productName}</MenuItem>
                       ))
                     }

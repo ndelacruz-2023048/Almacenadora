@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import styled from 'styled-components'
 import { CiGrid41 } from "react-icons/ci";
 import { Card } from '../organismos/Card/Card'
@@ -7,11 +7,14 @@ import { GrAdd } from "react-icons/gr";
 import { ButtonAdd } from '../atomos/ButtonAdd';
 import { useProviderStore } from '../../stores/ProviderStore';
 import { ProviderForm } from '../organismos/Forms/ProviderForm';
+import { CardProvider } from '../organismos/Card/CardProvider';
 
 export const ProviderTemplate = () => {
-  const { isProviderFormOpen, setIsFormOpen } = useProviderStore()
-  console.log(isProviderFormOpen);
-  
+  const { isProviderFormOpen, setIsFormOpen,dataProvider,fetchProvider,isLoading } = useProviderStore()
+  useEffect(()=>{
+    fetchProvider()
+  },[])
+  console.log(dataProvider);
   return (
     <Container>
       {isProviderFormOpen && <ProviderForm/>}
@@ -28,16 +31,9 @@ export const ProviderTemplate = () => {
       </Section1>
       <Section2>
         <ContainerCard>
-          <Card/>
-          <Card/>
-          <Card/>
-          <Card/>
-          <Card/>
-          <Card/>
-          <Card/>
-          <Card/>
-          <Card/>
-          <Card/>
+          {dataProvider?.providers?.map((e) => (
+            <CardProvider name={e.name} date={e.date} departament={e.departament} email={e.email} phone={e.phone} address={e.address} image={e.image}/>
+          ))}
         </ContainerCard>
       </Section2>
     </Container>
