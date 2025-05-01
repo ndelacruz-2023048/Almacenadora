@@ -5,9 +5,9 @@ import { useQuery } from '@tanstack/react-query'
 import { SyncLoader } from 'react-spinners'
 
 export const ProviderPage = () => {
-  const {fetchProviders,dataProvider} = useProviderStore()
+  const {fetchProvider,dataProvider} = useProviderStore()
 
-  const {isLoading,data} = useQuery({queryKey:['listProviders'],queryFn:fetchProviders})
+  const {isLoading,data} = useQuery({queryKey:['listProviders'],queryFn:fetchProvider})
   if(isLoading){
       return ( <SyncLoader
         size={20}/>)

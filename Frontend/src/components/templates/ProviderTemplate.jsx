@@ -11,10 +11,6 @@ import { CardProvider } from '../organismos/Card/CardProvider';
 
 export const ProviderTemplate = () => {
   const { isProviderFormOpen, setIsFormOpen,dataProvider,fetchProvider,isLoading } = useProviderStore()
-  useEffect(()=>{
-    fetchProvider()
-  },[])
-  console.log(dataProvider);
   return (
     <Container>
       {isProviderFormOpen && <ProviderForm/>}

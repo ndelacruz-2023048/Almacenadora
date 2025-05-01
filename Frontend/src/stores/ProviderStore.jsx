@@ -11,13 +11,9 @@ export const useProviderStore = create((set, get) => ({
     isLoading:false,
     fetchProvider:async()=>{
         try {
-            set({isLoading:true})
             const provider = await fetch("http://localhost:2900/v1/api/provider")
             const dataJson = await provider.json()
-            set({dataProvider:dataJson})
-            set({isLoading:false})
-            const {dataProvider} = get()
-            console.log(dataProvider);
+            set(()=>({dataProvider:dataJson}))
         } catch (error) {
             console.log(error)
         }
@@ -55,14 +51,5 @@ export const useProviderStore = create((set, get) => ({
         {params:paramsProvider})
         const dataJson = await provider.data
         return {dataJson:dataJson}
-    },
-    listProviders:[],
-    fetchProviders:async()=>{ 
-        const provider = await axios.get('http://localhost:2900/v1/api/provider')
-        const dataJson = await provider.data
-        set(()=>({listProviders:dataJson}))
-        return{
-            dataJson
-        }
     }
 }))
