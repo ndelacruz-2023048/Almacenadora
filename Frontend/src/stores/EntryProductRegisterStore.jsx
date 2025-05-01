@@ -24,7 +24,7 @@ export const useEntryProductRegister = create((set, get) => ({
     responseEntryProduct:{},
     createEntryProduct:async(p)=>{
         set({isEntryProduct:true})
-        const response = await fetch("http://localhost:2900/v1/api/productmovhistory",{
+        const response = await fetch("http://localhost:2900/v1/api/productmovehistory",{
             method:"POST",
             headers: {
                 "Content-Type": "application/json" // Le dice al servidor que el cuerpo es JSON

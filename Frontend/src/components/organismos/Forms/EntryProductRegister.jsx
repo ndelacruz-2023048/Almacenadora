@@ -40,18 +40,16 @@ export const EntryRegisterProductForm = () => {
     setCanChangeButton(true)
     setIsInteractionDisabled(true)
     {setIsDisableButtonSave(false)}
-    console.log(dataEntryProduct);
     
     const entryProduct = {
-      movementType:dataEntryProduct?.movementType,
-      count:dataEntryProduct?.count,
-      description:dataEntryProduct?.description,
-      productId:dataEntryProduct?.productId,
-      movementDate: dayjs(dataEntryProduct?.movementDate).format('YYYY-MM-DDTHH:mm:ss'),
+      movementType:data?.movementType,
+      count:data?.count,
+      description:data?.description,
+      productId:data?.productId,
+      movementDate: dayjs(data?.movementDate).format('YYYY-MM-DDTHH:mm:ss'),
     }
     createEntryProduct(entryProduct)
   }
-  console.log(responseEntryProduct);
   
 
 
@@ -59,7 +57,6 @@ export const EntryRegisterProductForm = () => {
     // register("uploadImage",{required:"Imagen requerida"})
     fetchAllProducts()
   },[])
-  console.log(dataProduct);
   
   return (
     <Container>
@@ -82,7 +79,7 @@ export const EntryRegisterProductForm = () => {
         </Header>
         <Form onSubmit={handleSubmit(handleSubmitProductForm)}>  
           <FormField >
-            <DatePicker value={dayjs()} disabled className='inputFullWidth' />  
+            <DatePicker value={dayjs()} disabled className='inputFullWidth' {...register('movementDate')}/>  
           </FormField> 
           <ContainerFormField>
             <FullWidthInput>

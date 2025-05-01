@@ -39,24 +39,22 @@ export const OutProductRegister = () => {
     setCanChangeButton(true)
     setIsInteractionDisabled(true)
     {setIsDisableButtonSave(false)}
-    console.log(dataOutProduct);
     
     const outProduct = {
-      movementType:dataOutProduct?.movementType,
-      count:dataOutProduct?.count,
-      description:dataOutProduct?.description,
-      productId:dataOutProduct?.productId,
-      movementDate: dayjs(dataOutProduct?.movementDate).format('YYYY-MM-DDTHH:mm:ss'),
+      movementType:data?.movementType,
+      count:data?.count,
+      description:data?.description,
+      productId:data?.productId,
+      movementDate: dayjs(data?.movementDate).format('YYYY-MM-DDTHH:mm:ss'),
     }
     createOutProduct(outProduct)
+    setIsOutProductFormOpen()
   }
-    console.log(responseOutProduct);
 
   useEffect(()=>{
     // register("uploadImage",{required:"Imagen requerida"})
     fetchAllProduct()
   },[])
-  console.log(dataProduct);
   
   
   return (
@@ -70,7 +68,7 @@ export const OutProductRegister = () => {
                   </SectionAddAction>
                 </ContainAddIcon>
                 <ContainText>
-                  <TitleHeader>Entry Register Product </TitleHeader>
+                  <TitleHeader>Out Register Product </TitleHeader>
                   <DescriptionHeader>Fill in the details to know when the products arrived</DescriptionHeader>
                 </ContainText>
               </Info>
@@ -80,7 +78,7 @@ export const OutProductRegister = () => {
             </Header>
             <Form onSubmit={handleSubmit(handleSubmitProductForm)}>  
               <FormField >
-                <DatePicker value={dayjs()} disabled className='inputFullWidth' />  
+                <DatePicker value={dayjs()} disabled className='inputFullWidth' {...register('movementDate')}/>  
               </FormField> 
               <ContainerFormField>
                 <FullWidthInput>
