@@ -19,7 +19,14 @@ import { UploadImageSucces } from './UploadImageSucces';
 import { useProductCategory } from '../../../stores/ProductCategoryStore';
 import { useSaveImage } from '../../../utils/saveImage';
 export const ProductCategoryForm = () => {
-  const {setIsProductCategoryFormActive,setDataFile,setDataProductCategory,dataFile,dataProductCategory,responseCreatingProductCategory,createProductCategory} = useProductCategory()
+  const {setIsProductCategoryFormActive,
+          setDataFile,
+          setDataProductCategory,
+          dataFile,
+          dataProductCategory,
+          responseCreatingProductCategory,
+          createProductCategory,
+          fetchCategoryByName} = useProductCategory()
 
   const [urlImage,setUrlImage] = useState(null)/*State para URL IMAGEN */
   const [canChangeButton,setCanChangeButton] = useState(false)/*State para cambiar botons de continue a save*/
@@ -98,8 +105,14 @@ export const ProductCategoryForm = () => {
               {...register("nameCategory",{
                 required:"Este campo es obligatorio",
                 minLength:{value:4,message:"Min characters 4"},
-                maxLength:{value:20,message:"Max characters 20"}  
-              })}
+                maxLength:{value:20,message:"Max characters 20"},
+                validate:async(value)=>{
+                  const {dataJSON} = await fetchCategoryByName(value)
+                  if(dataJSON.message.length>0){
+                    return "El producto es duplicado"
+                  }
+                  return true 
+              }})}
               error={!!errors.nameCategory}
               helperText={errors.nameCategory?.message}
               />

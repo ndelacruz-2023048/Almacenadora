@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import axios from 'axios';
 
 export const useProductCategory = create((set,get)=>({
     isProductCategoryFormActive:false,
@@ -38,5 +39,18 @@ export const useProductCategory = create((set,get)=>({
         const responseJSON = await response.json()
         set({responseCreatingProductCategory:responseJSON})
         set({isCreatingProductCategory:false})
+    },
+    isSameCategory:[],
+    fetchCategoryByName:async(p)=>{
+        const paramsCategorie = {
+            nameCategory:p
+        }
+        const category = await axios.get('http://localhost:2900/v1/api/productCategory/search',
+        {params:paramsCategorie})
+        const dataJSON = await category.data
+        set(()=>({isSameCategory:dataJSON}))
+        return {
+            dataJSON
+        }
     }
 }))
