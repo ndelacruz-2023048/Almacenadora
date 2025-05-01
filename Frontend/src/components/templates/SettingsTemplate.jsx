@@ -1,8 +1,11 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { ModalInventoryReport } from '../organismos/Modal/ModalInventoryReport';
+import { ModalInventoryMovReport } from '../organismos/Modal/ModalInventoryMovReport';
 import InformeFullData from '../../reports/informeFullData';
 
 export const SettingsTemplate = () => {
+  const [activeModal, setActiveModal] = useState(null); // null | 'inventory' | 'movement'
   const [base64,setBase64] = useState("");
   const [switches, setSwitches] = useState(Array(6).fill(false))
 
@@ -20,44 +23,68 @@ export const SettingsTemplate = () => {
   }
 
   return (
-    <Container>
-      <Bar />
-      <h1>Settings</h1>
-      <Section>
-        {[0, 1].map(row => (
-          <Row key={row}>
-            {[0, 1, 2].map(col => {
-              const index = row * 3 + col;
-              return (
-                <Config key={index}>
-                  <Logo>
-                    <h3>Light</h3>
-                  </Logo>
-                  <Bar />
-                  <Desc>
-                    <p>Modo oscuro que cambia color</p>
-                  </Desc>
-                  <MiniBar />
-                  <Btn>
-                    <SwitchContainer onClick={() => toggleSwitch(index)} isOn={switches[index]}>
-                      <SwitchBall isOn={switches[index]} />
-                    </SwitchContainer>
-                  </Btn>
-                </Config>
-              );
-            })}
+    <>
+      {activeModal && <Backdrop onClick={() => setActiveModal(null)} />}
+      <Container>
+        <Bar />
+        <h1>Settings</h1>
+        <Section>
+          <Row>
+            <Config>
+              <Logo></Logo>
+              <Desc>
+                <h3>Light</h3>
+                <p>Modo oscuro que cambia color</p>
+              </Desc>
+              <Bar />
+              <Btn>
+                <button onClick={() => setActiveModal('inventory')}>Inventario</button>
+              </Btn>
+            </Config>
+
+            <Config>
+              <Logo></Logo>
+              <Desc>
+                <h3>Movimientos</h3>
+                <p>Reporte de movimientos de inventario</p>
+              </Desc>
+              <Bar />
+              <Btn>
+                <button onClick={() => setActiveModal('movement')}>Movimientos</button>
+              </Btn>
+            </Config>
           </Row>
-        ))}
-      </Section>
+        </Section>
       <button onClick={handleClickButton}>Generar</button>
-    </Container>
-  )
-}
+      </Container>
+
+      {activeModal === 'inventory' && (
+        <ModalInventoryReport onClose={() => setActiveModal(null)} />
+      )}
+      {activeModal === 'movement' && (
+        <ModalInventoryMovReport onClose={() => setActiveModal(null)} />
+      )}
+    </>
+  );
+};
+
+const Backdrop = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  backdrop-filter: blur(5px);
+  background-color: rgba(255, 255, 255, 0.55), 0.3;
+  z-index: 10;
+`
 
 const Container = styled.div`
   padding: 40px;
   width: 100%;
   box-sizing: border-box;
+  position: relative;
+  z-index: 1;
 `
 
 const Bar = styled.div`
@@ -79,6 +106,7 @@ const Section = styled.div`
 const Row = styled.div`
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   width: 100%;
 `
 
@@ -101,37 +129,9 @@ const Desc = styled.div`
   padding: 10px 0;
 `
 
-const MiniBar = styled.div`
-  height: 2px;
-  width: 100%;
-  background-color: rgb(185, 185, 185);
-  margin: 10px 0;
-`
-
 const Btn = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   padding-top: 10px;
-`
-
-const SwitchContainer = styled.div`
-  width: 50px;
-  height: 24px;
-  background-color: ${(props) => (props.isOn ? '#4CAF50' : '#ccc')};
-  border-radius: 24px;
-  position: relative;
-  cursor: pointer;
-  transition: background-color 0.3s;
-`
-
-const SwitchBall = styled.div`
-  width: 20px;
-  height: 20px;
-  background-color: white;
-  border-radius: 50%;
-  position: absolute;
-  top: 2px;
-  left: ${(props) => (props.isOn ? '26px' : '2px')};
-  transition: left 0.3s;
 `
