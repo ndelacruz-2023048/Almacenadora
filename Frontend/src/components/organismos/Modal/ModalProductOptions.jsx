@@ -46,6 +46,7 @@ export const ModalProductOptions = ({setFormProductOpen,setFormOutputProductOpen
 
 const Container = styled.div`
     position: absolute;
+    display: none;
     top: 109%;
     right: 1%;
     height: 0px;
@@ -53,11 +54,11 @@ const Container = styled.div`
     background-color: #f9f9f9;
     transition: all 0.2s ease-in-out;
     opacity: 0;
-    display: flex;
     align-items: center;
     border: 2px solid #e7e7e7;
     border-radius: 20px;
     &.active{
+        display: flex;
         height: 180px;
         width: 250px;
         opacity: 1;
