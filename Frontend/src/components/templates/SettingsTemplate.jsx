@@ -55,7 +55,6 @@ export const SettingsTemplate = () => {
             </Config>
           </Row>
         </Section>
-      <button onClick={handleClickButton}>Generar</button>
       </Container>
 
       {activeModal === 'inventory' && (

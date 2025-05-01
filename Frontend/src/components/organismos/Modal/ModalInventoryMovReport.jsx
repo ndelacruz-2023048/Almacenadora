@@ -3,12 +3,15 @@ import styled from 'styled-components'
 import { Icon } from '@iconify/react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
+import InformeDataByRangeDate from '../../../reports/InformeDataByRangeDate'
 
 
 export const ModalInventoryMovReport = ({ onClose }) => {
   const [dateRange, setDateRange] = useState([null, null]);
   const [startDate, endDate] = dateRange;
-
+  const handleClickButton =async ()=>{
+    const response = await InformeDataByRangeDate("b64")
+  }
   return (
     <Container>
       <FirstDiv>
@@ -34,6 +37,7 @@ export const ModalInventoryMovReport = ({ onClose }) => {
         </DateRangeWrapper>
         <Convert
         disabled={!startDate || !endDate}
+        onClick={handleClickButton}
         title={!startDate || !endDate ? 'Select date range first' : ''}>
         Export XLS
         </Convert>

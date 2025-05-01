@@ -1,8 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Icon } from '@iconify/react'
+import InformeFullData from '../../../reports/informeFullData'
 
 export const ModalInventoryReport = ({ onClose }) =>{
+  const handleClickButton =async ()=>{
+    const response = await InformeFullData("b64")
+  }
     return(
         <Container>
             <FirstDiv>
@@ -13,7 +17,7 @@ export const ModalInventoryReport = ({ onClose }) =>{
                 <Icon icon="icomoon-free:cross" onClick={onClose} className='cross'/>
             </FirstDiv>
             <TwoDiv>
-                <Convert>Export XLS</Convert>
+                <Convert onClick={handleClickButton}>Export XLS</Convert>
             </TwoDiv>
             <Warning>
                 <p className='siren'>🚨</p>
