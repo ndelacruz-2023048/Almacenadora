@@ -1,14 +1,19 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import styled from 'styled-components'
 import { CiGrid41 } from "react-icons/ci";
 import { Card } from '../organismos/Card/Card'
 import { FiMenu } from "react-icons/fi";
 import { GrAdd } from "react-icons/gr";
 import { ButtonAdd } from '../atomos/ButtonAdd';
+import { useProviderStore } from '../../stores/ProviderStore';
+import { ProviderForm } from '../organismos/Forms/ProviderForm';
+import { CardProvider } from '../organismos/Card/CardProvider';
 
 export const ProviderTemplate = () => {
+  const { isProviderFormOpen, setIsFormOpen,dataProvider,fetchProvider,isLoading } = useProviderStore()
   return (
     <Container>
+      {isProviderFormOpen && <ProviderForm/>}
       <Line/>
       <Section1>
         <Title>
@@ -17,21 +22,14 @@ export const ProviderTemplate = () => {
         <IconsContainer>
             <CiGrid41  className='iconHeader'/>
             <FiMenu className='iconHeader'/>
-            <ButtonAdd btnBackgroundColor="#5042cb" iconName="ic:round-add" btnText="Add New" iconSize={'27px'}  btnWidth="22%"/>
+            <ButtonAdd setState={setIsFormOpen} btnBackgroundColor="#5042cb" iconName="ic:round-add" btnText="Add New" iconSize={'27px'}  btnWidth="22%"/>
         </IconsContainer>
       </Section1>
       <Section2>
         <ContainerCard>
-          <Card/>
-          <Card/>
-          <Card/>
-          <Card/>
-          <Card/>
-          <Card/>
-          <Card/>
-          <Card/>
-          <Card/>
-          <Card/>
+          {dataProvider?.providers?.map((e) => (
+            <CardProvider name={e.name} date={e.date} departament={e.departament} email={e.email} phone={e.phone} address={e.address} image={e.image}/>
+          ))}
         </ContainerCard>
       </Section2>
     </Container>

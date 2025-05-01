@@ -1,15 +1,24 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { CiGrid41 } from "react-icons/ci";
-import { Card } from '../organismos/Card/Card'
+import { CardClient } from '../organismos/Card/CardClient'
 import { FiMenu } from "react-icons/fi";
 import { GrAdd } from "react-icons/gr";
 import { ButtonAdd } from '../atomos/ButtonAdd';
-
-
+import { useClientStore } from '../../stores/ClientStore';
+import {ClientForm} from "../organismos/Forms/ClientForm"
 export const ClientTemplate = () => {
+
+  const {isFormOpenClient, setIsFromOpenClient, dataClient, isLoadingCliente, fetchClients} = useClientStore()
+  useEffect(()=>{
+    fetchClients()
+  },[])
+  if(isLoadingCliente) return <p>Cargando....</p>
+  console.log(dataClient.clients);
+
   return (
     <Container>
+      {isFormOpenClient && <ClientForm/>}
       <Line/>
       <Section1>
         <Title>
@@ -18,22 +27,24 @@ export const ClientTemplate = () => {
         <IconsContainer>
             <CiGrid41  className='iconHeader'/>
             <FiMenu className='iconHeader'/>
-            <ButtonAdd btnBackgroundColor="#5042cb" iconName="ic:round-add" btnText="Add New" iconSize={'27px'}  btnWidth="22%"/>
+            <ButtonAdd setState={setIsFromOpenClient} btnBackgroundColor="#5042cb" iconName="ic:round-add" btnText="Add New" iconSize={'27px'}  btnWidth="22%"/>
         </IconsContainer>
       </Section1>
 
       <Section2>
         <ContainerCard>
-          <Card/>
-          <Card/>
-          <Card/>
-          <Card/>
-          <Card/>
-          <Card/>
-          <Card/>
-          <Card/>
-          <Card/>
-          <Card/>
+          {
+            dataClient?.clients?.map((e)=>(
+              <CardClient 
+                clientName={e.clientName} 
+                clientUsername={e.clientUsername} 
+                clientEmail={e.clientEmail}
+                clientPhone={e.clientPhone}
+                uploadImage={e.uploadImage}
+                clientAddress={e.clientAddress}
+              />
+            ))
+          }
         </ContainerCard>
       </Section2>
     </Container>
