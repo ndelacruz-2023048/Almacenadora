@@ -19,9 +19,11 @@ import { color } from '@mui/system';
 import { UploadImageSucces } from './UploadImageSucces';
 import { useProductCategory } from '../../../stores/ProductCategoryStore';
 import { useSaveImage } from '../../../utils/saveImage';
+import { useProviderStore } from '../../../stores/ProviderStore';
 export const ProductForm = () => {
   const {dataProductCategory,isLoading,fetchProductCategories} = useProductCategory()
   const {isFormOpen,isSameProduct,dataFile,dataProducts,isCreatingProduct,responseCreatingProduct,createProduct,setDataFile,setDataProducts,setIsFormOpen,fetchProductByName} = useProductStore()
+  const {dataProvider,fetchProvider} = useProviderStore()
 
   
   const [urlImage,setUrlImage] = useState(null)/*State para URL IMAGEN */
@@ -153,9 +155,11 @@ export const ProductForm = () => {
                   error={!!errors.productProvider}
                   disabled={isInteractionDisabled}
                 >
-                  <MenuItem value={10}>Juan</MenuItem>
-                  <MenuItem value={20}>Pedro</MenuItem>
-                  <MenuItem value={30}>Jonas</MenuItem>
+                {
+                  dataProvider?.providers?.map((e)=>(
+                    <MenuItem value={e._id}>{e.name}</MenuItem>
+                  ))
+                }
                 </Select> 
                 {
                   !!errors.productProvider && (<FormHelperText sx={{color:"red"}}>{errors.productProvider.message}</FormHelperText>)
