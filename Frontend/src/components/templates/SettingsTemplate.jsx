@@ -1,8 +1,15 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import InformeFullData from '../../reports/informeFullData';
 
 export const SettingsTemplate = () => {
+  const [base64,setBase64] = useState("");
   const [switches, setSwitches] = useState(Array(6).fill(false))
+
+  const handleClickButton =async ()=>{
+    const response = await InformeFullData("b64")
+
+  }
 
   const toggleSwitch = (index) => {
     setSwitches(prev => {
@@ -42,6 +49,7 @@ export const SettingsTemplate = () => {
           </Row>
         ))}
       </Section>
+      <button onClick={handleClickButton}>Generar</button>
     </Container>
   )
 }
