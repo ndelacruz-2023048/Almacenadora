@@ -8,7 +8,7 @@ export const UploadImageSucces = ({imageURL,isInteractionDisabled,isLoadingImage
         <Image src={imageURL}/>  
         <Section>
             <NameFile>{dataFile.name}</NameFile>
-            <SizeFile>{dataFile.size}kb</SizeFile>
+            <SizeFile>{dataFile.size}</SizeFile>
         </Section> 
         {!isInteractionDisabled ? (<AlertInformation>Click para cambiar la imagen</AlertInformation>)
         :(<AlertInformation>{isLoadingImage? "Uploading":"Upload"}</AlertInformation>)}

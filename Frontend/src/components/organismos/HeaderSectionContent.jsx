@@ -3,12 +3,23 @@ import styled from 'styled-components'
 import { ButtonsSection } from '../moleculas/ButtonsSection'
 import { useProductStore } from '../../stores/ProductStore';
 import { ProductForm } from './Forms/ProductForm';
-
+import { useEntryProductRegister } from '../../stores/EntryProductRegisterStore';
+import { EntryRegisterProductForm } from './Forms/EntryProductRegister';
+import { useOutProductRegisterStore } from '../../stores/OutProductRegister';
+import { OutProductRegister } from './Forms/OutProductRegister';
 export const HeaderSectionContent = () => {
     const {isFormOpen,setIsFormOpen} = useProductStore()
+    const {isEntryProductFormOpen, setIsEntryProductFormOpen} = useEntryProductRegister()
+    const {isOutProductFormOpen, setIsOutProductFormOpen} = useOutProductRegisterStore()
+
+
+    console.log(isEntryProductFormOpen);
+    
     return (
         <Wrappper>
             {isFormOpen && (<ProductForm/>)}
+            {isEntryProductFormOpen && (<EntryRegisterProductForm/>)}
+            {isOutProductFormOpen && (<OutProductRegister/>)}
             <TitleSection>
                 <Title>Weekly Reports</Title>
                 <SubTitle>The latest weekly reports for all departments available</SubTitle>

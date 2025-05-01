@@ -5,7 +5,7 @@ const productSchema = Schema({
         type: String,
         required: [true, 'Name Category is required'],
         maxLength: [50, 'Name Category is too long'],
-        unique: [true, 'Name Category is already taken']
+        unique: [true, 'Name Category is already taken'] 
     },
     productDescription:{
         type: String,

@@ -7,6 +7,14 @@ import cors from "cors"
 import client from "../src/client/client.routes.js"
 import productCategory from "../src/productCategory/productCategory.routes.js"
 import product from "../src/products/product.routes.js"
+import provider from "../src/provider/provider.router.js"
+
+
+
+
+
+
+import productMovementHistory from "../src/productMovementHistory/productMovementHistory.routes.js"
 
 const configs = (app) =>{
     app.use(express.json())
@@ -20,6 +28,8 @@ const routes = (app) =>{
     app.use('/v1/api', client)
     app.use('/v1/api', productCategory)
     app.use('/v1/api', product)
+    app.use('/v1/api',productMovementHistory)
+    app.use('/v1/api', provider)
 }
 
 export const initServer = ()=>{
