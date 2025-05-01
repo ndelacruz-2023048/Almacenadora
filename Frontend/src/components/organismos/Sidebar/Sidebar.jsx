@@ -85,7 +85,7 @@ const ContainIcon = styled.div`
             }
             .sectionLink{
                 position: relative;
-                &::before{
+                /* &::before{
                     content: '';
                     position: absolute;
                     width: 30px;
@@ -108,7 +108,7 @@ const ContainIcon = styled.div`
                     border-top-right-radius: 39px;
                     border-right: 8px solid #eeeff0;
                     border-top: 18px solid #eeeff0;
-                }
+                } */
             }
             .LinkIcon{
                 color: #28364b;
