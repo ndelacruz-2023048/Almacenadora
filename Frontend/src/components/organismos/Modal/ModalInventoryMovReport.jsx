@@ -4,14 +4,49 @@ import { Icon } from '@iconify/react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import InformeDataByRangeDate from '../../../reports/InformeDataByRangeDate'
-
+import { useEntryProductRegister } from '../../../stores/EntryProductRegisterStore'
 
 export const ModalInventoryMovReport = ({ onClose }) => {
   const [dateRange, setDateRange] = useState([null, null]);
   const [startDate, endDate] = dateRange;
-  const handleClickButton =async ()=>{
-    const response = await InformeDataByRangeDate("b64")
+
+  const handleClickButton = async () => {
+    if (!startDate || !endDate) return;
+    const adjustedStartDate = new Date(startDate);
+    adjustedStartDate.setHours(0, 0, 0, 0);
+
+    const adjustedEndDate = new Date(endDate);
+    adjustedEndDate.setHours(23, 59, 59, 999);
+
+    const { fetchHistorialProducts, fetchAllProducts, dataProduct } = useEntryProductRegister.getState();
+
+    const { dataJSONHistori } = await fetchHistorialProducts();
+  const data = Array.isArray(dataJSONHistori.message) ? dataJSONHistori.message : [];
+
+  console.log("Filtro desde:", adjustedStartDate.toISOString());
+  console.log("Filtro hasta:", adjustedEndDate.toISOString());
+
+  const filteredData = data.filter(p => {
+    const movementDate = new Date(p.movementDate);
+    return movementDate >= adjustedStartDate && movementDate <= adjustedEndDate;
+  });
+  if (filteredData.length === 0) {
+    alert("No se encontraron movimientos en el rango seleccionado.");
+    return;
   }
+  if (!dataProduct?.message || !Array.isArray(dataProduct.message)) {
+    await fetchAllProducts();
+  }
+  const productList = useEntryProductRegister.getState().dataProduct.message || [];
+
+  const productMap = {};
+  productList.forEach(prod => {
+    productMap[prod._id] = prod.productName || "Sin nombre";
+  });
+
+  await InformeDataByRangeDate(filteredData, "b64", productMap);
+  console.log(filteredData, productMap);
+};
   return (
     <Container>
       <FirstDiv>
@@ -41,7 +76,7 @@ export const ModalInventoryMovReport = ({ onClose }) => {
         title={!startDate || !endDate ? 'Select date range first' : ''}>
         Export XLS
         </Convert>
-            </TwoDiv>
+      </TwoDiv>
 
       <Warning>
         <p className="siren">🚨</p>

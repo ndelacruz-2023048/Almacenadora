@@ -1,3 +1,4 @@
+import axios from "axios";
 import { create } from "zustand";
 
 
@@ -24,7 +25,7 @@ export const useEntryProductRegister = create((set, get) => ({
     responseEntryProduct:{},
     createEntryProduct:async(p)=>{
         set({isEntryProduct:true})
-        const response = await fetch("http://localhost:2900/v1/api/productmovhistory",{
+        const response = await fetch("http://localhost:2900/v1/api/productmovehistory",{
             method:"POST",
             headers: {
                 "Content-Type": "application/json" // Le dice al servidor que el cuerpo es JSON
@@ -35,4 +36,13 @@ export const useEntryProductRegister = create((set, get) => ({
         set({responseEntryProduct:responseJSON})
         set({isEntryProduct:false})
     },
+    listHistorialProducts:[],
+    fetchHistorialProducts:async()=>{
+        const historialProducts = await axios.get('http://localhost:2900/v1/api/getproductmovihistoty')
+        const dataJSONHistori = await historialProducts.data
+        set(()=>({listHistorialProducts:dataJSONHistori}))
+        return{
+            dataJSONHistori
+        }
+    }
 }))

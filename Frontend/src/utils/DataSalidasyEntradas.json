@@ -1,0 +1,86 @@
+[
+    {
+      "movementDate": "2025-05-01",
+      "movementType": "Entrada",
+      "count": "50",
+      "description": "Recepción de nuevo lote",
+      "productId": "6479d2b3498b9429f0e378a1"
+    },
+    {
+      "movementDate": "2025-05-02",
+      "movementType": "Salida",
+      "count": "15",
+      "description": "Venta a cliente minorista",
+      "productId": "6479d2b3498b9429f0e378a2"
+    },
+    {
+      "movementDate": "2025-05-03",
+      "movementType": "Entrada",
+      "count": "30",
+      "description": "Devolución de proveedor",
+      "productId": "6479d2b3498b9429f0e378a3"
+    },
+    {
+      "movementDate": "2025-05-04",
+      "movementType": "Salida",
+      "count": "22",
+      "description": "Envío a sucursal",
+      "productId": "6479d2b3498b9429f0e378a1"
+    },
+    {
+      "movementDate": "2025-05-05",
+      "movementType": "Entrada",
+      "count": "100",
+      "description": "Nueva producción",
+      "productId": "6479d2b3498b9429f0e378a4"
+    },
+    {
+      "movementDate": "2025-05-06",
+      "movementType": "Salida",
+      "count": "5",
+      "description": "Muestra para cliente",
+      "productId": "6479d2b3498b9429f0e378a2"
+    },
+    {
+      "movementDate": "2025-05-07",
+      "movementType": "Entrada",
+      "count": "12",
+      "description": "Ajuste de inventario",
+      "productId": "6479d2b3498b9429f0e378a5"
+    },
+    {
+      "movementDate": "2025-05-08",
+      "movementType": "Salida",
+      "count": "45",
+      "description": "Venta en línea",
+      "productId": "6479d2b3498b9429f0e378a3"
+    },
+    {
+      "movementDate": "2025-05-09",
+      "movementType": "Entrada",
+      "count": "25",
+      "description": "Compra a proveedor local",
+      "productId": "6479d2b3498b9429f0e378a1"
+    },
+    {
+      "movementDate": "2025-05-10",
+      "movementType": "Salida",
+      "count": "8",
+      "description": "Donación a organización",
+      "productId": "6479d2b3498b9429f0e378a6"
+    },
+    {
+      "movementDate": "2025-05-11",
+      "movementType": "Entrada",
+      "count": "18",
+      "description": "Reembolso de cliente",
+      "productId": "6479d2b3498b9429f0e378a2"
+    },
+    {
+      "movementDate": "2025-05-12",
+      "movementType": "Salida",
+      "count": "33",
+      "description": "Pedido especial",
+      "productId": "6479d2b3498b9429f0e378a4"
+    }
+  ]

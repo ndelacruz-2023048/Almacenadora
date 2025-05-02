@@ -67,6 +67,7 @@ export const ClientForm = () => {
     }
     createClient(newClient)
     e.preventDefault()
+    setIsFromOpenClient()
   }
   
   console.log(responseCreatingClient);
@@ -240,7 +241,7 @@ export const ClientForm = () => {
         }
         
           <SectionButton>
-            <ButtonForm disabled={isInteractionDisabled} className='cancel' >Cancel</ButtonForm>
+            <ButtonForm onClick={setIsFromOpenClient} disabled={isInteractionDisabled} className='cancel' >Cancel</ButtonForm>
             {!canChangeButton ? (<ButtonForm type="submit" className='confirm'>Confirm</ButtonForm>) : (<ButtonForm type='button' onClick={handleSaveProductForm} disabled={isDisableButtonSave} className='confirm'>Save Product</ButtonForm>)}
           </SectionButton>
         </Form>

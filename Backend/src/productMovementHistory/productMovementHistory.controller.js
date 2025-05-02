@@ -27,3 +27,13 @@ export const saveOutProductMovementHistory = async (req, res) => {
         return res.status(500).send({message: 'Error adding Product Movement History', error})
     }
 }
+
+export const getProductMovementHistory = async(req,res)=>{
+    try{
+        const history = await ProductMovementHistory.find()
+        return res.status(200).send({success:true, message: history})
+    }catch(err){
+        console.log(err)
+        return res.status(500).send({message: 'Error finding Products History', err})
+    }
+}
