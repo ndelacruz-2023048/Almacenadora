@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { LinksArray } from '../../../utils/dataEstatica'
 import { NavLink } from 'react-router'
 import { Icon } from '@iconify/react/dist/iconify.js'
-
+import LogoARK from '../../../assets/LogoARK.png'
 export const Sidebar = ({handleResize}) => {
     
   
@@ -11,7 +11,9 @@ export const Sidebar = ({handleResize}) => {
 
   return (
     <Container>
-        <Section1>Section1</Section1>
+        <Section1>
+            <img src={LogoARK} alt="" className='img'/>
+        </Section1>
         <Section2 className='section2'>
             {
                 LinksArray.map(({icon,to})=>(
@@ -38,8 +40,15 @@ const Container = styled.div`
 
 const Section1 = styled.div`
     /* background-color: red; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 15%;
-
+    .img{
+        height: 80%;
+        background-color: #fff;
+        border-radius: 50%;
+    }
 `
 
 const Section2 = styled.div`

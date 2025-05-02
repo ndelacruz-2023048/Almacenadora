@@ -5,7 +5,6 @@ export const Check = ({ logo, label, checked, onChange }) => {
   const [name, domain] = label.split("\n");
   return (
     <CheckboxContainer>
-      <input type="checkbox" checked={checked} onChange={onChange}/>
       {logo}
       <LabelContainer>
         <span>{name}</span>
