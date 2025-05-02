@@ -15,6 +15,7 @@ export const useClientStore = create((set, get) =>({
         const dataClienteJson = await response.json()
         set({dataClient:dataClienteJson})
         set({isLoadingCliente: false})
+        return dataClienteJson
     },
     dataClientForm:{},
     setDataClientForm:(p)=>{

@@ -64,5 +64,5 @@ const ContainerSection2 = styled.div`
 `
 
 const Main = styled.div`
-    height: 80%;
+    height: 92%;
 `
