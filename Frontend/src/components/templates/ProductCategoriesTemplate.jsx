@@ -7,12 +7,21 @@ import { GrAdd } from "react-icons/gr";
 import { ButtonAdd } from '../atomos/ButtonAdd';
 import { useProductCategory } from '../../stores/ProductCategoryStore';
 import { ProductCategoryForm } from '../organismos/Forms/ProductCategoryForm'
+import { CardProductCategory } from '../organismos/Card/CardProductCategory';
+import { useEffect } from 'react';
 
 // o la ruta que uses
 
 export const ProductCategoriesTemplate = () => {
-  const {isProductCategoryFormActive,setIsProductCategoryFormActive} = useProductCategory()
-/* */
+  const {isProductCategoryFormActive,setIsProductCategoryFormActive,isLoading,dataProductCategory,fetchProductCategories} = useProductCategory()
+  useEffect(()=>{
+    fetchProductCategories()
+  },[])
+  
+  if(isLoading) return <p>cargando...</p>
+
+  console.log(dataProductCategory.categories);
+  
   return (
     <Container>
       {isProductCategoryFormActive && <ProductCategoryForm/>}
@@ -30,16 +39,11 @@ export const ProductCategoriesTemplate = () => {
 
       <Section2>
         <ContainerCard>
-          <Card/>
-          <Card/>
-          <Card/>
-          <Card/>
-          <Card/>
-          <Card/>
-          <Card/>
-          <Card/>
-          <Card/>
-          <Card/>
+          {
+            dataProductCategory?.categories?.map((e)=>(
+              <CardProductCategory nameCategory={e.nameCategory} descriptionCategory={e.descriptionCategory} image={e.image}/>
+            ))
+          }
         </ContainerCard>
       </Section2>
     </Container>

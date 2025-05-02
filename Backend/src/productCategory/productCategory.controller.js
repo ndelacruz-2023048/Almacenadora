@@ -1,4 +1,5 @@
 import ProductCategory from "./productCategory.model.js"
+
 export const getProductsCategory = async (req, res) => {
     try {
         let categories = await ProductCategory.find()
