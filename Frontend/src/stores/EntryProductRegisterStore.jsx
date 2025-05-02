@@ -1,3 +1,4 @@
+import axios from "axios";
 import { create } from "zustand";
 
 
@@ -34,6 +35,15 @@ export const useEntryProductRegister = create((set, get) => ({
         const responseJSON = await response.json()
         set({responseEntryProduct:responseJSON})
         set({isEntryProduct:false})
+    },
+    listHistorialProducts:[],
+    fetchHistorialProducts:async()=>{
+        const historialProducts = await axios.get('http://localhost:2900/v1/api/getproductmovihistoty')
+        const dataJSONHistori = await historialProducts.data
+        set(()=>({listHistorialProducts:dataJSONHistori}))
+        return{
+            dataJSONHistori
+        }
     },
     addStockProduct:async(stockProduct,idProduct)=>{
         try {

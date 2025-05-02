@@ -11,9 +11,9 @@ export const HomeTemplate = () => {
   const {dataProvider} = useProviderStore()
   const {listProducts} = useProductStore()
   const {dataClient} = useClientStore()
-  const countProviders = dataProvider?.providers.length
-  const countProducts = listProducts?.message.length
-  const countClients = dataClient?.clients.length
+  const countProviders = dataProvider?.providers?.length
+  const countProducts = listProducts?.message?.length
+  const countClients = dataClient?.clients?.length
   
   return (
     <Container>

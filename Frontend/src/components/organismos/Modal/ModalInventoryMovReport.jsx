@@ -4,20 +4,53 @@ import { Icon } from '@iconify/react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import InformeDataByRangeDate from '../../../reports/InformeDataByRangeDate'
-
+import { useEntryProductRegister } from '../../../stores/EntryProductRegisterStore'
+import dayjs from 'dayjs'
 
 export const ModalInventoryMovReport = ({ onClose }) => {
-  const [dateRange, setDateRange] = useState([null, null]);
+  const [dateRange, setDateRange] = useState([null, null])
   const [startDate, endDate] = dateRange;
-  const handleClickButton =async ()=>{
-    const response = await InformeDataByRangeDate("b64")
+
+  const handleClickButton = async () => {
+    if (!startDate || !endDate) return
+    const { fetchHistorialProducts, fetchAllProducts, dataProduct } = useEntryProductRegister.getState()
+
+    const { dataJSONHistori } = await fetchHistorialProducts()
+  const data = Array.isArray(dataJSONHistori.message) ? dataJSONHistori.message : []
+
+  const start = dayjs(startDate).format('YYYY-MM-DD');
+  const end = dayjs(endDate).format('YYYY-MM-DD');
+
+  console.log("Filtro desde:", start);
+  console.log("Filtro hasta:", end);
+
+  const filteredData = data.filter(p => {
+    const movement = dayjs(p.movementDate).format('YYYY-MM-DD');
+    return movement >= start && movement <= end;
+  });
+  if (filteredData.length === 0) {
+    alert("No se encontraron movimientos en el rango seleccionado.");
+    return;
   }
+  if (!dataProduct?.message || !Array.isArray(dataProduct.message)) {
+    await fetchAllProducts();
+  }
+  const productList = useEntryProductRegister.getState().dataProduct.message || [];
+
+  const productMap = {};
+  productList.forEach(prod => {
+    productMap[prod._id] = prod.productName || "Sin nombre";
+  });
+
+  await InformeDataByRangeDate(filteredData, "b64", productMap);
+  console.log(filteredData, productMap);
+};
   return (
     <Container>
       <FirstDiv>
         <UpT>
           <h2>Inventory Movement Report</h2>
-          <p>Here you can download an ".xls" file of the inventory data.</p>
+          <p>Here you can download an ".pdf" file of the inventory data.</p>
         </UpT>
         <Icon icon="icomoon-free:cross" onClick={onClose} className="cross" />
       </FirstDiv>
@@ -39,16 +72,16 @@ export const ModalInventoryMovReport = ({ onClose }) => {
         disabled={!startDate || !endDate}
         onClick={handleClickButton}
         title={!startDate || !endDate ? 'Select date range first' : ''}>
-        Export XLS
+        Export PDF
         </Convert>
-            </TwoDiv>
+      </TwoDiv>
 
       <Warning>
         <p className="siren">🚨</p>
         <TextWarning>
           <p className="warningT">Warning</p>
           <p>
-            This section is responsible for making a request to the database to receive the inventory record and convert it to Excel format.
+            This section is responsible for making a request to the database to receive the inventory record and convert it to PDF format.
           </p>
         </TextWarning>
       </Warning>

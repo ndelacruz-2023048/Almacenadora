@@ -48,7 +48,7 @@ export const SettingsTemplate = () => {
                 <h3>Movimientos</h3>
                 <p>Reporte de movimientos de inventario</p>
               </Desc>
-              <Bar />
+              <Bar/>
               <Btn>
                 <button onClick={() => setActiveModal('movement')}>Movimientos</button>
               </Btn>

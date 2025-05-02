@@ -28,6 +28,15 @@ export const saveOutProductMovementHistory = async (req, res) => {
     }
 }
 
+export const getProductMovementHistory = async(req,res)=>{
+    try{
+        const history = await ProductMovementHistory.find()
+        return res.status(200).send({success:true, message: history})
+    }catch(err){
+        console.log(err)
+        return res.status(500).send({message: 'Error finding Products History', err})
+    }
+}
 
 export const topProductMovement = async(req,res)=>{
     try {
