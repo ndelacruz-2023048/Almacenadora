@@ -1,9 +1,16 @@
 import React from 'react'
-import styled from 'styled-components'
 import photoProfile from '../../../assets/photoProfile.avif'
+import { useLogout } from "../../../hooks/useLogout"
 import { Icon } from '@iconify/react'
+import styled from 'styled-components'
 
 export const CardProfile = () => {
+  const { logout, isLoadingLogout} = useLogout()
+
+    const handleLogoutClick  = ()=> {
+        logout()
+    }
+
   return (
     <Container>
       <Section>
@@ -41,9 +48,10 @@ export const CardProfile = () => {
             <Line></Line>
           </Lista>
 
-          <Sesion>
+          <Sesion onClick={handleLogoutClick}>
             <Icon icon="fluent-mdl2:leave" className='Leave'/>
             Cerrar seción
+            {isLoadingLogout && <div>Cerrando sesión...</div>}
           </Sesion>
         </Cuenta>
       </Section>
@@ -150,7 +158,7 @@ const Sesion = styled.button`
   }
 
   .Leave {
-    color: #f1f1f1
-    font-size: 25px
+    color: #f1f1f1;
+    font-size: 25px;
   }
 `

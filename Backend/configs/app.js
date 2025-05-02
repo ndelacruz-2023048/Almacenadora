@@ -11,14 +11,21 @@ import productCategory from "../src/productCategory/productCategory.routes.js"
 import product from "../src/products/product.routes.js"
 import provider from "../src/provider/provider.router.js"
 import productMovementHistory from "../src/productMovementHistory/productMovementHistory.routes.js"
+import {limiter} from '../middlewares/rate.limit.js'
 
 const configs = (app) =>{
     app.use(express.json())
     app.use(express.urlencoded({extended: false}))
-    app.use(cors())
-    app.use(cookieParser())
+    app.use(cors(
+        {
+            origin: 'http://localhost:5173',
+            credentials: true,
+        }
+    ))
     app.use(helmet())
     app.use(morgan('dev'))
+    app.use(cookieParser())
+    app.use(limiter)
 }
 
 const routes = (app) =>{

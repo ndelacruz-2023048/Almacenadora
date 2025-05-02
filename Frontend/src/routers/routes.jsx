@@ -7,50 +7,84 @@ import { ProductCategoriesPage } from '../pages/ProductCategoriesPage'
 import { SettingsPage } from '../pages/SettingsPage'
 import { ProviderPage } from '../pages/ProviderPage'
 import { LoginPage } from '../pages/LoginPage'
+import { ProtectedRoutes } from "../hooks/ProtectedRoutes"
+import { Register } from '../pages/RegisterPage'
 
 const router = createBrowserRouter([
     {
         path:'/',
-        element:<Layout>
-            <HomePage/>
-        </Layout>,
-        errorElement:<div>Que tal don pinguino, andamos trabajando arduamente para darme un mejor experiencia att.Mac'pa pa ra papa'</div>
+        element:(
+            <ProtectedRoutes accesBy="authenticated">
+                <Layout>
+                    <HomePage/>
+                </Layout>
+            </ProtectedRoutes>
+        )
     },
     {
         path: '/login',
         element: (
-            <LoginPage/>
+            <ProtectedRoutes accesBy="non-authenticated">
+                <LoginPage/>
+            </ProtectedRoutes>
+        )
+    },{
+        path: '/register',
+        element: (
+            <ProtectedRoutes accesBy="non-authenticated">
+                <Register/>
+            </ProtectedRoutes>
         )
     },
     {
         path:'/clients',
-        element:<Layout>
-            <ClientPage/>
-        </Layout>
+        element:(
+            <ProtectedRoutes accesBy="authenticated">
+                <Layout>
+                    <ClientPage/>
+                </Layout>
+            </ProtectedRoutes>
+        )
     },
     {
         path:'/setting',
-        element:<Layout>
-            <SettingsPage/>
-        </Layout>
+        element:(
+            <ProtectedRoutes accesBy="authenticated">
+                <Layout>
+                    <SettingsPage/>
+                </Layout>
+            </ProtectedRoutes>
+        )
     },
     {
         path:'/products',
-        element:<Layout>
-            <ProductManagerPage/>
-        </Layout>
+        element:(
+            <ProtectedRoutes accesBy="authenticated">
+                <Layout>
+                    <ProductManagerPage/>
+                </Layout>
+            </ProtectedRoutes>
+        )
     },
     {
         path:'/provider',
-        element:<Layout>
-            <ProviderPage/>
-        </Layout>
+        element:(
+            <ProtectedRoutes accesBy="authenticated">
+                <Layout>
+                    <ProviderPage/>
+                </Layout>
+            </ProtectedRoutes>
+        )
     },
     {
         path:"/products/categories",
-        element:<Layout>
-            <ProductCategoriesPage/>
-        </Layout> 
+        element:(
+            <ProtectedRoutes accesBy="authenticated">
+                <Layout>
+                    <ProductCategoriesPage/>
+                </Layout>
+            </ProtectedRoutes>
+        ) 
     }
 ])
 
