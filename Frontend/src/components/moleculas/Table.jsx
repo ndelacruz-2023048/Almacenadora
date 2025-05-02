@@ -7,6 +7,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { useProductStore } from "../../stores/ProductStore";
 import { StatusProduct } from "../atomos/StatusProduct";
 import { ActionsTable } from "./ActionsTable";
+import dayjs from "dayjs";
 
 export const Table = ()=> {
     const {listProducts}= useProductStore()
@@ -64,7 +65,7 @@ export const Table = ()=> {
                             <PurpleTag>{products?.productPrice.$numberDecimal}</PurpleTag>
                         </TBody>
                         <TBody>
-                            <PurpleTag>{products?.productDate}</PurpleTag>
+                            <PurpleTag>{dayjs(products?.productDate).format("DD-MM-YYYY")}</PurpleTag>
                         </TBody>
                         <TBody>
                             <PurpleTag>{products.productProvider}</PurpleTag>

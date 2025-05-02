@@ -36,4 +36,33 @@ export const useOutProductRegisterStore = create((set, get) => ({
         set({responseOutProduct:responseJSON})
         set({isOutProduct:false})
     },
+    fetchProductById:async(idProduct)=>{
+        const response = await fetch(`http://localhost:2900/v1/api/product/${idProduct}`)
+        const data = await response.json()
+        return{
+            data
+        }
+    },
+    substractStockProduct:async(stockProduct,idProduct)=>{
+        try {
+            if (!idProduct || !stockProduct?.quantity) {
+                console.error("❌ ID o stock inválidos:", idProduct, stockProduct);
+                return { data: null };
+              }
+            const response = await fetch(`http://localhost:2900/v1/api/product/subtractStock/${idProduct}`,{
+                method: "PUT",
+                headers:{
+                    "Content-Type": "application/json"
+                },
+                body:JSON.stringify(stockProduct)
+            })
+            const data = await response.json()
+            return{
+                data
+            }
+        } catch (error) {
+            console.error(error)
+            return { data: null };
+        }
+    }
 }))

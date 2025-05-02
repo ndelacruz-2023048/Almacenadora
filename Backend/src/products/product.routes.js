@@ -7,7 +7,8 @@ import {
     getInventoryReportWithPrice,
     getInventoryMovementsWithPrice,
     addProductStock,
-    subtractProductStock
+    subtractProductStock,
+    getProdutById
 } from "./product.controller.js";
 
 const product = Router()
@@ -19,5 +20,6 @@ product.get('/product/inventoryReportWithPrice', getInventoryReportWithPrice);
 product.get('/product/inventoryMovementsWithPrice', getInventoryMovementsWithPrice);
 product.put('/product/addStock/:id', addProductStock);
 product.put('/product/subtractStock/:id', subtractProductStock);
+product.get('/product/:idProduct',getProdutById)
 
 export default product

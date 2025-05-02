@@ -21,7 +21,7 @@ import { useSaveImage } from '../../../utils/saveImage';
 import { useEntryProductRegister } from '../../../stores/EntryProductRegisterStore';
 import { useProductStore } from '../../../stores/ProductStore';
 export const EntryRegisterProductForm = () => {
-  const {dataProduct,responseEntryProduct,createEntryProduct,dataEntryProduct,setIsEntryProductFormOpen,fetchAllProducts,setDataEntryProduct} = useEntryProductRegister()
+  const {dataProduct,responseEntryProduct,createEntryProduct,dataEntryProduct,setIsEntryProductFormOpen,fetchAllProducts,setDataEntryProduct,addStockProduct} = useEntryProductRegister()
   const {listProducts}= useProductStore()
   const [canChangeButton,setCanChangeButton] = useState(false)/*State para cambiar botons de continue a save*/
   const [isInteractionDisabled, setIsInteractionDisabled] = useState(false)/*State para deshabilitar y habilitar inputs del formulario*/
@@ -32,13 +32,8 @@ export const EntryRegisterProductForm = () => {
   const {register,handleSubmit,formState:{errors},setValue,reset} = useForm()
   const {dataImage,isLoadingImage,registerImage} = useSaveImage()
 
-  const handleChangeSelectProduct=(e)=>{
-    setActualStockProduct(e.target.value)
-  }
-
   const handleSubmitProductForm = async(data)=>{
     console.log(data);
-    console.log(dataEntryProduct);
     
     setDataEntryProduct(data)
     setCanChangeButton(true)
@@ -52,7 +47,12 @@ export const EntryRegisterProductForm = () => {
       productId:data?.productId,
       movementDate: dayjs(data?.movementDate).format('YYYY-MM-DDTHH:mm:ss'),
     }
-    createEntryProduct(entryProduct)
+    const stock = {
+      quantity: parseInt(data?.count,10)
+    }
+    await createEntryProduct(entryProduct)
+    await addStockProduct(stock,data?.productId)
+    setIsEntryProductFormOpen()
   }
   
 
@@ -94,8 +94,13 @@ export const EntryRegisterProductForm = () => {
               />
             </FullWidthInput>   
             <FormField>
-              <TextField inputProps={{min:0}} disabled={isInteractionDisabled} id="outlined-basic" type="number" label="count" variant="outlined" className='inputFullWidth'
-                {...register('count',{required: 'agregue la cantidad del producto que se movio'})}
+              <TextField disabled={isInteractionDisabled} id="outlined-basic" type="number" label="Count" variant="outlined" className='inputFullWidth'
+                {...register('count',{required: 'agregue la cantidad del producto que se movio',validate:async(value)=>{
+                  if(value<=0){
+                    return "Stock min to add 0"
+                  }
+                  return true
+                }})}
                 error={!!errors?.count}
                 helperText={errors?.count?.message}
               />
@@ -117,7 +122,7 @@ export const EntryRegisterProductForm = () => {
                   className='inputFullWidth'
                   disabled={isInteractionDisabled}
                   {...register('productId',{required: 'Se necesita agregar el producto'})}
-                  onChange={handleChangeSelectProduct}
+                  defaultValue=""
                 >
                   {
                   dataProduct?.message?.map((e)=>(

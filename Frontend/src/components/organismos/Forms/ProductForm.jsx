@@ -24,8 +24,6 @@ export const ProductForm = () => {
   const {dataProductCategory,isLoading,fetchProductCategories} = useProductCategory()
   const {isFormOpen,isSameProduct,dataFile,dataProducts,isCreatingProduct,responseCreatingProduct,createProduct,setDataFile,setDataProducts,setIsFormOpen,fetchProductByName} = useProductStore()
   const {dataProvider,fetchProvider} = useProviderStore()
-
-  
   const [urlImage,setUrlImage] = useState(null)/*State para URL IMAGEN */
   const [canChangeButton,setCanChangeButton] = useState(false)/*State para cambiar botons de continue a save*/
   const [isInteractionDisabled, setIsInteractionDisabled] = useState(false)/*State para deshabilitar botones e inputs cuando algo se este subiendo o guardando */
@@ -79,7 +77,7 @@ export const ProductForm = () => {
 
   useEffect(()=>{
     register("uploadImage",{required:"Imagen requerida"})
-    fetchProductCategories()
+    fetchProvider()
   },[])
   
   return (
@@ -133,8 +131,8 @@ export const ProductForm = () => {
                   disabled={isInteractionDisabled}
                 > 
                 {
-                  dataProductCategory?.clients?.map((e)=>(
-                    <MenuItem value={e._id}>{e.nameCategory}</MenuItem>
+                  dataProductCategory?.clients.map((e)=>(
+                    <MenuItem value={e?._id}>{e?.nameCategory}</MenuItem>
                   ))
                 }
                 </Select> 

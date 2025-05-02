@@ -57,7 +57,9 @@ export const addProductStock = async (req, res) => {
     try {
         const { id } = req.params; // Obtener el ID del producto desde los parámetros
         const { quantity } = req.body; // Obtener la cantidad desde el cuerpo de la solicitud
-
+        if (!id || !quantity) {
+            return res.status(400).json({ message: 'Faltan datos: ID o cantidad no proporcionados' });
+          }
         // Validar que la cantidad sea un número positivo
         if (typeof quantity !== 'number' || quantity <= 0) {
             return res.status(400).send({ message: 'Quantity must be a positive number' });

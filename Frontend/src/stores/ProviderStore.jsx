@@ -14,6 +14,7 @@ export const useProviderStore = create((set, get) => ({
             const provider = await fetch("http://localhost:2900/v1/api/provider")
             const dataJson = await provider.json()
             set(()=>({dataProvider:dataJson}))
+            return dataJson
         } catch (error) {
             console.log(error)
         }

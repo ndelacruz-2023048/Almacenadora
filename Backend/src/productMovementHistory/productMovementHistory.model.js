@@ -2,7 +2,7 @@ import { Schema, model } from "mongoose";
 
 const productMovementHistory = Schema({
     movementDate: {
-        type: String,
+        type: Date,
         required: [true, 'Movement Date is required'],
     },
     movementType:{
@@ -10,7 +10,7 @@ const productMovementHistory = Schema({
         required: [true, 'Movement type is required'],
     },
     count:{
-        type: String,
+        type: Number,
         required: [true, 'Count is required'],
     },
     description:{

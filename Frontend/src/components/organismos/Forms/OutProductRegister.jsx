@@ -19,14 +19,21 @@ import { UploadImageSucces } from './UploadImageSucces';
 import { useSaveImage } from '../../../utils/saveImage';
 import { useOutProductRegisterStore } from '../../../stores/OutProductRegister';
 export const OutProductRegister = () => {
-  const {dataProduct,dataOutProduct,createOutProduct,responseOutProduct,isOutProductFormOpen,setIsOutProductFormOpen,setDataOutProduct ,fetchAllProduct} = useOutProductRegisterStore()
+  const {dataProduct,dataOutProduct,createOutProduct,responseOutProduct,isOutProductFormOpen,setIsOutProductFormOpen,setDataOutProduct ,fetchAllProduct,fetchProductById,substractStockProduct} = useOutProductRegisterStore()
 
   const [urlImage,setUrlImage] = useState(null)/*State para URL IMAGEN */
   const [canChangeButton,setCanChangeButton] = useState(false)/*State para cambiar botons de continue a save*/
   const [isInteractionDisabled, setIsInteractionDisabled] = useState(false)/*State para deshabilitar y habilitar inputs del formulario*/
   const [isDisableButtonSave,setIsDisableButtonSave] = useState(false)
+  const [stockToOut,setStockToOut] = useState()
   /*Hook para manipular el espacio para subir la imagen */
   // const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop,disabled:isInteractionDisabled})
+
+  const handleChangeSelectProduct = async(e)=>{
+    setStockToOut(e.target.value)
+    
+    
+  }
 
   /*Logica del Formulario */
   const {register,handleSubmit,formState:{errors},setValue,reset} = useForm()
@@ -34,7 +41,6 @@ export const OutProductRegister = () => {
   const handleSubmitProductForm = async(data)=>{
     console.log(data);
     console.log(dataOutProduct);
-    
     setDataOutProduct(data)
     setCanChangeButton(true)
     setIsInteractionDisabled(true)
@@ -47,7 +53,11 @@ export const OutProductRegister = () => {
       productId:data?.productId,
       movementDate: dayjs(data?.movementDate).format('YYYY-MM-DDTHH:mm:ss'),
     }
-    createOutProduct(outProduct)
+    const stock = {
+      quantity: parseInt(data?.count,10)
+    }
+    await createOutProduct(outProduct)
+    await substractStockProduct(stock,data?.productId)
     setIsOutProductFormOpen()
   }
 
@@ -89,8 +99,15 @@ export const OutProductRegister = () => {
                   />
                 </FullWidthInput>   
                 <FormField>
-                  <TextField disabled={isInteractionDisabled} id="outlined-basic" type="number" label="count" variant="outlined" className='inputFullWidth'
-                    {...register('count',{required: 'agregue la cantidad del producto que se movio'})}
+                  <TextField disabled={isInteractionDisabled} id="outlined-basic" type="number" label="Count" variant="outlined" className='inputFullWidth'
+                    {...register('count',{required: 'agregue la cantidad del producto que se movio',validate:async(value)=>{                      
+                      const {data} = await fetchProductById(stockToOut)
+                      const actualStock = data?.message.productStock
+                      if(value>actualStock){
+                        return`Stock max to out ${actualStock}`
+                      }
+                      return true
+                    }})}
                     error={!!errors?.count}
                     helperText={errors?.count?.message}
                   />
@@ -108,10 +125,11 @@ export const OutProductRegister = () => {
                     <Select
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
-                      label="Proveedor"
+                      label="Product"
                       className='inputFullWidth'
                       disabled={isInteractionDisabled}
                       {...register('productId',{required: 'Se necesita agregar el producto'})}
+                      onChange={handleChangeSelectProduct}
                     >
                       {
                       dataProduct?.message?.map((e)=>(
