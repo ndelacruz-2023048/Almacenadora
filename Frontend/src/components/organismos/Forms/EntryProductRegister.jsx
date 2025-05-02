@@ -19,19 +19,23 @@ import { UploadImageSucces } from './UploadImageSucces';
 import { useProductCategory } from '../../../stores/ProductCategoryStore';
 import { useSaveImage } from '../../../utils/saveImage';
 import { useEntryProductRegister } from '../../../stores/EntryProductRegisterStore';
+import { useProductStore } from '../../../stores/ProductStore';
 export const EntryRegisterProductForm = () => {
   const {dataProduct,responseEntryProduct,createEntryProduct,dataEntryProduct,setIsEntryProductFormOpen,fetchAllProducts,setDataEntryProduct} = useEntryProductRegister()
-
-  const [urlImage,setUrlImage] = useState(null)
+  const {listProducts}= useProductStore()
   const [canChangeButton,setCanChangeButton] = useState(false)/*State para cambiar botons de continue a save*/
   const [isInteractionDisabled, setIsInteractionDisabled] = useState(false)/*State para deshabilitar y habilitar inputs del formulario*/
   const [isDisableButtonSave,setIsDisableButtonSave] = useState(false)
-  /*Hook para manipular el espacio para subir la imagen */
-  // const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop,disabled:isInteractionDisabled})
+  const [actualStockProduct,setActualStockProduct]=useState()
 
   /*Logica del Formulario */
   const {register,handleSubmit,formState:{errors},setValue,reset} = useForm()
   const {dataImage,isLoadingImage,registerImage} = useSaveImage()
+
+  const handleChangeSelectProduct=(e)=>{
+    setActualStockProduct(e.target.value)
+  }
+
   const handleSubmitProductForm = async(data)=>{
     console.log(data);
     console.log(dataEntryProduct);
@@ -90,7 +94,7 @@ export const EntryRegisterProductForm = () => {
               />
             </FullWidthInput>   
             <FormField>
-              <TextField disabled={isInteractionDisabled} id="outlined-basic" type="number" label="count" variant="outlined" className='inputFullWidth'
+              <TextField inputProps={{min:0}} disabled={isInteractionDisabled} id="outlined-basic" type="number" label="count" variant="outlined" className='inputFullWidth'
                 {...register('count',{required: 'agregue la cantidad del producto que se movio'})}
                 error={!!errors?.count}
                 helperText={errors?.count?.message}
@@ -113,6 +117,7 @@ export const EntryRegisterProductForm = () => {
                   className='inputFullWidth'
                   disabled={isInteractionDisabled}
                   {...register('productId',{required: 'Se necesita agregar el producto'})}
+                  onChange={handleChangeSelectProduct}
                 >
                   {
                   dataProduct?.message?.map((e)=>(

@@ -40,6 +40,17 @@ export const getProducts = async(req,res)=>{
     }
 }
 
+export const getProdutById = async(req,res)=>{
+    try {
+        const {idProduct} = req.params
+        const product = await Product.findById(idProduct)
+        return res.status(200).send({success:true,message:product})
+    } catch (error) {
+        console.error(error)
+        return res.status(500).send({message: 'Error finding product', error})
+    }
+}   
+
 /**Invetariado */
 
 export const addProductStock = async (req, res) => {
