@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
 import { HeaderSectionContent } from '../organismos/HeaderSectionContent'
 import { FooterSectionContent } from '../organismos/FooterSectionContent'
@@ -7,15 +7,21 @@ import { Outlet } from 'react-router'
 
 
 export const ProductManagerTemplate = () => {
+  const [activeTab, setActiveTab] = useState(0); // 0 para Users, 1 para Companies
+
+  const handleTabChange = (index) => {
+    setActiveTab(index);
+  };
+
   return (
     <Wrapper>
       <Outlet/>
       <Header>
-        <HeaderSectionContent/>
+        <HeaderSectionContent onTabChange={handleTabChange} activeTab={activeTab} />
       </Header>
       <Body>
-        tabla encabezado "falta"
-        <BodySectionContent/>
+        {activeTab === 0 && <BodySectionContent />}
+        {activeTab === 1 && <BodySectionContent />}
       </Body>
       <Footer>
         <FooterSectionContent/>
