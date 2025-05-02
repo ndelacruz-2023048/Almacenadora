@@ -5,30 +5,28 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import InformeDataByRangeDate from '../../../reports/InformeDataByRangeDate'
 import { useEntryProductRegister } from '../../../stores/EntryProductRegisterStore'
+import dayjs from 'dayjs'
 
 export const ModalInventoryMovReport = ({ onClose }) => {
-  const [dateRange, setDateRange] = useState([null, null]);
+  const [dateRange, setDateRange] = useState([null, null])
   const [startDate, endDate] = dateRange;
 
   const handleClickButton = async () => {
-    if (!startDate || !endDate) return;
-    const adjustedStartDate = new Date(startDate);
-    adjustedStartDate.setHours(0, 0, 0, 0);
+    if (!startDate || !endDate) return
+    const { fetchHistorialProducts, fetchAllProducts, dataProduct } = useEntryProductRegister.getState()
 
-    const adjustedEndDate = new Date(endDate);
-    adjustedEndDate.setHours(23, 59, 59, 999);
+    const { dataJSONHistori } = await fetchHistorialProducts()
+  const data = Array.isArray(dataJSONHistori.message) ? dataJSONHistori.message : []
 
-    const { fetchHistorialProducts, fetchAllProducts, dataProduct } = useEntryProductRegister.getState();
+  const start = dayjs(startDate).format('YYYY-MM-DD');
+  const end = dayjs(endDate).format('YYYY-MM-DD');
 
-    const { dataJSONHistori } = await fetchHistorialProducts();
-  const data = Array.isArray(dataJSONHistori.message) ? dataJSONHistori.message : [];
-
-  console.log("Filtro desde:", adjustedStartDate.toISOString());
-  console.log("Filtro hasta:", adjustedEndDate.toISOString());
+  console.log("Filtro desde:", start);
+  console.log("Filtro hasta:", end);
 
   const filteredData = data.filter(p => {
-    const movementDate = new Date(p.movementDate);
-    return movementDate >= adjustedStartDate && movementDate <= adjustedEndDate;
+    const movement = dayjs(p.movementDate).format('YYYY-MM-DD');
+    return movement >= start && movement <= end;
   });
   if (filteredData.length === 0) {
     alert("No se encontraron movimientos en el rango seleccionado.");

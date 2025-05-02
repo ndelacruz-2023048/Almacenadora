@@ -1,4 +1,5 @@
-import createPdfHistory from "../utils/createPdfHistory";
+import dayjs from "dayjs"; // Asegúrate de tener instalado el paquete dayjs
+import createPdfHistory from "../utils/createPdfHistory"; 
 import { urlToBase64 } from "../utils/Conversiones";
 import { useEntryProductRegister } from "../stores/EntryProductRegisterStore";
 
@@ -10,19 +11,22 @@ const InformeDataByRangeDate = async (historialProductos = [], output, productMa
 
   const productosTableBody = [
     [
-      { text: "movementDate", style: "tProductsHeader" },
-      { text: "movementType", style: "tProductsHeader" },
-      { text: "count", style: "tProductsHeader" },
-      { text: "description", style: "tProductsHeader" },
-      {text: "productId", style: "tProductsHeader"}
+      { text: "Fecha", style: "tProductsHeader" },
+      { text: "Tipo", style: "tProductsHeader" },
+      { text: "Cantidad", style: "tProductsHeader" },
+      { text: "Descripción", style: "tProductsHeader" },
+      { text: "Producto", style: "tProductsHeader" }
     ],
-    ...productsArray.map(p => ([
-      { text: p.movementDate || '', style: "tProductsBody" },
-      { text: p.movementType || '', style: "tProductsBody" },
-      { text: p.count || 'N/A', style: "tProductsBody" },
-      { text: p.description || 'N/A', style: "tProductsBody" },
-      {text: productMap[p.productId] || p.productId || 'N/A', style: "tProductsBody"}
-    ]))
+    ...productsArray.map(p => {
+      const formattedDate = p.movementDate ? dayjs(p.movementDate).format("DD/MM/YYYY") : '';
+      return [
+        { text: formattedDate, style: "tProductsBody" },
+        { text: p.movementType || '', style: "tProductsBody" },
+        { text: p.count || 'N/A', style: "tProductsBody" },
+        { text: p.description || 'N/A', style: "tProductsBody" },
+        { text: productMap[p.productId] || p.productId || 'N/A', style: "tProductsBody" }
+      ];
+    })
   ];
 
   const content = [
@@ -40,7 +44,7 @@ const InformeDataByRangeDate = async (historialProductos = [], output, productMa
       margin: [0, 10, 0, 0],
       table: {
         headerRows: 1,
-        widths: ["12%", "12%", "7%", "20%" , "20%"],
+        widths: ["20%", "20%", "20%", "20%", "20%"],
         body: productosTableBody
       },
       layout: {
