@@ -55,5 +55,12 @@ export const useProductStore = create((set,get)=>({
         return{
             dataJSON
         }
-    }
+    },
+    fetchCategories: async () => {
+        const categories = await axios.get('http://localhost:2900/v1/api/productCategory')
+        const dataJSON = await categories.data;
+        return {
+          dataJSON
+        }
+      }
 }))
