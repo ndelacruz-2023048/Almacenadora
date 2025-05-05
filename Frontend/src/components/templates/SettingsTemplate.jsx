@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { ModalInventoryReport } from '../organismos/Modal/ModalInventoryReport';
-import { ModalInventoryMovReport } from '../organismos/Modal/ModalInventoryMovReport';
+import React, { useState } from 'react'
+import styled from 'styled-components'
+import { ModalInventoryReport } from '../organismos/Modal/ModalInventoryReport'
+import { ModalInventoryMovReport } from '../organismos/Modal/ModalInventoryMovReport'
+import { Icon } from '@iconify/react'
+import { NavLink } from 'react-router-dom'
 import InformeFullData from '../../reports/informeFullData';
 
 export const SettingsTemplate = () => {
@@ -30,27 +32,49 @@ export const SettingsTemplate = () => {
         <h1>Settings</h1>
         <Section>
           <Row>
-            <Config>
-              <Logo></Logo>
+          <Config>
+              <Logo>
+                <Icon icon="tabler:category-filled" className='iconSetting'/>
+                <NavLink to="/products/categories" className='navIcon'>
+                  <Icon icon="mdi:stretch-to-page-outline" />
+                </NavLink>
+                
+              </Logo>
               <Desc>
-                <h3>Light</h3>
-                <p>Modo oscuro que cambia color</p>
+                <h2>Categoria</h2>
+                <p>Pestaña en la cual configurar las categorias.</p>
               </Desc>
               <Bar />
               <Btn>
-                <button onClick={() => setActiveModal('inventory')}>Inventario</button>
+                <NavLink to="/products/categories" className="button-link">Ir</NavLink>
               </Btn>
             </Config>
-
             <Config>
-              <Logo></Logo>
+              <Logo>
+                <Icon icon="lsicon:report-filled" className='iconSetting'/>
+                <Icon icon="mdi:stretch-to-page-outline" onClick={() => setActiveModal('inventory')}/>
+              </Logo>
               <Desc>
-                <h3>Movimientos</h3>
+                <h2>Inventario</h2>
+                <p>Reporte del inventario completo.</p>
+              </Desc>
+              <Bar />
+              <Btn>
+                <button onClick={() => setActiveModal('inventory')} className="button-link">Inventario</button>
+              </Btn>
+            </Config>
+            <Config>
+              <Logo>
+                <Icon icon="ion:calendar-sharp" className='iconSetting'/>
+                <Icon icon="mdi:stretch-to-page-outline" onClick={() => setActiveModal('movement')}/>
+              </Logo>
+              <Desc>
+                <h2>Movimientos</h2>
                 <p>Reporte de movimientos de inventario</p>
               </Desc>
               <Bar/>
               <Btn>
-                <button onClick={() => setActiveModal('movement')}>Movimientos</button>
+                <button onClick={() => setActiveModal('movement')} className="button-link">Movimientos</button>
               </Btn>
             </Config>
           </Row>
@@ -64,8 +88,8 @@ export const SettingsTemplate = () => {
         <ModalInventoryMovReport onClose={() => setActiveModal(null)} />
       )}
     </>
-  );
-};
+  )
+}
 
 const Backdrop = styled.div`
   position: fixed;
@@ -83,7 +107,6 @@ const Container = styled.div`
   width: 100%;
   box-sizing: border-box;
   position: relative;
-  z-index: 1;
 `
 
 const Bar = styled.div`
@@ -122,6 +145,25 @@ const Config = styled.div`
 
 const Logo = styled.div`
   padding: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  color: #c2c2c2;
+  font-size: 30px;
+
+  Icon:hover {
+      cursor: pointer;
+    }
+
+  .navIcon{
+    color: #c2c2c2;
+    font-size: 30px;
+  }
+
+  .iconSetting{
+    font-size: 70px;
+    color:rgb(19, 40, 85);
+  }
 `
 
 const Desc = styled.div`
@@ -130,7 +172,25 @@ const Desc = styled.div`
 
 const Btn = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
   padding-top: 10px;
+
+  .button-link{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+    color: inherit;
+    font-size: 25px;
+    border-radius: 10px;
+    background-color: rgb(209, 209, 209);
+
+    &:hover {
+      background-color: rgb(156, 156, 156);
+      color: #f1f1f1;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+  }
 `
