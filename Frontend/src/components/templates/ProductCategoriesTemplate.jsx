@@ -13,15 +13,9 @@ import { useEffect } from 'react';
 // o la ruta que uses
 
 export const ProductCategoriesTemplate = () => {
-  const {isProductCategoryFormActive,setIsProductCategoryFormActive,isLoading,dataProductCategory,fetchProductCategories} = useProductCategory()
-  useEffect(()=>{
-    fetchProductCategories()
-  },[])
-  
-  if(isLoading) return <p>cargando...</p>
-
-  console.log(dataProductCategory.categories);
-  
+  const {isProductCategoryFormActive,setIsProductCategoryFormActive,isLoading,listProductCategories,fetchProductCategories} = useProductCategory()
+    console.log();
+    
   return (
     <Container>
       {isProductCategoryFormActive && <ProductCategoryForm/>}
@@ -40,7 +34,7 @@ export const ProductCategoriesTemplate = () => {
       <Section2>
         <ContainerCard>
           {
-            dataProductCategory?.categories?.map((e)=>(
+            listProductCategories?.categories?.map((e)=>(
               <CardProductCategory nameCategory={e.nameCategory} descriptionCategory={e.descriptionCategory} image={e.image}/>
             ))
           }

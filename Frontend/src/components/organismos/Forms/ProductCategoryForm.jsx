@@ -18,6 +18,7 @@ import { color } from '@mui/system';
 import { UploadImageSucces } from './UploadImageSucces';
 import { useProductCategory } from '../../../stores/ProductCategoryStore';
 import { useSaveImage } from '../../../utils/saveImage';
+import { useQueryClient } from '@tanstack/react-query';
 export const ProductCategoryForm = () => {
   const {setIsProductCategoryFormActive,
           setDataFile,
@@ -42,7 +43,7 @@ export const ProductCategoryForm = () => {
   }, [])
 
   const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop,disabled:isInteractionDisabled})
-
+  const queryClient = useQueryClient();
   /*Logica del Formulario */
   const {register,handleSubmit,formState:{errors},setValue,reset} = useForm()
   const {dataImage,isLoadingImage,registerImage} = useSaveImage()
@@ -57,7 +58,7 @@ export const ProductCategoryForm = () => {
     {dataImage && setIsDisableButtonSave(false)}
   }
 
-  const handleSaveProductForm = (e)=>{
+  const handleSaveProductForm = async(e)=>{
     console.log(dataProductCategory);
     console.log(dataImage);
     const newProductCategory = {
@@ -65,7 +66,9 @@ export const ProductCategoryForm = () => {
       descriptionCategory:dataProductCategory?.descriptionCategory,
       image:dataImage?.secure_url
     }
-    createProductCategory(newProductCategory)
+    await createProductCategory(newProductCategory)
+    setIsProductCategoryFormActive()
+    queryClient.invalidateQueries(['listCategoriesProducts'])
   }
   
   console.log(responseCreatingProductCategory);

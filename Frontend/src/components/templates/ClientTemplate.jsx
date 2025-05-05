@@ -13,11 +13,7 @@ import { data } from 'react-router';
 export const ClientTemplate = () => {
 
   const {isFormOpenClient, setIsFromOpenClient, dataClient, isLoadingCliente, fetchClients} = useClientStore()
-  useEffect(()=>{
-    fetchClients()
-  },[])
-  if(isLoadingCliente) return <p>Cargando....</p>
-  console.log(dataClient.clients);
+
 
   return (
     <Container>

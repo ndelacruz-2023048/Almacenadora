@@ -19,6 +19,7 @@ import { UploadImageSucces } from './UploadImageSucces';
 import { useProductCategory } from '../../../stores/ProductCategoryStore';
 import { useSaveImage } from '../../../utils/saveImage';
 import { useClientStore } from '../../../stores/ClientStore';
+import { useQueryClient } from '@tanstack/react-query';
 export const ClientForm = () => {
   const {dataProductCategory,isLoading,fetchProductCategories} = useProductCategory()
 
@@ -37,7 +38,7 @@ export const ClientForm = () => {
       setValue("uploadImage",acceptedFiles)
     }, [])
   const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop,disabled:isInteractionDisabled})
-
+  const queryClient = useQueryClient();
   /*Logica del Formulario */
   const {register,handleSubmit,formState:{errors},setValue,reset} = useForm()
   const {dataImage,isLoadingImage,registerImage} = useSaveImage()
@@ -51,7 +52,7 @@ export const ClientForm = () => {
     {dataImage && setIsDisableButtonSave(false)}
   }
 
-  const handleSaveProductForm = (e)=>{
+  const handleSaveProductForm =async(e)=>{
     console.log(dataClientForm);
     console.log(dataImage);
     
@@ -65,9 +66,10 @@ export const ClientForm = () => {
       clientAddress: dataClientForm?.clientAddress,
       uploadImage:dataImage?.secure_url
     }
-    createClient(newClient)
+    await createClient(newClient)
     e.preventDefault()
     setIsFromOpenClient()
+    queryClient.invalidateQueries(['listClients'])
   }
   
   console.log(responseCreatingClient);
