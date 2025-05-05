@@ -2,11 +2,27 @@ import React from 'react'
 import styled from 'styled-components'
 import { Icon } from '@iconify/react'
 import InformeFullData from '../../../reports/informeFullData'
+import { useProductStore } from '../../../stores/ProductStore'
 
 export const ModalInventoryReport = ({ onClose }) =>{
-  const handleClickButton =async ()=>{
-    const response = await InformeFullData("b64")
-  }
+
+  
+  const handleClickButton = async () => {
+    const { dataJSON } = await useProductStore.getState().fetchCategories()
+    console.log("Categorías crudas:", dataJSON)
+    const listCategories = Array.isArray(dataJSON?.clients) ? dataJSON.clients : []
+
+    const productMap = {}
+
+    listCategories.forEach(cat => {
+        productMap[cat._id] = cat.nameCategory || "Sin nombre"
+    });
+
+    const output = "b64"
+
+    await InformeFullData([], output, productMap)
+    console.log(productMap)
+}
     return(
         <Container>
             <FirstDiv>

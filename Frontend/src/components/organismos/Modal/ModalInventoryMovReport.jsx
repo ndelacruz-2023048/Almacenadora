@@ -18,29 +18,31 @@ export const ModalInventoryMovReport = ({ onClose }) => {
     const { dataJSONHistori } = await fetchHistorialProducts()
   const data = Array.isArray(dataJSONHistori.message) ? dataJSONHistori.message : []
 
-  const start = dayjs(startDate).format('YYYY-MM-DD');
-  const end = dayjs(endDate).format('YYYY-MM-DD');
+  const start = dayjs(startDate).format('YYYY-MM-DD')
+  const end = dayjs(endDate).format('YYYY-MM-DD')
 
-  console.log("Filtro desde:", start);
-  console.log("Filtro hasta:", end);
+  console.log("Filtro desde:", start)
+  console.log("Filtro hasta:", end)
 
   const filteredData = data.filter(p => {
     const movement = dayjs(p.movementDate).format('YYYY-MM-DD');
-    return movement >= start && movement <= end;
-  });
+    return movement >= start && movement <= end
+  })
+
   if (filteredData.length === 0) {
-    alert("No se encontraron movimientos en el rango seleccionado.");
-    return;
+    alert("No se encontraron movimientos en el rango seleccionado.")
+    return
   }
+
   if (!dataProduct?.message || !Array.isArray(dataProduct.message)) {
     await fetchAllProducts();
   }
-  const productList = useEntryProductRegister.getState().dataProduct.message || [];
+  const productList = useEntryProductRegister.getState().dataProduct.message || []
 
-  const productMap = {};
+  const productMap = {}
   productList.forEach(prod => {
-    productMap[prod._id] = prod.productName || "Sin nombre";
-  });
+    productMap[prod._id] = prod.productName || "Sin nombre"
+  })
 
   await InformeDataByRangeDate(filteredData, "b64", productMap);
   console.log(filteredData, productMap);
