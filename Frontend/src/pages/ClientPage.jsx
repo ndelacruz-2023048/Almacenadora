@@ -6,7 +6,7 @@ import { SyncLoader } from 'react-spinners'
 
 export const ClientPage = () => {
   const {fetchClients} = useClientStore()
-  const {isLoading} = useQuery({queryKey:['listClients'],queryFn:fetchClients})
+  const {isLoading} = useQuery({queryKey:['listClients'],queryFn:fetchClients,retry:false})
 
   if(isLoading){
     return ( <SyncLoader

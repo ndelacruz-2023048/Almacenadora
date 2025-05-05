@@ -108,6 +108,12 @@ const ButtonLogin = styled.button`
         background-color: #0F1824;
         transition: .5s ease;
     }
+    &:disabled{
+        cursor: not-allowed;
+    }
+    &:not(:disabled){
+        cursor: pointer;
+    }
 `
 
 const Register = styled.div`

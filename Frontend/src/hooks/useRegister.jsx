@@ -1,24 +1,25 @@
 import React, { useState } from 'react'
-import { loginRequest } from '../services/app'
+import { registerRequest } from '../services/app'
 import toast from 'react-hot-toast'
-import { UserAuth } from '../context/AuthContext' // Importa UserAuth
-import Cookies from 'js-cookie'
 
-export const useLogin = () => {
+export const useRegister = ()=> {
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(false)
-    const { setAuthUser } = UserAuth();
 
-    const login = async(userLogin, password)=> {
+    const register = async(name, surname, address, mobilePhone, country, username, email, password)=> {
         setIsLoading(true)
         const user = {
-            userLogin,
+            name,
+            surname,
+            address,
+            mobilePhone,
+            country,
+            username,
+            email,
             password
         }
 
-        const response = await loginRequest(user)
-        console.log(response);
-        
+        const response = await registerRequest(user)
         setIsLoading(false)
 
         if(response.error){
@@ -36,14 +37,11 @@ export const useLogin = () => {
             )
         }
         setError(false)
-        const token = Cookies.get('access_token')
-        setAuthUser(token)
-        const userName = response.data.loggedUser.name;
-        return toast.success(`Bienvenido, ${userName}`);
+        return toast.success(`${user.name}, Has sido registrado exitosamente`)
     }
 
     return {
-        login,
+        register,
         isLoading,
         error,
         setError

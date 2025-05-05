@@ -4,7 +4,7 @@ import { useChartStore } from '../../../stores/ChartsStore';
 import { useQuery } from '@tanstack/react-query';
 export const MovedProductByDate = () => {
     const {topMovedProductChart,setProductMovedByDate} = useChartStore()
-    const {data} = useQuery({queryKey:['productMovedByDate'],queryFn:setProductMovedByDate})
+    const {data} = useQuery({queryKey:['productMovedByDate'],queryFn:setProductMovedByDate, retry:false})
     const dataForChart = data?.result?.map((item) => ({
         name: item.name,           // o aquí puedes usar otro campo como nombre
         entradas:item?.entradas,
