@@ -1,40 +1,61 @@
 import React from 'react'
-import styled from 'styled-components'
 import photoProfile from '../../../assets/photoProfile.avif'
+import { useLogout } from "../../../hooks/useLogout"
 import { Icon } from '@iconify/react'
-import { NavLink } from 'react-router-dom'
+import styled from 'styled-components'
 
 export const CardProfile = () => {
+  const { logout, isLoadingLogout} = useLogout()
+
+    const handleLogoutClick  = ()=> {
+        logout()
+    }
+
   return (
     <Container>
       <Section>
         <Data>
           <Image src={photoProfile}/>
-          <h3>Armando Casas</h3>
-          <h5>Administrador</h5>
+          <h3>¡Hola Armando!</h3>
+          <Administrar>Administrar tu Cuenta</Administrar>
         </Data>
-        <Line></Line>
         <Cuenta>
           <Lista>
             <Dato>
-              <NavLink to="/setting" className="Nav">
-                <BTN>
-                  <Icon icon="material-symbols:settings" className='Leave'/>
-                  Settings
-                </BTN>
-              </NavLink>
+              <Icon icon="wpf:name" />
+              Armando Emanuel
+            </Dato> 
+            <Dato>
+              <Icon icon="wpf:name" />
+              Casas Garcia
             </Dato>
             <Dato>
-              <BTN>
-                <Icon icon="ri:logout-box-r-line" className='Leave'/>
-                Log Out
-              </BTN>
+              <Icon icon="mingcute:birthday-2-fill" />
+              15/06/2005
             </Dato>
+            <Dato>
+              <Icon icon="mdi:email" />
+              armandoc05@gmail.com
+            </Dato>
+            <Dato>
+              <Icon icon="mingcute:phone-fill" />
+              1234-5678
+            </Dato>
+            <Dato>
+              <Icon icon="ph:gender-intersex-bold" />
+              Masculino
+            </Dato>
+            <Line></Line>
           </Lista>
-          <Line></Line>
-          <p>Privacy Policy • Terms of Service</p>
+
+          <Sesion onClick={handleLogoutClick}>
+            <Icon icon="fluent-mdl2:leave" className='Leave'/>
+            Cerrar seción
+            {isLoadingLogout && <div>Cerrando sesión...</div>}
+          </Sesion>
         </Cuenta>
-      </Section>    
+      </Section>
+        
     </Container>
   )
 }
@@ -43,13 +64,11 @@ const Container = styled.div`
     position: absolute;
     right: 5%;
     top: 110%;
-    width: 450px;
+    width: 500px;
     height: auto;
-    z-index: 999; 
-    background-color:rgba(0, 0, 0, 0.85);
+    background-color: #d8d8d8;
     border-radius: 15px;
-    border: 1px solid #ffffff;
-    backdrop-filter: blur(5px); 
+    z-index: 1000;
 `
 
 const Section = styled.div`
@@ -60,81 +79,87 @@ const Data = styled.div`
   display: flex;
   flex-direction: column;
   font-size: 20px;
+  gap: 20px;
   height: 40%;
+  align-items: center;
   justify-content: center;
-  color: #ffffff;
-  font-size: 26px;
-  gap: 15px;
-
-  h5{
-  color:rgb(242, 105, 255);
-  }
 `
 
 const Image = styled.img`
-    width: 80px;
-    height: 80px;
+    width: 125px;
+    height: 125px;
     object-fit: cover;
     border-radius: 50%;
     border: 1.5px solid #28364b;
 `
+const Administrar = styled.button`
+  height: 50px;
+  font-size: 20px;
+  border:1px solid #1d3150;
+  border-radius: 25px;
+  width: 80%;
+  background-color: #f1f1f1;
+  color: #1d3150;
+
+  &:hover {
+    background-color: #1d3150;
+    transition: all 0.3s ease;
+    border:1px solid #f1f1f1;
+    color: #f1f1f1;
+    cursor: pointer;
+  }
+`
 
 const Cuenta = styled.div`
+  margin-top: 20px;
   width: 100%;
   height: auto;
-
-  p {
-    color: #ffffff;
-    margin-top: 15px;
-    font-size: 20px;
-  }
+  background-color: #9e9e9e;
+  border-radius: 30px;
 `
 
 const Lista = styled.ul`
   list-style-type: none;
-  padding: 5px;
+  padding: 15px;
   color: #f1f1f1;
 `
 
 const Dato = styled.li`
-  display: flex;
-
-  .Nav {
-    text-Decoration: none;
-    width: 100%
-  }
+display: flex;
+  font-size: 25px;
+  margin-top: 10px;
+  align-items: center;
 `
 
 const Line = styled.div`
   display: flex;
-  background-color:rgb(128, 128, 128);
+  background-color: #f1f1f1;
   width: 100%;
   height: 0.5px;
   margin-top: 10px;
 `
 
-const BTN = styled.button`
+const Sesion = styled.button`
   display: flex;  
   height: 70px;
   width: 100%;
-  background-color:rgba(0, 0, 0, 0);
-  border-radius: 0 15px 15px 0;
+  background-color: #8a8989;
+  border-radius: 30px;
   font-size: 25px;
   color: #f1f1f1;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
 
-  
 
   &:hover {
-    background-color:rgba(0, 0, 0, 0.58);
+    background-color:rgb(124, 124, 124);
     transition: all 0.3s ease;
     color: #f1f1f1;
     cursor: pointer;
   }
 
   .Leave {
-    color:rgb(255, 255, 255);
-    font-size: 40px;
+    color: #f1f1f1;
+    font-size: 25px;
   }
 `

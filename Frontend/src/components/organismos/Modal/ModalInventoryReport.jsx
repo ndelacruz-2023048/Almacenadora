@@ -28,12 +28,12 @@ export const ModalInventoryReport = ({ onClose }) =>{
             <FirstDiv>
                 <UpT>
                     <h2>Inventory Report</h2>
-                    <p>Here you can download an ".xls" file of the inventory data.</p>
+                    <p>Here you can download an ".pdf" file of the inventory data.</p>
                 </UpT>
                 <Icon icon="icomoon-free:cross" onClick={onClose} className='cross'/>
             </FirstDiv>
             <TwoDiv>
-                <Convert onClick={handleClickButton}>Export XLS</Convert>
+                <Convert onClick={handleClickButton}>Export PDF</Convert>
             </TwoDiv>
             <Warning>
                 <p className='siren'>🚨</p>
@@ -41,7 +41,7 @@ export const ModalInventoryReport = ({ onClose }) =>{
                     <p className='warningT'>Warning</p>
                     <p>This section is responsible for making a request 
                         to the database to receive the inventory record 
-                        and convert it to Excel format.</p>
+                        and convert it to PDF format.</p>
                 </TextWarning>   
             </Warning>
         </Container>

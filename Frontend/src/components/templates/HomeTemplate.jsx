@@ -6,11 +6,16 @@ import { CardTotals } from '../organismos/Card/CardTotals'
 import { useProviderStore } from '../../stores/ProviderStore'
 import { useProductStore } from '../../stores/ProductStore'
 import { useClientStore } from '../../stores/ClientStore'
-
+import { useChartStore } from '../../stores/ChartsStore'
+import { useQuery } from '@tanstack/react-query'
+import { LottieAnimacion } from '../atomos/LottieAnimation'
+import empty_animacion from '../../assets/empty_animation.json'
 export const HomeTemplate = () => {
   const {dataProvider} = useProviderStore()
   const {listProducts} = useProductStore()
   const {dataClient} = useClientStore()
+  const {topMovedProductChart,setTopMovedProductChart} = useChartStore()
+    const {data} = useQuery({queryKey:['topMovedProducts'],queryFn:setTopMovedProductChart,retry:false})
   const countProviders = dataProvider?.providers?.length
   const countProducts = listProducts?.message?.length
   const countClients = dataClient?.clients?.length
@@ -24,7 +29,14 @@ export const HomeTemplate = () => {
           <CardTotals icon="fluent-color:news-16" count={countProducts} title="All products" path="products"/>
         </div>
         <div className='containerTopMovementProducts'>
-            <TopMovedProductsChart/>
+            {data?.result?.length > 0 ? (
+              <TopMovedProductsChart/>
+            ):(
+              <div className='container_animation'>
+              <LottieAnimacion animacion={empty_animacion} width={10} height={10}/>
+            </div>
+            )
+            }
         </div>
       </section>
       <section className='section2'>
@@ -33,7 +45,14 @@ export const HomeTemplate = () => {
             
           </div>
           <div className='containerProductMovementByDate'>
-            <MovedProductByDate/>
+          {data?.result?.length > 0 ? (
+              <MovedProductByDate/>
+            ):(
+              <div className='container_animation'>
+              <LottieAnimacion animacion={empty_animacion} width={10} height={10}/>
+            </div>
+            )
+            }
           </div>
       </section>
         
@@ -58,6 +77,11 @@ const Container = styled.div`
         /* background-color: green; */
       }
       .containerTopMovementProducts{
+        .container_animation{
+    display: flex;
+    justify-content: center;
+    height: 80%;
+  }
         height: 75%;
         /* background-color: yellow; */
       }

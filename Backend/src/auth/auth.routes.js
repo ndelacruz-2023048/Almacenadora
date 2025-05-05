@@ -1,24 +1,17 @@
 import { Router } from 'express'
-import { login } from './auth.controller.js'
-import { validateTokenJWT } from '../../middlewares/validate.jwt.js'
+import { login, logout, register } from './auth.controller.js'
+import { registerUser } from '../../middlewares/validators.js'
 
 const api = Router()
 
+api.post(
+    '/register',
+    [
+        registerUser
+    ],
+    register
+)
 api.post('/login', login)
-
-api.get('/protected', validateTokenJWT, (req, res) => {
-    console.log('Accediendo a la ruta protegida xD');
-    console.log('Usuario auntenticado: ', req.user);
-    return res.json({
-        success: true,
-        message: 'Acceso permitido',
-        user: {
-            uid: req.user.uid,
-            name: req.user.name
-        }
-    })
-    
-    
-})
+api.post('/logout', logout)
 
 export default api

@@ -6,7 +6,7 @@ import { SyncLoader } from 'react-spinners'
 
 export const ProductCategoriesPage = () => {
   const {fetchProductCategories} = useProductCategory()
-  const {isLoading} = useQuery({queryKey:['listCategoriesProducts'],queryFn:fetchProductCategories})
+  const {isLoading} = useQuery({queryKey:['listCategoriesProducts'],queryFn:fetchProductCategories,retry:false})
   if(isLoading){
     return ( <SyncLoader
       size={20}/>)

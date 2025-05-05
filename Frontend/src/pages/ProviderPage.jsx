@@ -7,7 +7,7 @@ import { SyncLoader } from 'react-spinners'
 export const ProviderPage = () => {
   const {fetchProvider,dataProvider} = useProviderStore()
 
-  const {isLoading,data} = useQuery({queryKey:['listProviders'],queryFn:fetchProvider})
+  const {isLoading,data} = useQuery({queryKey:['listProviders'],queryFn:fetchProvider, retry:false})
   if(isLoading){
       return ( <SyncLoader
         size={20}/>)

@@ -11,9 +11,9 @@ export const ProductManagerPage = () => {
   const {listProducts,fetchProducts}= useProductStore()
   const {fetchProductCategories} = useProductCategory()
   const {fetchProvider} = useProviderStore()
-  const {isLoading,data} = useQuery({queryKey:['listProducts'],queryFn:fetchProducts})
-  const categories = useQuery({queryKey:['listCategoriesProducts'],queryFn:fetchProductCategories})
-  const providers = useQuery({queryKey:['listProviders'],queryFn:fetchProvider})
+  const {isLoading,data} = useQuery({queryKey:['listProducts'],queryFn:fetchProducts, retry:false})
+  const categories = useQuery({queryKey:['listCategoriesProducts'],queryFn:fetchProductCategories, retry:false})
+  const providers = useQuery({queryKey:['listProviders'],queryFn:fetchProvider, retry:false})
   if(isLoading){
     return ( <SyncLoader
       size={20}/>)

@@ -20,8 +20,9 @@ import { UploadImageSucces } from './UploadImageSucces';
 import { useProductCategory } from '../../../stores/ProductCategoryStore';
 import { useSaveImage } from '../../../utils/saveImage';
 import { useProviderStore } from '../../../stores/ProviderStore';
+import { useQueryClient } from '@tanstack/react-query';
 export const ProductForm = () => {
-  const {dataProductCategory,isLoading,fetchProductCategories} = useProductCategory()
+  const {listProductCategories,isLoading,fetchProductCategories} = useProductCategory()
   const {isFormOpen,isSameProduct,dataFile,dataProducts,isCreatingProduct,responseCreatingProduct,createProduct,setDataFile,setDataProducts,setIsFormOpen,fetchProductByName} = useProductStore()
   const {dataProvider,fetchProvider} = useProviderStore()
   const [urlImage,setUrlImage] = useState(null)/*State para URL IMAGEN */
@@ -38,7 +39,7 @@ export const ProductForm = () => {
 
   /*Hook para manipular el espacio para subir la imagen */
   const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop,disabled:isInteractionDisabled})
-
+  const queryClient = useQueryClient();
   /*Logica del Formulario */
   const {register,handleSubmit,formState:{errors},setValue,reset} = useForm()
   const {dataImage,isLoadingImage,registerImage} = useSaveImage()
@@ -53,7 +54,7 @@ export const ProductForm = () => {
     {dataImage && setIsDisableButtonSave(false)}
   }
   
-  const handleSaveProductForm = ()=>{
+  const handleSaveProductForm = async()=>{
     console.log(dataProducts);
     console.log(dataImage);
     const newProductData = {
@@ -66,9 +67,10 @@ export const ProductForm = () => {
       productCategory:dataProducts?.productCategory,
       productProvider:dataProducts?.productProvider
     }    
-    createProduct(newProductData)
+    await createProduct(newProductData)
     reset()
     setIsFormOpen()
+    queryClient.invalidateQueries({queryKey:['listProducts']})
   }
 
   console.log(responseCreatingProduct);
@@ -131,7 +133,7 @@ export const ProductForm = () => {
                   disabled={isInteractionDisabled}
                 > 
                 {
-                  dataProductCategory?.clients.map((e)=>(
+                  listProductCategories?.categories?.map((e)=>(
                     <MenuItem value={e?._id}>{e?.nameCategory}</MenuItem>
                   ))
                 }

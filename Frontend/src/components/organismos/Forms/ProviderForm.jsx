@@ -18,6 +18,7 @@ import { UploadImageSucces } from './UploadImageSucces';
 import { useSaveImage } from '../../../utils/saveImage';
 import { useProviderStore } from '../../../stores/ProviderStore';
 import { heIL } from '@mui/x-date-pickers/locales';
+import { useQueryClient } from '@tanstack/react-query';
 export const ProviderForm = () => {
   const {isProviderFormOpen,responseCreatingProvider, setIsFormOpen, fetchProviderByName, dataFile, setDataFile,
          setDataProviders ,dataProvider, fetchProvider, dataProviders, createProvider} = useProviderStore()
@@ -35,7 +36,7 @@ export const ProviderForm = () => {
   }, [])
   /*Hook para manipular el espacio para subir la imagen */
   const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop,disabled:isInteractionDisabled})
-
+  const queryClient = useQueryClient();
   /*Logica del Formulario */
   const {register,handleSubmit,formState:{errors},setValue,reset} = useForm()
   const {dataImage,isLoadingImage,registerImage} = useSaveImage()
@@ -48,7 +49,7 @@ export const ProviderForm = () => {
     {dataImage && setIsDisableButtonSave(false)}
   }
 
-  const handleSaveProductForm = (e)=>{
+  const handleSaveProductForm = async(e)=>{
     console.log(dataFile);
     console.log(dataProviders);
     const newProvider = {
@@ -61,10 +62,10 @@ export const ProviderForm = () => {
       description: dataProviders?.description,
       image: dataImage?.secure_url
     }
-    console.log(newProvider);
-    createProvider(newProvider)
+    await createProvider(newProvider)
     reset()
     setIsFormOpen()
+    queryClient.invalidateQueries({queryKey:['listProviders']})
   }
   console.log(errors);
   

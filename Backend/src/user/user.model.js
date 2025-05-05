@@ -14,6 +14,9 @@ const userSchema = Schema(
         mobilePhone: {
             type: String
         },
+        country: {
+            type: String
+        },
         username: {
             type: String,
             unique: true

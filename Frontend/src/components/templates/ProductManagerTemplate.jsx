@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
 import { HeaderSectionContent } from '../organismos/HeaderSectionContent'
 import { FooterSectionContent } from '../organismos/FooterSectionContent'
@@ -9,6 +9,12 @@ import { LottieAnimacion } from '../atomos/LottieAnimation'
 import empty_animacion from '../../assets/empty_animation.json'
 
 export const ProductManagerTemplate = () => {
+  const [activeTab, setActiveTab] = useState(0); // 0 para Users, 1 para Companies
+
+  const handleTabChange = (index) => {
+    setActiveTab(index);
+  };
+
   const {listProducts}= useProductStore()
   const {message} = listProducts;
 
@@ -16,14 +22,14 @@ export const ProductManagerTemplate = () => {
     <Wrapper>
       <Outlet/>
       <Header>
-        <HeaderSectionContent/>
+        <HeaderSectionContent onTabChange={handleTabChange} activeTab={activeTab} />
       </Header>
       {
         message?.length >0 ? (
         <>
         <Body>
-          tabla encabezado "falta"
-          <BodySectionContent/>
+          {activeTab === 0 && <BodySectionContent />}
+          {activeTab === 1 && <BodySectionContent />}
         </Body>
         <Footer>
           <FooterSectionContent/>

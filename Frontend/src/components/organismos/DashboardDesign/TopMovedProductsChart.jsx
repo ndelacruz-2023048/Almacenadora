@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { useChartStore } from '../../../stores/ChartsStore';
 export const TopMovedProductsChart = () => {
     const {topMovedProductChart,setTopMovedProductChart} = useChartStore()
-    const {data} = useQuery({queryKey:['topMovedProducts'],queryFn:setTopMovedProductChart})
+    const {data} = useQuery({queryKey:['topMovedProducts'],queryFn:setTopMovedProductChart, retry:false})
     const dataForChart = data?.result?.map((item) => ({
         name: item.name,           // o aquí puedes usar otro campo como nombre
         totalMovements: Number(item.totalMovements),
