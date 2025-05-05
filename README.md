@@ -1,6 +1,6 @@
-# Sistema de Gestión Hotelera
+# Almacenadora
 
-Herramienta digital que permite a los usuarios buscar hoteles, visualizar habitaciones disponibles, reservar estadías y acceder a información detallada sobre eventos en los hoteles registrados en la plataforma.
+Herramienta digital que permite a los usuarios almacnenar y llevar un mejor control de inventarios 
 
 ---
 
@@ -39,4 +39,4 @@ Para completar el registro de forma exitosa, es necesario cumplir con los siguie
 
 ## Conclusión
 
-Este sistema está diseñado con el objetivo de facilitar la gestión hotelera tanto para usuarios como para administradores. Continuamos optimizando cada detalle para garantizar una experiencia eficiente, segura y profesional.
+Este sistema está diseñado con el objetivo de facilitar el control de inventario tanto para usuarios como para administradores. Continuamos optimizando cada detalle para garantizar una experiencia eficiente, segura y profesional.
